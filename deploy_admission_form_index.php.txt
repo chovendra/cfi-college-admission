@@ -1,0 +1,6 @@
+<?php
+// Fallback redirect for servers where .htaccess rewrites are disabled.
+// Place this file at public_html/admission/admission-form/index.php (copy-paste)
+header('Location: ../index.php?show=admission-form', true, 301);
+exit;
+?>

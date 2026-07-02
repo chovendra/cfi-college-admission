@@ -1,0 +1,464 @@
+
+  <style>
+    :root {
+      --dark:        #081f3a;
+      --blue:        #0d3c78;
+      --amber:       #ffc107;
+      --amber-light: #ffd54f;
+      --light-bg:    #eef3fb;
+      --lighter-bg:  #f5f8fd;
+      --text-body:   #1e3a5f;
+      --text-muted:  #5a7a9e;
+      --grad:        radial-gradient(circle at left, #0d3c78, #081f3a);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    h1,h2,h3,h4,h5,h6 { font-family: 'Playfair Display', serif; }
+
+    .gold-bar { width: 44px; height: 3px; background: linear-gradient(90deg,var(--amber),var(--amber-light)); border-radius: 2px; margin: 14px 0 28px; }
+
+    /* HERO */
+    .hero { background: var(--grad); padding: 80px 0 60px; position: relative; overflow: hidden; }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 65% 70% at 85% 50%, rgba(21,101,192,.18) 0%, transparent 60%); }
+    .hero-watermark { position: absolute; right: -10px; bottom: -30px; font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(80px, 13vw, 190px); color: rgba(255,193,7,.04); line-height: 1; user-select: none; pointer-events: none; letter-spacing: -.03em; }
+    .hero-tag { display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(255,193,7,.35); background: rgba(255,193,7,.1); color: var(--amber); font-size: .7rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; padding: 6px 14px; border-radius: 2px; margin-bottom: 20px; }
+    .hero h1 { font-size: clamp(2.2rem, 4.5vw, 3.8rem); font-weight: 800; color: #fff; line-height: 1.1; }
+    .hero h1 em { color: var(--amber); font-style: italic; }
+    .hero-meta { display: flex; flex-wrap: wrap; gap: 20px; margin-top: 22px; }
+    .hero-meta-item { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,.55); font-size: .8rem; }
+    .hero-meta-item i { color: var(--amber); font-size: .75rem; }
+
+    /* CONTENT */
+    .policy-sec { background: var(--lighter-bg); padding: 80px 0 100px; }
+
+    /* sidebar toc */
+    .toc-card { background: #fff; border: 1px solid rgba(13,60,120,.08); border-radius: 6px; padding: 26px 24px; position: sticky; top: 90px; }
+    .toc-title { font-size: .66rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--amber); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+    .toc-link { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(13,60,120,.06); text-decoration: none; color: var(--text-muted); font-size: .82rem; line-height: 1.45; transition: all .2s; }
+    .toc-link:last-child { border-bottom: none; padding-bottom: 0; }
+    .toc-link:hover { color: var(--blue); padding-left: 4px; }
+    .toc-link .toc-num { min-width: 22px; font-size: .7rem; font-weight: 700; color: var(--amber); margin-top: 1px; flex-shrink: 0; }
+
+    /* policy sections */
+    .policy-body { background: #fff; border: 1px solid rgba(13,60,120,.08); border-radius: 6px; padding: 48px 44px; }
+
+    .pol-section { margin-bottom: 44px; padding-bottom: 44px; border-bottom: 1px solid rgba(13,60,120,.07); }
+    .pol-section:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+    .pol-section-num { font-size: .65rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px; display: block; }
+    .pol-section h3 { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 700; color: var(--dark); margin-bottom: 16px; }
+
+    .pol-subsection { margin-top: 22px; }
+    .pol-subsection h4 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: .85rem; font-weight: 700; color: var(--dark); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 12px; padding: 8px 14px; background: rgba(255,193,7,.07); border-left: 3px solid var(--amber); border-radius: 0 3px 3px 0; }
+
+    .pol-text { font-size: .91rem; color: #4a6a8a; line-height: 1.85; margin-bottom: 14px; }
+    .pol-text:last-child { margin-bottom: 0; }
+
+    .pol-list { list-style: none; padding: 0; margin: 0 0 14px; }
+    .pol-list li { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; font-size: .89rem; color: #4a6a8a; line-height: 1.65; border-bottom: 1px solid rgba(13,60,120,.04); }
+    .pol-list li:last-child { border-bottom: none; }
+    .pol-list li::before { content: ''; min-width: 6px; height: 6px; border-radius: 50%; background: var(--amber); margin-top: 8px; flex-shrink: 0; }
+
+    /* institution info box */
+    .inst-box { background: var(--grad); border-radius: 6px; padding: 28px 32px; margin-bottom: 22px; }
+    .inst-box h2 { font-family: 'Playfair Display', serif; font-size: 1.35rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    .inst-box p { font-size: .85rem; color: rgba(255,255,255,.6); line-height: 1.7; margin: 0; }
+
+    /* contact box */
+    .contact-box { background: rgba(255,193,7,.07); border: 1px solid rgba(255,193,7,.25); border-radius: 5px; padding: 20px 22px; margin-top: 16px; }
+    .contact-box a { color: var(--blue); text-decoration: none; font-weight: 600; }
+    .contact-box a:hover { color: var(--amber); }
+    .cb-row { display: flex; align-items: center; gap: 10px; font-size: .88rem; color: var(--text-body); padding: 6px 0; }
+    .cb-row i { color: var(--amber); font-size: .8rem; min-width: 14px; }
+
+    @media (max-width: 991px) { .policy-body { padding: 28px 22px; } .toc-card { position: static; margin-bottom: 32px; } }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-watermark">PRIVACY</div>
+  <div class="container">
+    <span class="hero-tag"><i class="fa fa-shield-halved"></i>&nbsp; Legal</span>
+    <h1>Privacy <em>Policy</em></h1>
+    <div class="hero-meta">
+      <div class="hero-meta-item"><i class="fa fa-university"></i>CFI College of Law</div>
+      <div class="hero-meta-item"><i class="fa fa-map-marker-alt"></i>Poyya, Thrissur District, Kerala, India</div>
+      <div class="hero-meta-item"><i class="fa fa-certificate"></i>Affiliated to University of Calicut · Approved by BCI &amp; Government of Kerala</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTENT -->
+<section class="policy-sec">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+
+      <!-- Sidebar TOC -->
+      <div class="col-lg-3">
+        <div class="toc-card">
+          <div class="toc-title"><i class="fa fa-list"></i>Contents</div>
+          <a href="#s1"  class="toc-link"><span class="toc-num">1.</span>Introduction</a>
+          <a href="#s2"  class="toc-link"><span class="toc-num">2.</span>Scope of this Policy</a>
+          <a href="#s3"  class="toc-link"><span class="toc-num">3.</span>Information We Collect</a>
+          <a href="#s4"  class="toc-link"><span class="toc-num">4.</span>Purpose of Data Collection</a>
+          <a href="#s5"  class="toc-link"><span class="toc-num">5.</span>Legal Basis for Processing</a>
+          <a href="#s6"  class="toc-link"><span class="toc-num">6.</span>Data Storage and Security</a>
+          <a href="#s7"  class="toc-link"><span class="toc-num">7.</span>Data Retention</a>
+          <a href="#s8"  class="toc-link"><span class="toc-num">8.</span>Data Sharing and Disclosure</a>
+          <a href="#s9"  class="toc-link"><span class="toc-num">9.</span>Cookies and Tracking</a>
+          <a href="#s10" class="toc-link"><span class="toc-num">10.</span>Rights of Users</a>
+          <a href="#s11" class="toc-link"><span class="toc-num">11.</span>Minors and Student Data</a>
+          <a href="#s12" class="toc-link"><span class="toc-num">12.</span>Third-Party Content</a>
+          <a href="#s13" class="toc-link"><span class="toc-num">13.</span>Policy Updates</a>
+          <a href="#s14" class="toc-link"><span class="toc-num">14.</span>Limitation of Liability</a>
+          <a href="#s15" class="toc-link"><span class="toc-num">15.</span>Grievance Redressal</a>
+          <a href="#s16" class="toc-link"><span class="toc-num">16.</span>Consent</a>
+        </div>
+      </div>
+
+      <!-- Policy Body -->
+      <div class="col-lg-9">
+        <div class="policy-body">
+
+          <!-- Institution Info -->
+          <div class="inst-box">
+            <h2>CFI College of Law</h2>
+            <p>Poyya, Thrissur District, Kerala, India<br>Affiliated to the University of Calicut<br>Approved by the Bar Council of India &amp; Government of Kerala</p>
+          </div>
+          <p class="pol-text" style="margin-bottom:36px;"><strong>Effective Date:</strong> [Insert Date]</p>
+
+          <!-- 1 -->
+          <div class="pol-section" id="s1">
+            <span class="pol-section-num">Section 1</span>
+            <h3>Introduction</h3>
+            <p class="pol-text">CFI College of Law ("Institution", "we", "our", or "us") recognises the importance of safeguarding the privacy and personal information of individuals who interact with us through our official website and digital platforms.</p>
+            <p class="pol-text">This Privacy Policy explains how we collect, use, store, process, protect, and disclose personal information obtained through our website, online forms, communication channels, and related services.</p>
+            <p class="pol-text">This Policy is framed in accordance with applicable Indian laws including the Information Technology Act, 2000 and relevant rules governing digital data protection.</p>
+            <p class="pol-text">By accessing our website or submitting personal information to us, you consent to the practices described in this Privacy Policy.</p>
+          </div>
+
+          <!-- 2 -->
+          <div class="pol-section" id="s2">
+            <span class="pol-section-num">Section 2</span>
+            <h3>Scope of this Policy</h3>
+            <p class="pol-text">This Privacy Policy applies to:</p>
+            <ul class="pol-list">
+              <li>Visitors to the official website of CFI College of Law</li>
+              <li>Prospective students submitting enquiry or application forms</li>
+              <li>Parents or guardians providing student information</li>
+              <li>Current students interacting with digital services</li>
+              <li>Alumni communicating with the Institution</li>
+              <li>Any individual who provides personal information to the Institution through digital means</li>
+            </ul>
+            <p class="pol-text">This Policy governs only digital data collected through the Institution's official website and authorised online systems.</p>
+          </div>
+
+          <!-- 3 -->
+          <div class="pol-section" id="s3">
+            <span class="pol-section-num">Section 3</span>
+            <h3>Information We Collect</h3>
+            <p class="pol-text">We collect both Personal Information and Non-Personal Information in order to facilitate academic administration, admissions, communication, and institutional operations.</p>
+
+            <div class="pol-subsection">
+              <h4>3.1 Personal Information</h4>
+              <p class="pol-text">Personal Information refers to data that identifies or can reasonably identify an individual. This may include, but is not limited to:</p>
+              <ul class="pol-list">
+                <li>Full name</li>
+                <li>Residential address</li>
+                <li>Email address</li>
+                <li>Phone number</li>
+                <li>Date of birth</li>
+                <li>Gender</li>
+                <li>Academic qualifications and educational history</li>
+                <li>Examination scores</li>
+                <li>Identity-related details submitted during admission</li>
+                <li>Parent or guardian information</li>
+                <li>Payment details (processed via secure gateways)</li>
+                <li>Any other information voluntarily submitted through forms</li>
+              </ul>
+              <p class="pol-text">Personal data is collected when:</p>
+              <ul class="pol-list">
+                <li>You submit an admission enquiry</li>
+                <li>You apply for admission</li>
+                <li>You register for institutional events</li>
+                <li>You contact us through online forms</li>
+                <li>You communicate through official email</li>
+              </ul>
+              <p class="pol-text">We collect only such information that is necessary for legitimate institutional purposes.</p>
+            </div>
+
+            <div class="pol-subsection">
+              <h4>3.2 Non-Personal Information</h4>
+              <p class="pol-text">We may automatically collect certain technical and usage-related information, including:</p>
+              <ul class="pol-list">
+                <li>IP address</li>
+                <li>Browser type and version</li>
+                <li>Device information</li>
+                <li>Pages visited</li>
+                <li>Time spent on the website</li>
+                <li>Referring URLs</li>
+                <li>Interaction data</li>
+              </ul>
+              <p class="pol-text">This information is used for analytical, statistical, and website performance improvement purposes and does not directly identify individual users.</p>
+            </div>
+          </div>
+
+          <!-- 4 -->
+          <div class="pol-section" id="s4">
+            <span class="pol-section-num">Section 4</span>
+            <h3>Purpose of Data Collection</h3>
+            <p class="pol-text">The information collected is used for lawful and legitimate institutional purposes, including:</p>
+
+            <div class="pol-subsection">
+              <h4>4.1 Academic and Admission Processing</h4>
+              <ul class="pol-list">
+                <li>Evaluating eligibility for admission</li>
+                <li>Verifying submitted documents</li>
+                <li>Processing enrolment and registration</li>
+                <li>Maintaining student records</li>
+                <li>Communicating academic notifications</li>
+              </ul>
+            </div>
+
+            <div class="pol-subsection">
+              <h4>4.2 Administrative Purposes</h4>
+              <ul class="pol-list">
+                <li>Fee processing and financial administration</li>
+                <li>Issuing institutional communications</li>
+                <li>Generating student identification records</li>
+                <li>Responding to queries and grievances</li>
+              </ul>
+            </div>
+
+            <div class="pol-subsection">
+              <h4>4.3 Communication</h4>
+              <ul class="pol-list">
+                <li>Sending admission updates</li>
+                <li>Informing about academic schedules</li>
+                <li>Notifying about events, seminars, and activities</li>
+                <li>Providing essential institutional announcements</li>
+              </ul>
+            </div>
+
+            <div class="pol-subsection">
+              <h4>4.4 Regulatory Compliance</h4>
+              <p class="pol-text">We may use personal data to comply with:</p>
+              <ul class="pol-list">
+                <li>University of Calicut regulations</li>
+                <li>Bar Council of India requirements</li>
+                <li>Government of Kerala directives</li>
+                <li>Statutory reporting obligations</li>
+              </ul>
+            </div>
+
+            <div class="pol-subsection">
+              <h4>4.5 Website Improvement</h4>
+              <p class="pol-text">Non-personal information helps us:</p>
+              <ul class="pol-list">
+                <li>Improve user experience</li>
+                <li>Enhance website functionality</li>
+                <li>Monitor security risks</li>
+                <li>Detect misuse or suspicious activity</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 5 -->
+          <div class="pol-section" id="s5">
+            <span class="pol-section-num">Section 5</span>
+            <h3>Legal Basis for Processing</h3>
+            <p class="pol-text">The Institution processes personal data based on:</p>
+            <ul class="pol-list">
+              <li>Consent provided by the individual</li>
+              <li>Performance of academic and administrative functions</li>
+              <li>Compliance with legal and regulatory obligations</li>
+              <li>Legitimate institutional interests</li>
+            </ul>
+            <p class="pol-text">Where consent is required, it is obtained at the time of submission of information.</p>
+          </div>
+
+          <!-- 6 -->
+          <div class="pol-section" id="s6">
+            <span class="pol-section-num">Section 6</span>
+            <h3>Data Storage and Security</h3>
+            <p class="pol-text">CFI College of Law implements reasonable technical and organisational safeguards to protect personal data from unauthorized access, disclosure, alteration, misuse, and accidental loss.</p>
+            <p class="pol-text">Security measures may include:</p>
+            <ul class="pol-list">
+              <li>Secure servers</li>
+              <li>Restricted administrative access</li>
+              <li>Firewall and cybersecurity systems</li>
+              <li>Password-protected systems</li>
+            </ul>
+            <p class="pol-text">Despite reasonable safeguards, no digital transmission can be guaranteed to be completely secure. Users acknowledge that transmission of data over the internet carries inherent risks.</p>
+          </div>
+
+          <!-- 7 -->
+          <div class="pol-section" id="s7">
+            <span class="pol-section-num">Section 7</span>
+            <h3>Data Retention</h3>
+            <p class="pol-text">Personal data is retained only for as long as necessary to:</p>
+            <ul class="pol-list">
+              <li>Fulfil academic and administrative functions</li>
+              <li>Comply with statutory record-keeping requirements</li>
+              <li>Resolve disputes</li>
+              <li>Enforce institutional policies</li>
+            </ul>
+            <p class="pol-text">Once data is no longer required, it is securely deleted or anonymised in accordance with applicable standards.</p>
+          </div>
+
+          <!-- 8 -->
+          <div class="pol-section" id="s8">
+            <span class="pol-section-num">Section 8</span>
+            <h3>Data Sharing and Disclosure</h3>
+            <p class="pol-text">CFI College of Law does not sell, rent, or trade personal information to third parties.</p>
+            <p class="pol-text">Personal information may be shared in the following circumstances:</p>
+
+            <div class="pol-subsection">
+              <h4>8.1 Regulatory Authorities</h4>
+              <p class="pol-text">Information may be disclosed to:</p>
+              <ul class="pol-list">
+                <li>University of Calicut</li>
+                <li>Bar Council of India</li>
+                <li>Government authorities</li>
+                <li>Statutory or accreditation bodies</li>
+              </ul>
+              <p class="pol-text">Such disclosures occur only when legally required.</p>
+            </div>
+
+            <div class="pol-subsection">
+              <h4>8.2 Service Providers</h4>
+              <p class="pol-text">We may engage trusted third-party service providers for:</p>
+              <ul class="pol-list">
+                <li>Payment processing</li>
+                <li>Technical support</li>
+                <li>Website hosting</li>
+                <li>Communication services</li>
+              </ul>
+              <p class="pol-text">Such providers are contractually obligated to maintain confidentiality and data protection standards.</p>
+            </div>
+
+            <div class="pol-subsection">
+              <h4>8.3 Legal Requirements</h4>
+              <p class="pol-text">Information may be disclosed if required:</p>
+              <ul class="pol-list">
+                <li>By court order</li>
+                <li>By lawful request from government agencies</li>
+                <li>To protect the rights and safety of the Institution or its stakeholders</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- 9 -->
+          <div class="pol-section" id="s9">
+            <span class="pol-section-num">Section 9</span>
+            <h3>Cookies and Tracking Technologies</h3>
+            <p class="pol-text">The website may use cookies and similar technologies to:</p>
+            <ul class="pol-list">
+              <li>Enhance user experience</li>
+              <li>Maintain session continuity</li>
+              <li>Analyse visitor behaviour</li>
+              <li>Improve functionality</li>
+            </ul>
+            <p class="pol-text">Users may disable cookies through browser settings; however, certain website features may not function properly as a result.</p>
+          </div>
+
+          <!-- 10 -->
+          <div class="pol-section" id="s10">
+            <span class="pol-section-num">Section 10</span>
+            <h3>Rights of Users</h3>
+            <p class="pol-text">Individuals whose data is collected have the right to:</p>
+            <ul class="pol-list">
+              <li>Request access to personal information</li>
+              <li>Request correction of inaccurate data</li>
+              <li>Request deletion of data where legally permissible</li>
+              <li>Withdraw consent for non-essential communications</li>
+            </ul>
+            <p class="pol-text">Requests may be submitted to the Institution through official contact channels. The Institution reserves the right to verify identity before processing such requests.</p>
+          </div>
+
+          <!-- 11 -->
+          <div class="pol-section" id="s11">
+            <span class="pol-section-num">Section 11</span>
+            <h3>Minors and Student Data</h3>
+            <p class="pol-text">Where applicants are below the age of 18:</p>
+            <ul class="pol-list">
+              <li>Personal information should be submitted with parental or guardian awareness.</li>
+              <li>The Institution may communicate with parents or guardians where legally required.</li>
+            </ul>
+          </div>
+
+          <!-- 12 -->
+          <div class="pol-section" id="s12">
+            <span class="pol-section-num">Section 12</span>
+            <h3>Third-Party Content</h3>
+            <p class="pol-text">The Institution's website may include references to external entities or regulatory bodies. The Institution is not responsible for the privacy practices of external websites or third-party platforms.</p>
+            <p class="pol-text">Users are encouraged to review the privacy policies of such external platforms independently.</p>
+          </div>
+
+          <!-- 13 -->
+          <div class="pol-section" id="s13">
+            <span class="pol-section-num">Section 13</span>
+            <h3>Policy Updates</h3>
+            <p class="pol-text">CFI College of Law reserves the right to update or modify this Privacy Policy at any time to reflect:</p>
+            <ul class="pol-list">
+              <li>Changes in legal requirements</li>
+              <li>Updates in institutional practices</li>
+              <li>Technological advancements</li>
+            </ul>
+            <p class="pol-text">Updated policies will be published with a revised effective date.</p>
+            <p class="pol-text">Continued use of the website after modifications constitutes acceptance of the updated Privacy Policy.</p>
+          </div>
+
+          <!-- 14 -->
+          <div class="pol-section" id="s14">
+            <span class="pol-section-num">Section 14</span>
+            <h3>Limitation of Liability</h3>
+            <p class="pol-text">While reasonable measures are taken to protect personal information, CFI College of Law shall not be held liable for:</p>
+            <ul class="pol-list">
+              <li>Unauthorised access beyond reasonable control</li>
+              <li>Data interception during transmission</li>
+              <li>Technical failures</li>
+              <li>Cyber incidents beyond institutional safeguards</li>
+            </ul>
+            <p class="pol-text">Users acknowledge inherent risks associated with online data transmission.</p>
+          </div>
+
+          <!-- 15 -->
+          <div class="pol-section" id="s15">
+            <span class="pol-section-num">Section 15</span>
+            <h3>Grievance Redressal</h3>
+            <p class="pol-text">Any concerns regarding privacy or data handling may be addressed to the designated institutional authority.</p>
+            <div class="contact-box">
+              <p style="font-size:.88rem;font-weight:700;color:var(--dark);margin-bottom:12px;">CFI College of Law</p>
+              <div class="cb-row"><i class="fa fa-map-marker-alt"></i>Poyya, Thrissur District, Kerala, India</div>
+              <div class="cb-row"><i class="fa fa-phone"></i><a href="tel:8590759003">8590759003</a> / <a href="tel:8590759004">8590759004</a></div>
+              <div class="cb-row"><i class="fa fa-envelope"></i><a href="mailto:info@cficollegeoflaw.in">info@cficollegeoflaw.in</a></div>
+            </div>
+            <p class="pol-text" style="margin-top:16px;">The Institution shall make reasonable efforts to address privacy-related concerns in a timely manner.</p>
+          </div>
+
+          <!-- 16 -->
+          <div class="pol-section" id="s16">
+            <span class="pol-section-num">Section 16</span>
+            <h3>Consent</h3>
+            <p class="pol-text">By accessing the website and submitting personal information, you:</p>
+            <ul class="pol-list">
+              <li>Confirm that the information provided is accurate</li>
+              <li>Consent to the collection and processing of your data</li>
+              <li>Acknowledge having read and understood this Privacy Policy</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+</body>
+</html>

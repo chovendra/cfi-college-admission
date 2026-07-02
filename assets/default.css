@@ -1,0 +1,91 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    color: #222;
+}
+a {text-decoration:none}
+h1, h2, h3, h4, h5 {
+    font-family: 'Bellefair', serif;
+    font-weight: 400;
+}
+
+.navbar-nav .nav-link {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+	margin-right:5px;
+	color:#3D637B;
+}
+
+.top-bar {background: radial-gradient(circle at left, #0d3c78, #081f3a)}
+.top-link {color:#FAFAFA;font-size:.7rem}
+.navbar {background-image:url('images/pattern.png')}
+
+.section-title {
+    font-size: 3rem; 
+	margin-bottom:25px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #0a2a5e;
+    text-align:center;
+	
+}
+.section-title::after {
+    content: "";
+    display: block;
+    width: 100px;
+    height: 2px;
+    background: #f4b400;
+    margin: 12px auto 0;
+}
+
+.highlights {background:#EDEDED}
+
+.featured {
+    background: radial-gradient(circle at left, #0d3c78, #081f3a);
+    border-radius: 10px;
+    padding: 1.75rem;
+    color: #ffffff;
+}
+.featured h5 {font-size:2rem;}
+.featured p {font-size:.8rem}
+
+.courses-section {
+    background: radial-gradient(circle at left, #0d3c78, #081f3a);
+}
+
+.course-icon-wrap {
+    position: relative;
+    min-width: 75px;
+}
+
+.course-pill {
+    width: 30px;
+    height: 150px;
+    border: 2px solid #f4b400;
+    border-radius: 20px;
+}
+
+.course-icon {
+    width: 46px;
+    height: 46px;
+    background: #f4b400;
+    border-radius: 50%;
+    position: absolute;
+    top: 20px;
+    left: 20%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.course-icon img {
+    width: 22px;
+}
+
+.page-title {height:30vh;background: radial-gradient(circle at left, #0d3c78, #081f3a);}
+.page-title h1 {color:#FFFFFF;font-size:3rem;text-transform:uppercase}
+.page-wrapper {max-width:1280px;padding:5%;background:#FAFAFA;margin:0 auto;margin-top:-8%;}
+
+footer {
+    background: radial-gradient(circle at left, #0d3c78, #081f3a);
+}

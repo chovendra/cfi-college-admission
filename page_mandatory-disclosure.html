@@ -1,0 +1,456 @@
+
+
+  <style>
+    :root {
+      --dark:        #081f3a;
+      --blue:        #0d3c78;
+      --amber:       #ffc107;
+      --amber-light: #ffd54f;
+      --light-bg:    #eef3fb;
+      --lighter-bg:  #f5f8fd;
+      --text-body:   #1e3a5f;
+      --text-muted:  #5a7a9e;
+      --grad:        radial-gradient(circle at left, #0d3c78, #081f3a);
+    }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+
+    h1,h2,h3,h4,h5,h6 { font-family:'Playfair Display',serif; }
+
+    .section-tag { font-size:.68rem; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--amber); margin-bottom:10px; display:block; }
+    .gold-bar { width:44px; height:3px; background:linear-gradient(90deg,var(--amber),var(--amber-light)); border-radius:2px; margin:14px 0 24px; }
+    .reveal { opacity:0; transform:translateY(24px); transition:opacity .6s,transform .6s; }
+    .reveal.vis { opacity:1; transform:translateY(0); }
+
+    .btn-primary-cfi { background:var(--amber); color:var(--dark); font-size:.82rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:13px 30px; border-radius:3px; border:none; text-decoration:none; transition:all .25s; display:inline-flex; align-items:center; gap:8px; }
+    .btn-primary-cfi:hover { background:var(--amber-light); color:var(--dark); transform:translateY(-2px); box-shadow:0 8px 28px rgba(255,193,7,.45); }
+    .btn-ghost-dark { border:1.5px solid rgba(255,193,7,.5); color:var(--amber); background:transparent; font-size:.82rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; padding:13px 30px; border-radius:3px; text-decoration:none; transition:all .25s; display:inline-flex; align-items:center; gap:8px; }
+    .btn-ghost-dark:hover { background:var(--amber); color:var(--dark); }
+
+    /* HERO */
+    .hero { background:var(--grad); min-height:56vh; position:relative; display:flex; align-items:center; overflow:hidden; padding:80px 0 64px; }
+    .hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 65% 70% at 85% 50%,rgba(21,101,192,.2) 0%,transparent 60%), repeating-linear-gradient(135deg,transparent,transparent 60px,rgba(255,193,7,.02) 60px,rgba(255,193,7,.02) 61px); }
+    .hero > .container { position:relative; z-index:1; }
+    .hero-watermark { position:absolute; right:-20px; bottom:-40px; font-family:'Playfair Display',serif; font-weight:800; font-size:clamp(80px,13vw,200px); color:rgba(255,193,7,.04); line-height:1; user-select:none; pointer-events:none; }
+    .hero-tag { display:inline-flex; align-items:center; gap:8px; border:1px solid rgba(255,193,7,.35); background:rgba(255,193,7,.1); color:var(--amber); font-size:.7rem; font-weight:600; letter-spacing:.15em; text-transform:uppercase; padding:6px 14px; border-radius:2px; margin-bottom:22px; animation:up .6s ease both; }
+    .hero h1 { font-size:clamp(2.2rem,4.5vw,3.6rem); font-weight:800; color:#fff; line-height:1.07; animation:up .7s .1s ease both; }
+    .hero h1 em { color:var(--amber); font-style:italic; }
+    .hero-sub { font-size:.92rem; color:rgba(255,255,255,.5); margin-top:14px; animation:up .7s .2s ease both; letter-spacing:.06em; }
+
+    @keyframes up { from{opacity:0;transform:translateY(26px)} to{opacity:1;transform:translateY(0)} }
+
+    /* STATS STRIP */
+    .intro-strip { background:var(--grad); border-top:1px solid rgba(255,255,255,.06); }
+    .strip-grid { display:grid; grid-template-columns:repeat(4,1fr); }
+    .strip-cell { padding:26px 20px; text-align:center; border-right:1px solid rgba(255,255,255,.08); }
+    .strip-cell:last-child { border-right:none; }
+    .sc-num { font-family:'Playfair Display',serif; font-size:1.9rem; font-weight:700; color:var(--amber); line-height:1; }
+    .sc-lbl { font-size:.68rem; color:rgba(255,255,255,.42); letter-spacing:.1em; text-transform:uppercase; margin-top:5px; }
+
+    /* LAYOUT */
+    .disclosure-sec { background:var(--lighter-bg); padding:90px 0; }
+
+    /* STICKY TOC */
+    .toc-wrap { position:sticky; top:24px; }
+    .toc-box { background:#fff; border:1px solid rgba(13,60,120,.1); border-radius:7px; overflow:hidden; }
+    .toc-header { background:var(--grad); padding:16px 20px; }
+    .toc-header span { font-size:.68rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--amber); }
+    .toc-list { padding:12px 0; }
+    .toc-link { display:flex; align-items:center; gap:10px; padding:9px 18px; text-decoration:none; color:var(--text-muted); font-size:.82rem; font-weight:500; transition:all .2s; border-left:3px solid transparent; }
+    .toc-link:hover { color:var(--blue); background:var(--light-bg); border-left-color:var(--amber); }
+    .toc-link .tl-num { min-width:22px; height:22px; border-radius:2px; background:rgba(13,60,120,.07); display:flex; align-items:center; justify-content:center; font-size:.65rem; font-weight:700; color:var(--blue); }
+
+    /* CONTENT */
+    .doc-section { background:#fff; border:1px solid rgba(13,60,120,.08); border-radius:8px; padding:38px 40px; margin-bottom:20px; scroll-margin-top:32px; }
+    .ds-heading { display:flex; align-items:center; gap:14px; margin-bottom:20px; padding-bottom:16px; border-bottom:1px solid rgba(13,60,120,.07); }
+    .ds-num { min-width:40px; height:40px; border-radius:4px; background:var(--grad); display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:1rem; font-weight:700; color:var(--amber); flex-shrink:0; }
+    .ds-heading h3 { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; color:var(--dark); margin:0; line-height:1.3; }
+    .body-para { font-size:.93rem; color:#4a6a8a; line-height:1.9; margin-bottom:16px; }
+    .body-para:last-child { margin-bottom:0; }
+    .body-para strong { color:var(--dark); }
+
+    /* INFO TABLE */
+    .info-table { width:100%; border-collapse:collapse; margin-bottom:20px; }
+    .info-table tr { border-bottom:1px solid rgba(13,60,120,.06); }
+    .info-table tr:last-child { border-bottom:none; }
+    .info-table td { padding:10px 14px; font-size:.88rem; vertical-align:top; line-height:1.55; }
+    .info-table td:first-child { font-weight:700; color:var(--dark); width:38%; white-space:nowrap; }
+    .info-table td:last-child { color:var(--text-muted); }
+    .info-table tr:nth-child(odd) td { background:rgba(238,243,251,.5); }
+
+    /* BULLET LIST */
+    .doc-list { list-style:none; padding:0; margin:16px 0 0; }
+    .doc-list li { display:flex; align-items:flex-start; gap:10px; font-size:.9rem; color:var(--text-muted); line-height:1.7; padding:6px 0; border-bottom:1px solid rgba(13,60,120,.05); }
+    .doc-list li:last-child { border-bottom:none; }
+    .doc-list li::before { content:''; min-width:6px; height:6px; border-radius:50%; background:var(--amber); margin-top:9px; flex-shrink:0; }
+
+    /* PROGRAMME CARD */
+    .prog-block { background:var(--lighter-bg); border:1px solid rgba(13,60,120,.08); border-radius:6px; padding:24px 26px; margin-bottom:20px; }
+    .prog-block:last-of-type { margin-bottom:0; }
+    .prog-block-title { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; color:var(--dark); margin-bottom:14px; padding-bottom:10px; border-bottom:2px solid var(--amber); }
+    .prog-meta { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+    .prog-pill { background:rgba(255,193,7,.1); border:1px solid rgba(255,193,7,.25); border-radius:20px; padding:4px 12px; font-size:.72rem; font-weight:600; color:var(--blue); }
+    .prog-block p { font-size:.9rem; color:var(--text-muted); line-height:1.8; margin-bottom:12px; }
+    .prog-block p:last-child { margin-bottom:0; }
+    .curr-grid { display:grid; grid-template-columns:1fr 1fr; gap:4px 24px; margin-top:12px; }
+    .curr-item { display:flex; align-items:center; gap:8px; font-size:.83rem; color:var(--text-muted); padding:4px 0; }
+    .curr-item i { color:var(--amber); font-size:.65rem; min-width:10px; }
+
+    /* COMMITTEE BADGES */
+    .committee-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-top:4px; }
+    .committee-item { background:var(--lighter-bg); border:1px solid rgba(13,60,120,.08); border-radius:4px; padding:12px 14px; display:flex; align-items:center; gap:10px; font-size:.85rem; color:var(--text-body); font-weight:500; }
+    .committee-item i { color:var(--amber); font-size:.8rem; min-width:14px; }
+
+    /* COMPLIANCE BANNER */
+    .compliance-banner { background:var(--grad); border-radius:6px; padding:24px 26px; margin-top:4px; }
+    .compliance-banner p { font-size:.9rem; color:rgba(255,255,255,.7); line-height:1.8; margin:0; }
+    .compliance-banner p strong { color:var(--amber); }
+
+    @media (max-width:991px) {
+      .strip-grid { grid-template-columns:repeat(2,1fr); }
+      .toc-wrap { position:static; margin-bottom:32px; }
+      .curr-grid { grid-template-columns:1fr; }
+      .committee-grid { grid-template-columns:1fr; }
+    }
+    @media (max-width:767px) { .doc-section { padding:24px 20px; } .info-table td:first-child { white-space:normal; } }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-watermark">DISCLOSURE</div>
+  <div class="container">
+    <span class="hero-tag"><i class="fa fa-file-contract"></i>&nbsp; Regulatory Document</span>
+    <h1>Mandatory<br><em>Disclosure</em></h1>
+    <p class="hero-sub">As per Bar Council of India &amp; University Regulations</p>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="intro-strip">
+  <div class="strip-grid">
+    <div class="strip-cell"><div class="sc-num">BCI</div><div class="sc-lbl">Approved</div></div>
+    <div class="strip-cell"><div class="sc-num">Calicut</div><div class="sc-lbl">University Affiliated</div></div>
+    <div class="strip-cell"><div class="sc-num">2</div><div class="sc-lbl">Programs Offered</div></div>
+    <div class="strip-cell"><div class="sc-num">10</div><div class="sc-lbl">Sections Disclosed</div></div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<section class="disclosure-sec">
+  <div class="container">
+    <div class="row g-5">
+
+      <!-- TOC -->
+      <div class="col-lg-3">
+        <div class="toc-wrap">
+			 <div class="sticky-top" style="top:150px;">
+          <div class="toc-box">
+            <div class="toc-header"><span>Table of Contents</span></div>
+            <div class="toc-list">
+              <a href="https://cficollegeoflaw.in/mandatory-disclosure#sec1" class="toc-link"><div class="tl-num">1</div>Institutional Information</a>
+              <a href="https://cficollegeoflaw.in/mandatory-disclosure#sec2" class="toc-link"><div class="tl-num">2</div>Governing Body / Management</a>
+              <a href="https://cficollegeoflaw.in/mandatory-disclosure#sec3" class="toc-link"><div class="tl-num">3</div>Vision</a>
+              <a href="https://cficollegeoflaw.in/mandatory-disclosure#sec4" class="toc-link"><div class="tl-num">4</div>Mission</a>
+              <a href="https://cficollegeoflaw.in/mandatory-disclosure#sec5" class="toc-link"><div class="tl-num">5</div>Academic Programme</a>
+              <a href="https://cficollegeoflaw.in/mandatory-disclosure#sec6" class="toc-link"><div class="tl-num">6</div>Admission Procedure</a>
+              <a href="https://cficollegeoflaw.in/mandatory-disclosure#sec7" class="toc-link"><div class="tl-num">7</div>Faculty Information</a>
+              <a href="https://cficollegeoflaw.in/mandatory-disclosure#sec8" class="toc-link"><div class="tl-num">8</div>Infrastructure &amp; Facilities</a>
+              <a href="https://cficollegeoflaw.in/mandatory-disclosure#sec9" class="toc-link"><div class="tl-num">9</div>Statutory Committees</a>
+              <a href="https://cficollegeoflaw.in/mandatory-disclosure#sec10" class="toc-link"><div class="tl-num">10</div>Compliance Statement</a>
+            </div>
+          </div>
+        </div>
+		</div>
+      </div>
+
+      <!-- CONTENT -->
+      <div class="col-lg-9">
+
+        <!-- 1. Institutional Information -->
+        <div class="doc-section reveal" id="sec1">
+          <div class="ds-heading">
+            <div class="ds-num">1</div>
+            <h3><a href="https://cficollegeoflaw.in/about-us"  style="text-decoration:none; color:inherit;">Institutional Information</a></h3>
+          </div>
+          <table class="info-table">
+            <tr><td>Name of Institution</td><td>CFI College of Law</td></tr>
+            <tr><td>Location</td><td>Poyya, Thrissur District, Kerala, India</td></tr>
+            <tr><td>Affiliation</td><td>University of Calicut</td></tr>
+            <tr><td>Approval</td><td>Approved by the Bar Council of India (BCI) &amp; Government of Kerala</td></tr>
+            <tr><td>Type of Institution</td><td>Self-Financing Law College</td></tr>
+            <tr><td>Nature</td><td>Co-Educational Institution</td></tr>
+          </table>
+          <p class="body-para">CFI College of Law is a professionally managed institution dedicated to delivering quality legal education in accordance with the academic standards and regulatory framework prescribed by the Bar Council of India, the University of Calicut, and the Government of Kerala.</p>
+          <p class="body-para">The college operates in full compliance with statutory norms governing infrastructure, faculty qualifications, curriculum delivery, student welfare mechanisms, and institutional transparency. All academic activities are conducted under the guidelines and semester system prescribed by the affiliating university.</p>
+          <p class="body-para">The institution is committed to academic excellence, ethical legal practice, and the development of socially responsible legal professionals capable of contributing meaningfully to the justice system and society.</p>
+        </div>
+
+        <!-- 2. Governing Body -->
+        <div class="doc-section reveal" id="sec2">
+          <div class="ds-heading">
+            <div class="ds-num">2</div>
+            <h3><a href="https://cficollegeoflaw.in/overview"  style="text-decoration:none; color:inherit;">Governing Body / Management Details</a></h3>
+          </div>
+          <p class="body-para">CFI College of Law is managed by:</p>
+          <table class="info-table" style="margin-bottom:20px;">
+            <tr><td>Name of Trust/Society</td><td>CFI Charitable Trust</td></tr>
+          </table>
+          <p class="body-para">The CFI Charitable Trust is a registered body established with the objective of promoting quality education and social development initiatives. The Trust oversees the administration, financial management, infrastructure development, policy formulation, and regulatory compliance of the institution.</p>
+          <p class="body-para" style="font-weight:600;color:var(--dark);margin-bottom:8px;">Role of the Governing Body</p>
+          <p class="body-para">The Governing Body of the institution is responsible for:</p>
+          <ul class="doc-list">
+            <li>Strategic planning and institutional development</li>
+            <li>Ensuring compliance with BCI, University of Calicut, and Government norms</li>
+            <li>Appointment of qualified faculty and staff</li>
+            <li>Monitoring academic standards and performance</li>
+            <li>Financial supervision and resource allocation</li>
+            <li>Maintaining institutional transparency and accountability</li>
+          </ul>
+          <p class="body-para" style="margin-top:16px;">The Governing Body functions in accordance with the Trust's objectives and relevant statutory provisions to ensure that the institution maintains high standards in legal education and professional training.</p>
+        </div>
+
+        <!-- 3. Vision -->
+        <div class="doc-section reveal" id="sec3">
+          <div class="ds-heading">
+            <div class="ds-num">3</div>
+            <h3><a href="https://cficollegeoflaw.in/vision-and-mission"  style="text-decoration:none; color:inherit;">Vision</a></h3>
+          </div>
+          <p class="body-para">Our vision is to build a strong and respected centre for legal education where students feel supported, guided, and inspired throughout their journey. The institution aims to grow as a trusted Law College in India that is known not only for academic quality but also for discipline, transparency, and strong values. We believe that law is not just a subject to study, but a responsibility to understand and practise with honesty.
+
+As a developing Law college in Poyya Thrissur Kerala, the goal is to create an environment where students can confidently prepare for their future careers in advocacy, corporate law, judiciary, legal services, and higher studies. The vision is to combine classroom learning with practical exposure so that every graduate leaves with knowledge, confidence, and a clear sense of professional ethics. Step by step, through consistent effort and quality education, the institution aspires to be recognised among the most dependable law colleges for serious legal studies.</p>
+        </div>
+
+        <!-- 4. Mission -->
+        <div class="doc-section reveal" id="sec4">
+          <div class="ds-heading">
+            <div class="ds-num">4</div>
+            <h3><a href="https://cficollegeoflaw.in/vision-and-mission"  style="text-decoration:none; color:inherit;">Mission</a></h3>
+          </div>
+		  
+		  
+		<p><strong>Building Strong Legal Professionals Through Meaningful Education</strong></p>
+
+		<p class="body-para">Our mission is centred on students — their growth, their confidence, and their professional success. We aim to create a learning space where students are encouraged to think independently, speak clearly, and understand the deeper purpose of law in society.</p>
+
+		 <ul class="doc-list">
+		  <li>To provide structured and well-planned academic programs that make legal concepts easy to understand, while also maintaining seriousness and academic discipline.</li>
+
+		  <li>To offer 5 year integrated BBA LLB and B.Com LLB in Kerala, allowing students to study law together with business and commerce subjects. This helps them understand how law works in companies, financial systems, and corporate environments, opening wider career paths.</li>
+
+		  <li>To deliver high-quality BBA LLB (Hons) &amp; B.Com LLB (Hons) courses/education that focus on building practical skills such as drafting legal documents, analysing case laws, participating in moot courts, improving public speaking, and strengthening research ability.</li>
+
+		  <li>To strengthen Integrated Law Courses Kerala by including internships, court visits, seminars, workshops, legal awareness programs, and academic mentoring so students gain real-world exposure along with theoretical knowledge.</li>
+
+		  <li>To encourage active classroom participation where students can ask questions, engage in discussions, take part in debates, and develop confidence in expressing legal opinions.</li>
+
+		  <li>To promote research habits and critical thinking so students learn to examine laws carefully, understand policy decisions, and stay updated with legal developments in India.</li>
+
+		  <li>To teach the importance of honesty, discipline, constitutional values, and social responsibility so that students become ethical professionals who respect justice and fairness.</li>
+
+		  <li>To maintain high academic standards as a BCI (Bar Council of India) approved college in Kerala, ensuring that all programs follow proper guidelines, regulatory requirements, and transparent administrative practices.</li>
+
+		  <li>To provide continuous academic guidance, mentoring support, and personal attention so that students improve not only in marks but also in communication skills, leadership qualities, and professional behaviour.</li>
+		</ul>
+
+		<p class="body-para">Through consistent effort, student care, and practical training, the mission is to shape graduates who are confident in the courtroom, responsible in society, and prepared for the challenges of the legal profession.</p>		  
+				  
+		  
+        </div>
+
+        <!-- 5. Academic Programme -->
+        <div class="doc-section reveal" id="sec5">
+          <div class="ds-heading">
+            <div class="ds-num">5</div>
+            <h3>Academic Programme</h3>
+          </div>
+          <p class="body-para">CFI College of Law offers integrated undergraduate law programmes approved by the Bar Council of India (BCI) and affiliated to the University of Calicut. The programmes are designed to combine professional legal education with strong foundations in commerce and business administration, preparing students for diverse career pathways in law, corporate sectors, judiciary, and academia.</p>
+
+          <!-- BBA LLB -->
+          <div class="prog-block">
+            <div class="prog-block-title">
+  <a href="https://cficollegeoflaw.in/bba-llb" style="text-decoration:none; color:inherit;">
+    BBA LL.B. (Hons.) – Five-Year Integrated Programme
+  </a>
+</div>
+            <div class="prog-meta">
+              <span class="prog-pill"><i class="fa fa-clock"></i>&nbsp; 5 Years (10 Semesters)</span>
+              <span class="prog-pill"><i class="fa fa-university"></i>&nbsp; University of Calicut</span>
+              <span class="prog-pill"><i class="fa fa-certificate"></i>&nbsp; BCI Approved</span>
+            </div>
+            <p>The BBA LL.B. (Hons.) programme integrates Business Administration subjects with core legal studies. This programme is structured to equip students with managerial insight along with legal expertise, making it particularly suitable for careers in corporate law, business compliance, taxation, intellectual property, and entrepreneurship.</p>
+            <p><strong style="color:var(--dark);font-size:.85rem;">The curriculum includes:</strong></p>
+            <div class="curr-grid">
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Principles of Management</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Financial Accounting</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Business Economics</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Marketing &amp; Human Resource Management</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Constitutional Law</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Criminal Law</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Contract Law</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Corporate Law</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Labour Law</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Administrative Law</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Intellectual Property Law</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Alternative Dispute Resolution</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Drafting, Pleading &amp; Conveyancing</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Professional Ethics</div>
+            </div>
+            <p style="margin-top:14px;">Students also undergo compulsory internships, moot court training, legal aid activities, and practical training components as prescribed by the Bar Council of India.</p>
+          </div>
+
+          <!-- B.Com LLB -->
+          <div class="prog-block">
+           <div class="prog-block-title">
+  <a href="https://cficollegeoflaw.in/bcom-llb" style="text-decoration:none; color:inherit;">
+    B.Com LL.B. (Hons.) – Five-Year Integrated Programme
+  </a>
+</div>
+            <div class="prog-meta">
+              <span class="prog-pill"><i class="fa fa-clock"></i>&nbsp; 5 Years (10 Semesters)</span>
+              <span class="prog-pill"><i class="fa fa-university"></i>&nbsp; University of Calicut</span>
+              <span class="prog-pill"><i class="fa fa-certificate"></i>&nbsp; BCI Approved</span>
+            </div>
+            <p>The B.Com LL.B. (Hons.) programme combines Commerce subjects with comprehensive legal education. This integrated structure provides students with in-depth knowledge of financial systems, taxation, accounting, and corporate regulations along with core areas of law.</p>
+            <p><strong style="color:var(--dark);font-size:.85rem;">The curriculum includes:</strong></p>
+            <div class="curr-grid">
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Financial Accounting</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Corporate Accounting</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Business Law</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Income Tax Law</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Banking &amp; Insurance</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Corporate Governance</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Constitutional Law</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Law of Crimes</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Law of Torts</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Company Law</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Environmental Law</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>International Law</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Arbitration &amp; ADR</div>
+              <div class="curr-item"><i class="fa fa-check-circle"></i>Moot Court &amp; Internship</div>
+            </div>
+            <p style="margin-top:14px;">This programme is ideal for students aspiring to build careers in corporate litigation, taxation practice, financial compliance, corporate advisory, and judicial services.</p>
+          </div>
+        </div>
+
+        <!-- 6. Admission -->
+        <div class="doc-section reveal" id="sec6">
+          <div class="ds-heading">
+            <div class="ds-num">6</div>
+            <h3><a href="https://cficollegeoflaw.in/admission-procedure"  style="text-decoration:none; color:inherit;">Admission Procedure</a></h3>
+          </div>
+          <p class="body-para">Admissions are conducted strictly in accordance with:</p>
+          <ul class="doc-list">
+            <li>University of Calicut regulations</li>
+            <li>Bar Council of India norms</li>
+            <li>Government of Kerala reservation policies</li>
+          </ul>
+          <p class="body-para" style="margin-top:16px;">The admission process ensures transparency, merit-based selection, and compliance with statutory requirements. Eligibility criteria, documentation requirements, and fee structure are clearly communicated in the admission prospectus issued each academic year.</p>
+        </div>
+
+        <!-- 7. Faculty -->
+        <div class="doc-section reveal" id="sec7">
+          <div class="ds-heading">
+            <div class="ds-num">7</div>
+            <h3><a href="https://cficollegeoflaw.in/faculty"  style="text-decoration:none; color:inherit;">Faculty Information</a></h3>
+          </div>
+          <p class="body-para">CFI College of Law maintains a qualified and competent faculty team as mandated by the Bar Council of India.</p>
+          <p class="body-para" style="font-weight:600;color:var(--dark);margin-bottom:8px;">Faculty Composition</p>
+          <ul class="doc-list">
+            <li>Full-time faculty members with LL.M. qualifications</li>
+            <li>Faculty with NET / Ph.D. qualifications (where applicable)</li>
+            <li>Guest lecturers and subject experts from the legal profession</li>
+          </ul>
+          <p class="body-para" style="margin-top:16px;">Faculty members are appointed based on merit, qualifications, and teaching competency in accordance with University and BCI regulations. Continuous academic development and participation in seminars, workshops, and research activities are encouraged.</p>
+        </div>
+
+        <!-- 8. Infrastructure -->
+        <div class="doc-section reveal" id="sec8">
+          <div class="ds-heading">
+            <div class="ds-num">8</div>
+            <h3><a href="https://cficollegeoflaw.in/infrastructure"  style="text-decoration:none; color:inherit;">Infrastructure and Academic Facilities</a></h3>
+          </div>
+          <p class="body-para">The institution provides adequate infrastructure as prescribed by the Bar Council of India.</p>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px;">
+            <div style="background:var(--lighter-bg);border:1px solid rgba(13,60,120,.08);border-radius:5px;padding:16px 18px;">
+              <div style="font-weight:700;color:var(--dark);font-size:.9rem;margin-bottom:6px;"><i class="fa fa-chalkboard" style="color:var(--amber);margin-right:8px;"></i>Classrooms</div>
+              <p style="font-size:.84rem;color:var(--text-muted);line-height:1.65;margin:0;">Spacious and well-ventilated classrooms designed to support interactive and technology-enabled learning.</p>
+            </div>
+            <div style="background:var(--lighter-bg);border:1px solid rgba(13,60,120,.08);border-radius:5px;padding:16px 18px;">
+              <div style="font-weight:700;color:var(--dark);font-size:.9rem;margin-bottom:6px;"><i class="fa fa-gavel" style="color:var(--amber);margin-right:8px;"></i>Moot Court Hall</div>
+              <p style="font-size:.84rem;color:var(--text-muted);line-height:1.65;margin:0;">A dedicated moot court facility to provide practical advocacy training and simulated court proceedings.</p>
+            </div>
+          </div>
+
+          <p class="body-para" style="font-weight:600;color:var(--dark);margin-bottom:8px;">Library</p>
+          <p class="body-para">The college library includes:</p>
+          <ul class="doc-list" style="margin-bottom:20px;">
+            <li>Core law textbooks</li>
+            <li>Bare Acts and commentaries</li>
+            <li>Legal journals and reference materials</li>
+            <li>Reading and research facilities</li>
+          </ul>
+          <p class="body-para">The library resources are regularly updated to meet academic and professional requirements.</p>
+
+          <p class="body-para" style="font-weight:600;color:var(--dark);margin:16px 0 8px;">ICT &amp; Digital Support</p>
+          <ul class="doc-list" style="margin-bottom:20px;">
+            <li>Computer facilities for academic use</li>
+            <li>Internet connectivity</li>
+            <li>Access to digital academic resources (as applicable)</li>
+          </ul>
+
+          <p class="body-para" style="font-weight:600;color:var(--dark);margin-bottom:8px;">Administrative &amp; Student Facilities</p>
+          <ul class="doc-list">
+            <li>Administrative office</li>
+            <li>Faculty rooms</li>
+            <li>Student common areas</li>
+            <li>Safe drinking water</li>
+            <li>Sanitation facilities</li>
+            <li>Campus safety measures</li>
+          </ul>
+        </div>
+
+        <!-- 9. Statutory Committees -->
+        <div class="doc-section reveal" id="sec9">
+          <div class="ds-heading">
+            <div class="ds-num">9</div>
+            <h3>Statutory Committees</h3>
+          </div>
+          <p class="body-para">In compliance with regulatory norms, the institution has constituted the following committees:</p>
+          <div class="committee-grid">
+            <div class="committee-item"><i class="fa fa-shield-alt"></i>Anti-Ragging Committee</div>
+            <div class="committee-item"><i class="fa fa-balance-scale"></i>Internal Complaints Committee (POSH)</div>
+            <div class="committee-item"><i class="fa fa-comment-alt"></i>Grievance Redressal Cell</div>
+            <div class="committee-item"><i class="fa fa-gavel"></i>Discipline Committee</div>
+            <div class="committee-item" style="grid-column:1/-1;"><i class="fa fa-chart-line"></i>Academic Monitoring Committee</div>
+          </div>
+          <p class="body-para" style="margin-top:16px;">Each committee functions in accordance with prescribed legal and regulatory guidelines.</p>
+        </div>
+
+        <!-- 10. Compliance -->
+        <div class="doc-section reveal" id="sec10">
+          <div class="ds-heading">
+            <div class="ds-num">10</div>
+            <h3><a href="https://cficollegeoflaw.in/privacy-policy"  style="text-decoration:none; color:inherit;">Compliance Statement</a></h3>
+          </div>
+          <div class="compliance-banner">
+            <p>CFI College of Law affirms that it adheres to all rules, regulations, and guidelines issued by the <strong>Bar Council of India</strong>, <strong>University of Calicut</strong>, and the <strong>Government of Kerala</strong>. The institution maintains transparency in academic, administrative, and financial operations as required under applicable laws.</p>
+          </div>
+        </div>
+
+      </div><!-- /col -->
+    </div><!-- /row -->
+  </div>
+</section>
+
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.05 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

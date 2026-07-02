@@ -1,0 +1,509 @@
+
+<style>
+  :root { --dark:#081f3a;--blue:#0d3c78;--amber:#ffc107;--amber-light:#ffd54f;--amber-pale:#fff8e1;--light-bg:#eef3fb;--lighter-bg:#f5f8fd;--text-body:#1e3a5f;--text-muted:#5a7a9e;--white:#ffffff;--grad:radial-gradient(circle at left,#0d3c78,#081f3a); }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',sans-serif}
+  h1,h2,h3,h4,h5,h6{font-family:'Playfair Display',serif}
+  .urgency-strip{background-color:#0b213c;padding:19px 0;position:relative;z-index:2}
+  .urgency-strip .us-wrap{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px 20px}
+  .urgency-strip .us-item{display:inline-flex;align-items:center;gap:6px;color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+  .urgency-strip .us-item i{color:#ffd54f;font-size:.63rem}
+  .urgency-strip .us-sep{color:rgba(255,255,255,.3);font-size:.7rem}
+  .urgency-strip .us-btn{background:var(--amber);color:var(--dark);font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:2px;text-decoration:none;margin-left:6px}
+  .urgency-strip .us-btn:hover{background:#fff}
+  .navbar-top{position:sticky;top:0;z-index:999;background:rgba(8,31,58,.97);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,193,7,.2)}
+  .navbar-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 32px}
+  .nav-brand{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--amber);text-decoration:none;letter-spacing:.02em}
+  .nav-brand span{color:#fff}
+  .btn-nav{background:var(--amber);color:var(--dark);font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:9px 22px;border-radius:3px;border:none;cursor:pointer;text-decoration:none;transition:all .25s;display:inline-block}
+  .btn-nav:hover{background:var(--amber-light);color:var(--dark);transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,193,7,.4)}
+  .hero{background: url(https://cficollegeoflaw.in/uploads/slider/slide6.jpg);
+    min-height: 100vh;
+    position: relative;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    /* background-image: url(); */
+    background-position: center;
+    overflow: hidden;
+    padding-top: 80px;
+    background-size: cover;}
+  .hero::before{content:'';position:absolute;inset:0;background:rgb(11 33 60 / 81%)}
+  .hero-watermark{position:absolute;right:-20px;bottom:-40px;font-family:'Playfair Display',serif;font-weight:800;font-size:clamp(160px,22vw,340px);color:rgba(255,193,7,.04);line-height:1;user-select:none;pointer-events:none;letter-spacing:-.03em}
+  .hero-tag{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,193,7,.35);background:rgba(255,193,7,.1);color:var(--amber);font-size:.7rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;padding:6px 14px;border-radius:2px;margin-bottom:22px;animation:up .6s ease both}
+  .hero h1{font-size:clamp(2.6rem,5.5vw,4rem);font-weight:800;color:#fff;line-height:1.07;margin-bottom:8px;animation:up .7s .1s ease both}
+  .hero h1 em{color:var(--amber);font-style:italic}
+  .hero-sub{font-size:1.05rem;color:rgba(255,255,255,.65);line-height:1.75;max-width:560px;animation:up .7s .2s ease both;margin-top:16px}
+  .trust-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px;animation:up .7s .25s ease both}
+  .trust-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.07);border:1px solid rgba(255,193,7,.25);border-radius:3px;padding:7px 13px;color:rgba(255,255,255,.9);font-size:.74rem;font-weight:600}
+  .trust-badge i{color:var(--amber);font-size:.75rem}
+  .schol-callout{display:inline-flex;align-items:center;gap:10px;background:rgba(67,160,71,.12);border:1px solid rgba(67,160,71,.35);border-left:4px solid #43a047;border-radius:0 4px 4px 0;padding:10px 16px;margin-top:12px;animation:up .7s .3s ease both}
+  .schol-callout i{color:#66bb6a;font-size:.95rem;flex-shrink:0}
+  .schol-callout span{font-size:.78rem;color:#a5d6a7;font-weight:700;letter-spacing:.04em}
+  .schol-callout span em{font-style:normal;color:rgba(255,255,255,.5);font-weight:400;font-size:.72rem;display:block;margin-top:2px}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px;animation:up .7s .35s ease both}
+  .hero-stats-row{    display: flex;
+    flex-wrap: wrap;
+    gap: 32px;
+    margin-top: 48px;
+    padding-bottom: 20px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, .1);
+    animation: up .7s .45s ease both;}
+  .hstat .num{font-family:'Playfair Display',serif;font-size:2.4rem;font-weight:700;color:var(--amber);line-height:1}
+  .hstat .lbl{font-size:.7rem;color:rgba(255,255,255,.45);letter-spacing:.1em;text-transform:uppercase;margin-top:4px}
+  .hero-img-wrap{position:relative;border-radius:8px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.45);animation:right .8s .2s ease both;margin-bottom:18px}
+  .hero-img-wrap img{width:100%;display:block;object-fit:cover;height:210px}
+  .hero-img-wrap .img-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,transparent 40%,rgba(8,31,58,.7))}
+  .hero-img-wrap .img-label{position:absolute;bottom:14px;left:16px;font-size:.7rem;color:rgba(255,255,255,.85);font-weight:600;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+  .hero-img-wrap .img-label i{color:var(--amber)}
+  .adm-form-card{background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 24px 70px rgba(0,0,0,.35),0 0 0 1px rgba(255,193,7,.15);animation:right .8s .3s ease both}
+  .adm-form-header{background:linear-gradient(135deg,#0d3c78,#081f3a);padding:18px 24px;border-bottom:3px solid var(--amber);position:relative;overflow:hidden}
+  .adm-form-header::after{content:'⚖';position:absolute;right:-8px;top:-8px;font-size:70px;opacity:.06;line-height:1}
+  .adm-form-header h3{font-size:1.15rem;font-weight:700;color:#fff;margin-bottom:8px}
+  .adm-form-header p{font-size:.74rem;color:rgba(255,255,255,.5);margin:0}
+  .adm-form-header .seats-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(239,83,80,.15);border:1px solid rgba(239,83,80,.4);color:#FFEB3B;font-size:.66rem;font-weight:700;letter-spacing:.08em;padding:3px 9px;border-radius:2px;margin-top:7px;text-transform:uppercase}
+  .adm-form-header .seats-badge i{color:#ef5350}
+  .adm-form-body{padding:20px 24px}
+  .fc-row{margin-bottom:12px}
+  .fc-label{font-size:.69rem;font-weight:700;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px;display:block}
+  .fc-optional{color:rgba(90,122,158,.6);font-size:.64rem;font-weight:400;margin-left:3px}
+  .fc-input,.fc-select{width:100%;padding:9px 12px;border:1.5px solid #dde7f3;border-radius:4px;font-size:.86rem;color:var(--dark);background:#f8fbff;font-family:'Inter',sans-serif;outline:none;transition:border-color .2s}
+  .fc-input:focus,.fc-select:focus{border-color:var(--amber);background:#fff}
+  .fc-select{cursor:pointer}
+  .btn-form-submit{width:100%;background:var(--amber);color:var(--dark);font-size:.86rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:13px;border-radius:4px;border:none;cursor:pointer;transition:all .25s;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 18px rgba(255,193,7,.35);margin-top:4px}
+  .btn-form-submit:hover{background:var(--amber-light);transform:translateY(-2px);box-shadow:0 8px 26px rgba(255,193,7,.5)}
+  .form-privacy{font-size:.69rem;color:var(--text-muted);text-align:center;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:5px}
+  .form-privacy i{color:#4caf50;font-size:.7rem}
+  .form-schol{display:flex;align-items:center;gap:8px;background:#f1f8e9;border:1px solid #a5d6a7;border-left:4px solid #43a047;border-radius:0 3px 3px 0;padding:8px 12px;margin-bottom:14px}
+  .form-schol i{color:#43a047;font-size:.86rem;flex-shrink:0}
+  .form-schol span{font-size:.74rem;color:#2e7d32;font-weight:700;line-height:1.4}
+  .form-schol span em{font-style:normal;color:#388e3c;font-weight:400;font-size:.69rem;display:block}
+  @keyframes up{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes right{from{opacity:0;transform:translateX(36px)}to{opacity:1;transform:translateX(0)}}
+  .btn-cta-large{background:var(--amber);color:var(--dark);font-size:.95rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:16px 40px;border-radius:4px;border:none;text-decoration:none;transition:all .25s;display:inline-flex;align-items:center;gap:10px;box-shadow:0 4px 24px rgba(255,193,7,.35)}
+  .btn-cta-large:hover{background:var(--amber-light);color:var(--dark);transform:translateY(-3px);box-shadow:0 10px 36px rgba(255,193,7,.55)}
+  .btn-primary-cfi{background:var(--amber);color:var(--dark);font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:13px 30px;border-radius:3px;border:none;text-decoration:none;transition:all .25s;display:inline-block}
+  .btn-primary-cfi:hover{background:var(--amber-light);color:var(--dark);transform:translateY(-2px)}
+  .btn-ghost-cfi{border:1.5px solid rgba(255,193,7,.5);color:var(--amber);background:transparent;font-size:.82rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:13px 30px;border-radius:3px;text-decoration:none;transition:all .25s;display:inline-block}
+  .btn-ghost-cfi:hover{background:var(--amber);color:var(--dark);border-color:var(--amber)}
+  .cta-band{background:linear-gradient(135deg,#0d3c78,#081f3a);border-top:3px solid var(--amber);border-bottom:3px solid var(--amber);padding:38px 0}
+  .cta-band .cb-wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px}
+  .cta-band .cb-text h4{font-family:'Playfair Display',serif;font-size:1.4rem;color:#fff;margin-bottom:4px}
+  .cta-band .cb-text h4 em{color:var(--amber);font-style:italic}
+  .cta-band .cb-text p{font-size:.85rem;color:rgba(255,255,255,.5);margin:0}
+  .cta-band .cb-badges{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .cta-band .cb-badge{background:rgba(255,193,7,.08);border:1px solid rgba(255,193,7,.25);color:var(--amber);font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 12px;border-radius:2px;display:inline-flex;align-items:center;gap:5px}
+  .section-tag{font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:10px;display:block}
+  .sec-title{font-family:'Playfair Display',serif;font-size:clamp(1.9rem,3.2vw,2.8rem);font-weight:700;line-height:1.18;color:var(--dark)}
+  .sec-title.light{color:#fff}
+  .gold-bar{width:44px;height:3px;background:linear-gradient(90deg,var(--amber),var(--amber-light));border-radius:2px;margin:14px 0 24px}
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s,transform .6s}
+  .reveal.vis{opacity:1;transform:translateY(0)}
+  .intro-strip{background:var(--grad);padding:0}
+  .strip-grid{display:grid;grid-template-columns:repeat(4,1fr)}
+  .strip-cell{padding:15px 24px;text-align:center;border-right:1px solid rgba(255,255,255,.08)}
+  .strip-cell:last-child{border-right:none}
+  .strip-cell .sc-num{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:var(--amber);line-height:1}
+  .strip-cell .sc-lbl{font-size:.72rem;color:rgba(255,255,255,.45);letter-spacing:.1em;text-transform:uppercase;margin-top:5px}
+  .prog-overview{background:var(--lighter-bg);padding:90px 0}
+  .prog-para{font-size:.95rem;color:#4a6a8a;line-height:1.85;margin-bottom:18px}
+  .prog-para:last-child{margin-bottom:0}
+  .highlights-sec{background:var(--light-bg);padding:90px 0}
+  .hl-card{background:#fff;border:1px solid rgba(13,60,120,.08);border-radius:6px;padding:28px 24px;height:100%;transition:all .3s;position:relative;overflow:hidden}
+  .hl-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--amber),var(--amber-light));transform:scaleX(0);transition:transform .35s}
+  .hl-card:hover{transform:translateY(-5px);box-shadow:0 18px 48px rgba(13,60,120,.14)}
+  .hl-card:hover::after{transform:scaleX(1)}
+  .hl-ico{width:48px;height:48px;border-radius:4px;background:rgba(255,193,7,.12);display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:var(--amber);margin-bottom:16px}
+  .hl-card h5{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--dark);margin-bottom:8px}
+  .hl-card p{font-size:.85rem;color:var(--text-muted);line-height:1.68;margin:0}
+  .curriculum-sec{background:var(--grad);padding:90px 0}
+  .tab-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px}
+  .tab-btn{background:transparent;border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.6);font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:10px 26px;border-radius:3px;cursor:pointer;transition:all .25s}
+  .tab-btn.active,.tab-btn:hover{background:var(--amber);border-color:var(--amber);color:var(--dark)}
+  .tab-pane{display:none;flex-wrap:wrap;gap:8px}
+  .tab-pane.active{display:flex}
+  .subj-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.8);font-size:.83rem;padding:9px 16px;border-radius:3px;transition:all .2s}
+  .subj-pill:hover{background:rgba(255,193,7,.15);border-color:rgba(255,193,7,.4);color:var(--amber)}
+  .subj-pill .dot{width:5px;height:5px;border-radius:50%;background:var(--amber);flex-shrink:0}
+  .career-sec{background:var(--lighter-bg);padding:90px 0}
+  .career-intro{font-size:.95rem;color:var(--text-muted);line-height:1.8;margin-bottom:0}
+  .career-row{display:flex;align-items:flex-start;gap:20px;padding:22px 0;border-bottom:1px solid rgba(13,60,120,.08)}
+  .career-row:last-child{border-bottom:none}
+  .cr-num{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:700;color:rgba(255,193,7,.2);line-height:1;min-width:58px}
+  .career-row h5{font-family:'Playfair Display',serif;font-size:1.08rem;font-weight:700;color:var(--dark);margin-bottom:4px}
+  .career-row p{font-size:.85rem;color:var(--text-muted);line-height:1.6;margin:0}
+  .eligibility-sec{background:var(--light-bg);padding:90px 0}
+  .elig-item{display:flex;align-items:flex-start;gap:16px;background:#fff;border:1px solid rgba(13,60,120,.07);border-left:4px solid var(--amber);border-radius:0 5px 5px 0;padding:18px 22px;margin-bottom:12px}
+  .elig-item:last-child{margin-bottom:0}
+  .elig-item .e-ico{color:var(--amber);margin-top:2px;font-size:1rem}
+  .elig-item .e-txt{font-size:.9rem;color:var(--text-body);line-height:1.6}
+  .admission-sec{background:var(--grad);padding:90px 0}
+  .adm-intro{font-size:.95rem;color:rgba(255,255,255,.6);line-height:1.8;margin-bottom:0}
+  .step-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:36px 30px;height:100%;transition:all .3s}
+  .step-card:hover{background:rgba(255,193,7,.06);border-color:rgba(255,193,7,.3)}
+  .step-num{font-family:'Playfair Display',serif;font-size:3.8rem;font-weight:700;color:rgba(255,193,7,.18);line-height:1;margin-bottom:10px}
+  .step-emoji{font-size:1.6rem;margin-bottom:10px;display:block}
+  .step-card h4{font-family:'Playfair Display',serif;font-size:1.3rem;color:#fff;margin-bottom:14px}
+  .step-card p{font-size:.87rem;color:rgba(255,255,255,.55);line-height:1.75}
+  .step-card ul{list-style:none;padding:0;margin-top:14px}
+  .step-card ul li{font-size:.86rem;color:rgba(255,255,255,.55);line-height:1.6;padding:3px 0}
+  .step-card ul li::before{content:'— ';color:var(--amber)}
+  .adm-note{background:rgba(255,193,7,.07);border:1px solid rgba(255,193,7,.2);border-radius:5px;padding:20px 28px;font-size:.88rem;color:rgba(255,255,255,.6);line-height:1.75}
+  .adm-note strong{color:rgba(255,255,255,.9)}
+  .whycfi-sec{background:var(--lighter-bg);padding:90px 0}
+  .why-intro{font-size:.95rem;color:var(--text-muted);line-height:1.85}
+  .why-card{display:flex;align-items:flex-start;gap:16px;background:#fff;border:1px solid rgba(13,60,120,.07);border-radius:5px;padding:20px 22px;height:100%;transition:all .25s}
+  .why-card:hover{box-shadow:0 10px 32px rgba(13,60,120,.12);transform:translateY(-3px)}
+  .why-ico{width:42px;height:42px;min-width:42px;border-radius:4px;background:rgba(255,193,7,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--amber)}
+  .why-card h6{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--dark);margin-bottom:4px}
+  .why-card p{font-size:.83rem;color:var(--text-muted);line-height:1.6;margin:0}
+  .facilities-sec{background:var(--light-bg);padding:90px 0}
+  .fac-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+  .fac-card{background:#fff;border:1px solid rgba(13,60,120,.08);border-radius:6px;padding:26px 22px;transition:all .3s;position:relative;overflow:hidden}
+  .fac-card::before{content:'';position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--amber),var(--amber-light));transform:scaleX(0);transform-origin:left;transition:transform .3s}
+  .fac-card:hover{box-shadow:0 12px 36px rgba(13,60,120,.15);transform:translateY(-4px)}
+  .fac-card:hover::before{transform:scaleX(1)}
+  .fac-emoji{font-size:1.8rem;margin-bottom:10px;display:block}
+  .fac-card h5{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--dark);margin-bottom:6px}
+  .fac-card p{font-size:.83rem;color:var(--text-muted);line-height:1.6;margin:0}
+  .faq-sec{background:var(--grad);padding:90px 0}
+  .faq-item{border-bottom:1px solid rgba(255,255,255,.08)}
+  .faq-q{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:20px 0;cursor:pointer;color:rgba(255,255,255,.9);font-size:.95rem;font-weight:500;line-height:1.5;transition:color .2s}
+  .faq-q:hover{color:var(--amber)}
+  .faq-icon{color:var(--amber);font-size:.85rem;transition:transform .3s;flex-shrink:0;margin-top:3px}
+  .faq-a{display:none;padding-bottom:18px;color:rgba(255,255,255,.55);font-size:.87rem;line-height:1.8}
+  .faq-a ul{padding-left:0;list-style:none;margin-top:8px}
+  .faq-a ul li{padding:2px 0}
+  .faq-a ul li::before{content:'→ ';color:var(--amber)}
+  .faq-item.open .faq-a{display:block}
+  .faq-item.open .faq-icon{transform:rotate(45deg)}
+  .cta-sec{padding:110px 0;position:relative;overflow:hidden;
+  .cta-sec::before{content:'⚖';position:absolute;right:-30px;top:50%;transform:translateY(-50%);font-size:380px;opacity:.03;line-height:1;pointer-events:none}
+  .cta-sec h2{font-size:clamp(2.2rem,4.5vw,3.6rem);line-height:1.2}
+  .cta-sec h2 em{color:var(--amber);font-style:italic}
+  .cta-sec p{font-size:1rem;line-height:1.75}
+  @media(max-width:991px){.strip-grid{grid-template-columns:repeat(2,1fr)}.cta-band .cb-wrap{flex-direction:column;text-align:center}.cta-band .cb-badges{justify-content:center}}
+  @media(max-width:575px){.strip-grid{grid-template-columns:1fr 1fr}.hero-stats-row{gap:20px}.trust-row{gap:6px}.trust-badge{font-size:.68rem;padding:6px 10px}}
+</style>
+
+<!-- URGENCY STRIP -->
+<!--- <div class="urgency-strip">
+  <div class="container">
+    <div class="us-wrap">
+      <span class="us-item"><i class="fa fa-clock"></i> Admissions Closing Soon</span>
+      <span class="us-sep">|</span>
+      <span class="us-item"><i class="fa fa-chair"></i> Limited Seats Available</span>
+      <span class="us-sep">|</span>
+      <span class="us-item"><i class="fa fa-calendar-check"></i> Apply Before Last Date</span>
+      <a href="https://cficollegeoflaw.in/admission-form" class="us-btn">Apply Now →</a>
+    </div>
+  </div>
+</div> --->
+
+
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-watermark">LAW</div>
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7">
+        <span class="hero-tag"><i class="fa fa-balance-scale"></i>&nbsp; Programs / Courses</span>
+        <h1>BBA LLB <em>(Hons)</em><br>5-Year Integrated<br>Law Program</h1>
+        <p class="hero-sub">A dynamic five-year course at CFI College of Law combining the study of law with management principles — giving students a strong foundation in both legal and business skills. Designed for students who have completed their 12th class.</p>
+        <div class="trust-row">
+          <span class="trust-badge"><i class="fa fa-certificate"></i><span>Bar Council of India Recognition</span></span>
+          <span class="trust-badge"><i class="fa fa-university"></i><span>University / College Accreditation</span></span>
+        </div>
+        <div class="schol-callout">
+          <i class="fa fa-medal"></i>
+          <span>Merit-Based Scholarships Available<em>Eligible students receive financial support as per govt. &amp; institutional norms</em></span>
+        </div>
+        <div class="hero-actions">
+          <a href="https://cficollegeoflaw.in/admission-form" class="btn-cta-large"><i class="fa fa-paper-plane"></i> Apply Now </a>
+        <a href="tel:+918590759004" class="btn-ghost-cfi" style="padding:16px 32px;"><i class="fa fa-phone me-2"></i>TALK TO COUNSELLOR</a>
+        </div>
+        <div class="hero-stats-row">
+          <div class="hstat"><div class="num">05</div><div class="lbl">Year Integrated</div></div>
+          <div class="hstat"><div class="num">10</div><div class="lbl">Semesters</div></div>
+          <div class="hstat"><div class="num">BCI</div><div class="lbl">Approved</div></div>
+          <div class="hstat"><div class="num">Calicut</div><div class="lbl">University</div></div>
+        </div>
+      </div>
+      <div class="col-lg-5">
+ 
+        <!-- Admission Form -->
+        <div class="adm-form-card">
+          <div class="adm-form-header">
+            <p>BBA LLB (Hons) — 5 Year Integrated Program</p>
+             <h3>Fees are as per Calicut University and Government norms</h3>
+            <div class="seats-badge"><i class="fa fa-fire"></i> Limited Seats — Filling Fast (Admissions Closing Soon)</div>
+          </div>
+          <div class="adm-form-body">
+            <div class="form-schol">
+              <i class="fa fa-medal"></i>
+              <span>Merit-Based Scholarships Available<em>As per govt. &amp; institutional norms for eligible students</em></span>
+            </div>
+         <form action="https://cficollegeoflaw.in/submit-enquiry.php" method="post">
+              <div class="fc-row">
+                <label class="fc-label">Name *</label>
+                <input type="text" name="Name" class="fc-input" placeholder="Enter your full name" required="">
+              </div>
+              <div class="fc-row">
+                <label class="fc-label">Phone Number *</label>
+                <input type="tel" name="Phone" class="fc-input" placeholder="+91 XXXXX XXXXX" required="">
+              </div>
+              <div class="fc-row">
+                <label class="fc-label">Email *</label>
+                <input type="email" name="Email" class="fc-input" placeholder="your@email.com" required="">
+              </div>
+              <div class="fc-row">
+                <label class="fc-label">Preferred Program *</label>
+                <select name="Course" class="fc-select" required="">
+                  <option value="">Select Program</option>
+                  <option>BBA LLB (Hons)</option>
+                  <option>B.Com LLB (Hons)</option>
+                </select>
+              </div>
+              <div class="fc-row">
+                <label class="fc-label">City / State <span class="fc-optional">(Optional)</span></label>
+                <input name="Location" type="text" class="fc-input" placeholder="e.g. Thrissur, Kerala">
+              </div>
+              <button type="submit" class="btn-form-submit">
+                <i class="fa fa-paper-plane"></i> Submit — Get Free Counselling
+              </button>
+            </form>
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="intro-strip">
+  <div class="strip-grid">
+    <div class="strip-cell"><div class="sc-num">5 Yrs</div><div class="sc-lbl">Duration</div></div>
+    <div class="strip-cell"><div class="sc-num">10+</div><div class="sc-lbl">Law Subjects</div></div>
+    <div class="strip-cell"><div class="sc-num">7+</div><div class="sc-lbl">Management Subjects</div></div>
+    <div class="strip-cell"><div class="sc-num">100%</div><div class="sc-lbl">BCI Recognised</div></div>
+  </div>
+</div>
+
+<!-- PROGRAM OVERVIEW -->
+<section class="prog-overview" id="overview">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+      <div class="col-lg-5 reveal">
+        <span class="section-tag">About the Program</span>
+        <h2 class="sec-title">BBA LLB (Hons) –<br>5-Year Integrated<br>Law Program</h2>
+        <div class="gold-bar"></div>
+      </div>
+      <div class="col-lg-7 reveal">
+        <p class="prog-para">The BBA LLB (Hons) program at CFI College of Law is a dynamic five-year course that combines the study of law with management principles, giving students a strong foundation in both legal and business skills. Designed for students who have completed their 12th class, this integrated program prepares you for a wide range of career opportunities in law, corporate management, and public service.</p>
+        <p class="prog-para">Through this program, students develop critical thinking, problem-solving abilities, and practical skills that are essential for a successful career in legal practice, corporate advisory, policy-making, or entrepreneurship. The course is structured to provide a balance between core legal knowledge and business management understanding, making it one of the best private BBA LLB colleges in Kerala for ambitious law students.</p>
+        <p class="prog-para">With a curriculum that includes both law and business subjects, along with hands-on activities such as moot courts, legal research, and internships, the BBA LLB (Hons) course ensures that students graduate not only with academic excellence but also with the confidence and skills needed to thrive in professional environments.</p>
+        <p class="prog-para">This program at CFI College of Law is ideal for students aiming to pursue career options after 12th class in law, corporate management, or public service, while receiving guidance and mentorship from experienced faculty. It stands out as a top choice among private law colleges for BBA LLB in Kerala, offering a holistic learning experience with a focus on both theory and practical exposure.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HIGHLIGHTS -->
+<section class="highlights-sec" id="highlights">
+  <div class="container">
+    <div class="row mb-5 reveal"><div class="col-lg-6"><span class="section-tag">BBA LLB (Hons)</span><h2 class="sec-title">Program Highlights</h2><div class="gold-bar"></div></div></div>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4 reveal"><div class="hl-card"><div class="hl-ico"><i class="fa fa-layer-group"></i></div><h5>5-Year Integrated Degree (10 Semesters)</h5><p>Combines law and business education in a structured, comprehensive program designed for holistic career preparation.</p></div></div>
+      <div class="col-md-6 col-lg-4 reveal"><div class="hl-card"><div class="hl-ico"><i class="fa fa-certificate"></i></div><h5>Approved by Bar Council of India (BCI)</h5><p>Ensures your degree is recognized for legal practice across India, with full national validity.</p></div></div>
+      <div class="col-md-6 col-lg-4 reveal"><div class="hl-card"><div class="hl-ico"><i class="fa fa-university"></i></div><h5>Affiliated with University of Calicut</h5><p>Credible and standardized curriculum for academic excellence recognized across India.</p></div></div>
+      <div class="col-md-6 col-lg-4 reveal"><div class="hl-card"><div class="hl-ico"><i class="fa fa-gavel"></i></div><h5>Law Subjects Covered</h5><p>Constitutional Law, Criminal Law, Contract Law, Family Law, Company Law, Administrative Law, Property Law, Environmental Law, Human Rights Law, and Jurisprudence.</p></div></div>
+      <div class="col-md-6 col-lg-4 reveal"><div class="hl-card"><div class="hl-ico"><i class="fa fa-chart-line"></i></div><h5>Commerce &amp; Management Subjects</h5><p>Financial Accounting, Corporate Accounting, Business Management, Marketing, Managerial Economics, Financial Systems, and Entrepreneurship Development.</p></div></div>
+      <div class="col-md-6 col-lg-4 reveal"><div class="hl-card"><div class="hl-ico"><i class="fa fa-pen-nib"></i></div><h5>Professional Training</h5><p>Drafting, Pleading &amp; Conveyancing, Professional Ethics, Moot Court Exercises, Legal Research, Internships, Soft Skills &amp; Communication Training.</p></div></div>
+      <div class="col-md-6 col-lg-4 reveal"><div class="hl-card"><div class="hl-ico"><i class="fa fa-building-columns"></i></div><h5>Practical Exposure</h5><p>Regular moot court sessions, internships with law firms and corporate legal departments, workshops, and seminars.</p></div></div>
+      <div class="col-md-6 col-lg-4 reveal"><div class="hl-card"><div class="hl-ico"><i class="fa fa-trophy"></i></div><h5>Student Development</h5><p>Cultural events, sports activities, and student clubs for overall growth and networking opportunities.</p></div></div>
+      <div class="col-md-6 col-lg-4 reveal"><div class="hl-card"><div class="hl-ico"><i class="fa fa-chalkboard-teacher"></i></div><h5>Faculty Mentorship</h5><p>Guidance from experienced professors to enhance legal knowledge, analytical thinking, and professional skills.</p></div></div>
+      <div class="col-12 reveal"><div class="hl-card" style="border-left:4px solid var(--amber);border-radius:0 6px 6px 0"><div class="hl-ico" style="margin-bottom:0;float:left;margin-right:16px"><i class="fa fa-road"></i></div><h5 style="padding-top:8px">Career Preparation</h5><p style="clear:both;padding-top:6px">Designed to prepare students for a variety of career options after 12th class, including litigation, corporate law, compliance, consultancy, and entrepreneurship.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND 1 -->
+<div class="cta-band"><div class="container"><div class="cb-wrap"><div class="cb-text"><h4>Join Kerala's <em>Top Law College</em> — 2026 Admissions Open</h4><p>Merit Scholarships Available</p></div><div class="cb-badges"><span class="cb-badge"><i class="fa fa-clock"></i> Admissions Closing Soon</span><span class="cb-badge"><i class="fa fa-chair"></i> Limited Seats</span></div><a href="https://cficollegeoflaw.in/admission-form" class="btn-cta-large"><i class="fa fa-paper-plane"></i> Apply Now</a></div></div></div>
+
+<!-- CURRICULUM -->
+<section class="curriculum-sec" id="curriculum">
+  <div class="container">
+    <div class="row mb-5 reveal"><div class="col-lg-7"><span class="section-tag">Curriculum</span><h2 class="sec-title light">Comprehensive 5-Year Curriculum</h2><div class="gold-bar"></div><p style="color:rgba(255,255,255,.55);font-size:.93rem;line-height:1.8">A carefully balanced mix of legal theory, business management, and professional skills spread across 10 semesters — preparing you for every dimension of a legal and corporate career.</p></div></div>
+    <div class="reveal">
+      <div class="tab-row">
+        <button class="tab-btn active" onclick="switchTab('law',this)">Law Subjects</button>
+        <button class="tab-btn" onclick="switchTab('commerce',this)">Commerce &amp; Management</button>
+        <button class="tab-btn" onclick="switchTab('professional',this)">Professional Training</button>
+      </div>
+      <div id="tab-law" class="tab-pane active">
+        <span class="subj-pill"><span class="dot"></span>Constitutional Law</span><span class="subj-pill"><span class="dot"></span>Criminal Law</span><span class="subj-pill"><span class="dot"></span>Contract Law</span><span class="subj-pill"><span class="dot"></span>Family Law</span><span class="subj-pill"><span class="dot"></span>Company Law</span><span class="subj-pill"><span class="dot"></span>Administrative Law</span><span class="subj-pill"><span class="dot"></span>Property Law</span><span class="subj-pill"><span class="dot"></span>Environmental Law</span><span class="subj-pill"><span class="dot"></span>Human Rights Law</span><span class="subj-pill"><span class="dot"></span>Jurisprudence</span>
+      </div>
+      <div id="tab-commerce" class="tab-pane">
+        <span class="subj-pill"><span class="dot"></span>Financial Accounting</span><span class="subj-pill"><span class="dot"></span>Corporate Accounting</span><span class="subj-pill"><span class="dot"></span>Business Management</span><span class="subj-pill"><span class="dot"></span>Marketing</span><span class="subj-pill"><span class="dot"></span>Managerial Economics</span><span class="subj-pill"><span class="dot"></span>Financial Systems</span><span class="subj-pill"><span class="dot"></span>Entrepreneurship Development</span>
+      </div>
+      <div id="tab-professional" class="tab-pane">
+        <span class="subj-pill"><span class="dot"></span>Drafting, Pleading &amp; Conveyancing</span><span class="subj-pill"><span class="dot"></span>Professional Ethics</span><span class="subj-pill"><span class="dot"></span>Moot Court Exercises</span><span class="subj-pill"><span class="dot"></span>Legal Research</span><span class="subj-pill"><span class="dot"></span>Internships</span><span class="subj-pill"><span class="dot"></span>Soft Skills Training</span><span class="subj-pill"><span class="dot"></span>Communication Training</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAREER -->
+<section class="career-sec" id="careers">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+      <div class="col-lg-5 reveal">
+        <span class="section-tag">Career Opportunities After BBA LLB (Hons)</span>
+        <h2 class="sec-title">Diverse Legal &amp; Corporate Career Pathways</h2>
+        <div class="gold-bar"></div>
+        <p class="career-intro">Graduates of the BBA LLB (Hons) program at CFI College of Law, a leading law college in Poyya, are prepared for diverse legal and corporate careers. The program equips students with practical skills, legal knowledge, and business understanding, opening multiple pathways after 12th class.</p>
+        <a href="https://cficollegeoflaw.in/admission-form" class="btn-primary-cfi mt-4 d-inline-block">Start Your Journey</a>
+      </div>
+      <div class="col-lg-7 reveal">
+        <div class="career-row"><div class="cr-num">01</div><div><h5>Litigation &amp; Advocacy</h5><p>Work as advocates in courts or legal consultants in law firms — the most direct path for law graduates.</p></div></div>
+        <div class="career-row"><div class="cr-num">02</div><div><h5>Corporate Law &amp; Compliance</h5><p>Serve as legal advisors, compliance officers, or in-house counsel for companies across sectors.</p></div></div>
+        <div class="career-row"><div class="cr-num">03</div><div><h5>Judiciary &amp; Government Services</h5><p>Prepare for judicial services, public administration, or policy-making roles.</p></div></div>
+        <div class="career-row"><div class="cr-num">04</div><div><h5>Legal Research &amp; Consultancy</h5><p>Engage in legal research, policy analysis, or advisory services for organizations.</p></div></div>
+        <div class="career-row"><div class="cr-num">05</div><div><h5>Entrepreneurship</h5><p>Start your own law consultancy, legal tech service, or business venture with a unique dual-skill edge.</p></div></div>
+        <div class="career-row"><div class="cr-num">06</div><div><h5>Banking &amp; Finance Law</h5><p>Opportunities in financial institutions, tax consultancy, or corporate advisory.</p></div></div>
+        <div class="career-row"><div class="cr-num">07</div><div><h5>NGO &amp; Social Justice Roles</h5><p>Contribute to public interest law, human rights, or legal aid services for meaningful community impact.</p></div></div>
+        <div class="career-row"><div class="cr-num">08</div><div><h5>Internships &amp; Professional Development</h5><p>Gain hands-on experience in courts, corporate offices, and legal organizations to enhance employability from day one.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND 2 -->
+<div class="cta-band"><div class="container"><div class="cb-wrap"><div class="cb-text"><h4>Start Your <em>Legal &amp; Corporate Career</em> Journey</h4><p>Apply before seats fill up — Merit Scholarships available for eligible students</p></div><div class="cb-badges"><span class="cb-badge"><i class="fa fa-medal"></i> Scholarships Available</span><span class="cb-badge"><i class="fa fa-fire"></i> Seats Filling Fast </span></div><a href="https://cficollegeoflaw.in/admission-form" class="btn-cta-large"><i class="fa fa-paper-plane"></i> Apply Now</a></div></div></div>
+
+<!-- ELIGIBILITY -->
+<section class="eligibility-sec" id="eligibility">
+  <div class="container">
+    <div class="row g-5">
+      <div class="col-lg-5 reveal"><span class="section-tag">BBA LLB (Hons) – Eligibility &amp; Admission</span><h2 class="sec-title">Eligibility Criteria</h2><div class="gold-bar"></div><p style="font-size:.93rem;color:var(--text-muted);line-height:1.8">Start your journey in law with the BBA LLB (Hons) program at CFI College of Law, a leading law college in Poyya. Here's everything you need to know about eligibility, admissions, and important steps.</p></div>
+      <div class="col-lg-7 reveal">
+        <div class="elig-item"><i class="fa fa-graduation-cap e-ico"></i><div class="e-txt">Must have passed 10+2 (Higher Secondary / Equivalent) from a recognized board.</div></div>
+        <div class="elig-item"><i class="fa fa-percent e-ico"></i><div class="e-txt">Minimum marks as per Bar Council of India (BCI) norms.</div></div>
+        <div class="elig-item"><i class="fa fa-calendar-alt e-ico"></i><div class="e-txt">Age criteria as prescribed by BCI.</div></div>
+        <div class="elig-item"><i class="fa fa-stream e-ico"></i><div class="e-txt">Open for students from all streams — Science, Commerce, and Arts.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADMISSION PROCESS -->
+<section class="admission-sec" id="admission">
+  <div class="container">
+    <div class="row mb-5 reveal"><div class="col-lg-7"><span class="section-tag">BBA LLB (Hons) – Application, Seat Allotment &amp; Final Admission Process</span><h2 class="sec-title light">Simple 3-Step Admission Process</h2><div class="gold-bar"></div><p class="adm-intro">The BBA LLB (Hons) program at CFI College of Law, a top law college in Poyya, follows a transparent and student-friendly admission process to ensure every aspiring law student can join smoothly.</p></div></div>
+    <div class="row g-4 mb-5">
+      <div class="col-md-4 reveal"><div class="step-card"><span class="step-emoji">1️⃣</span><div class="step-num">01</div><h4>Application Process</h4><p>Students can apply online through the official CFI College of Law admission portal. Fill in personal details, academic records, and contact information accurately.</p><ul><li>Upload 10th &amp; 12th mark sheets, identity proof, and photographs</li><li>Submit the application before the last date for BBA LLB admission 2026 Kerala</li></ul></div></div>
+      <div class="col-md-4 reveal"><div class="step-card"><span class="step-emoji">2️⃣</span><div class="step-num">02</div><h4>Centralized Counselling &amp; Seat Allotment</h4><p>Eligible applicants are called for centralized counseling based on merit and eligibility criteria. During counseling, students can choose their preferred course and campus options.</p><ul><li>Seats allotted as per government norms, merit ranking, and availability</li><li>Applicants informed of seat allotment status through official notifications on the portal</li></ul></div></div>
+      <div class="col-md-4 reveal"><div class="step-card"><span class="step-emoji">3️⃣</span><div class="step-num">03</div><h4>Final Admission &amp; Confirmation</h4><p>After seat allotment, students must complete document verification at the college. Fee payment must be done within the prescribed timeline to confirm the admission.</p><ul><li>10th &amp; 12th mark sheets</li><li>Transfer certificate &amp; conduct certificate</li><li>Entrance rank card (if applicable)</li><li>Recent passport-sized photographs</li><li>Any other documents as notified by the college</li></ul></div></div>
+    </div>
+    <div class="adm-note reveal"><strong>Smooth Experience Guaranteed:</strong> This structured process ensures that students applying for BBA LLB admission 2026 Kerala have a smooth experience, with guidance at every step. The college's supportive admission team is available to assist with queries, making it easier for students to join one of the best private BBA LLB colleges in Kerala.</div>
+    <div class="text-center mt-5 reveal">
+      <a href="https://cficollegeoflaw.in/admission-form" class="btn-cta-large me-3" style="margin-bottom:10px"><i class="fa fa-paper-plane"></i> Apply Now </a>
+      <a href="tel:+918590759004" class="btn-ghost-cfi" style="padding:16px 32px;font-size:.88rem"><i class="fa fa-phone me-2"></i>Talk to Counsellor</a>
+    </div>
+  </div>
+</section>
+
+<!-- WHY CFI -->
+<section class="whycfi-sec" id="whycfi">
+  <div class="container">
+    <div class="row mb-5 reveal"><div class="col-lg-7"><span class="section-tag">Why Choose CFI College of Law for Your BBA LLB (Hons) Journey?</span><h2 class="sec-title">Why Students Thrive at CFI College of Law</h2><div class="gold-bar"></div></div></div>
+    <div class="row g-4 mb-5"><div class="col-12 reveal"><div style="background:#fff;border:1px solid rgba(13,60,120,.08);border-radius:6px;padding:32px 36px"><p class="why-intro mb-3">Choosing the right law college is a critical step toward a successful legal and corporate career. CFI College of Law, recognized as a leading law college in Thrissur and a preferred law college in Poyya, offers a learning environment where academic rigor, practical exposure, and personal development are seamlessly integrated.</p><p class="why-intro">Our BBA LLB (Hons) program is a unique 5-year integrated course that combines law and management education, preparing students for a wide spectrum of professional opportunities — from litigation and corporate law to entrepreneurship and public service. At CFI College of Law, you don't just study; you experience law and management in real-world contexts, guided by expert faculty and modern infrastructure.</p></div></div></div>
+    <div class="row g-3">
+      <div class="col-md-6 col-lg-4 reveal"><div class="why-card"><div class="why-ico"><i class="fa fa-sync-alt"></i></div><div><h6>Integrated Learning Experience</h6><p>Combines law and business management subjects, ensuring students develop strong analytical, managerial, and legal skills.</p></div></div></div>
+      <div class="col-md-6 col-lg-4 reveal"><div class="why-card"><div class="why-ico"><i class="fa fa-hands"></i></div><div><h6>Hands-On Practical Exposure</h6><p>Participate in moot courts, internships, workshops, and live projects, applying knowledge in real-world scenarios.</p></div></div></div>
+      <div class="col-md-6 col-lg-4 reveal"><div class="why-card"><div class="why-ico"><i class="fa fa-chalkboard-teacher"></i></div><div><h6>Experienced Faculty Mentorship</h6><p>Learn from seasoned professors who guide students in critical thinking, problem-solving, and professional development.</p></div></div></div>
+      <div class="col-md-6 col-lg-4 reveal"><div class="why-card"><div class="why-ico"><i class="fa fa-rocket"></i></div><div><h6>Career-Focused Approach</h6><p>Graduates are prepared for careers in litigation, corporate law, compliance, public administration, policy-making, entrepreneurship, and more.</p></div></div></div>
+      <div class="col-md-6 col-lg-4 reveal"><div class="why-card"><div class="why-ico"><i class="fa fa-star"></i></div><div><h6>Vibrant Student Life</h6><p>Engage in cultural events, sports, clubs, and leadership opportunities, fostering overall growth and networking.</p></div></div></div>
+      <div class="col-md-6 col-lg-4 reveal"><div class="why-card"><div class="why-ico"><i class="fa fa-shield-alt"></i></div><div><h6>Safe &amp; Modern Infrastructure</h6><p>From advanced classrooms to secure facilities and eco-conscious design, the campus provides a supportive environment for learning and personal development.</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND 3 -->
+<div class="cta-band"><div class="container"><div class="cb-wrap"><div class="cb-text"><h4>Don't Miss the <em>2026 Admission Window</em></h4><p>Apply Before Last Date — Limited seats at CFI College of Law</p></div><div class="cb-badges"><span class="cb-badge"><i class="fa fa-certificate"></i> BCI Approved</span><span class="cb-badge"><i class="fa fa-calendar-check"></i> Apply Before Last Date</span></div><a href="https://cficollegeoflaw.in/admission-form" class="btn-cta-large"><i class="fa fa-paper-plane"></i> Apply Now</a></div></div></div>
+
+<!-- FACILITIES -->
+<section class="facilities-sec" id="facilities">
+  <div class="container">
+    <div class="row mb-5 reveal"><div class="col-lg-6"><span class="section-tag">Campus &amp; Facilities That Inspire Excellence</span><h2 class="sec-title">World-Class Campus &amp; Facilities</h2><div class="gold-bar"></div><p style="font-size:.93rem;color:var(--text-muted);line-height:1.8">The CFI College of Law campus is designed to enhance learning, encourage collaboration, and support holistic growth.</p></div></div>
+    <div class="fac-grid reveal">
+      <div class="fac-card"><span class="fac-emoji">🌱</span><h5>Eco-Conscious Campus</h5><p>A sustainable environment promoting well-being and green practices throughout the campus experience.</p></div>
+      <div class="fac-card"><span class="fac-emoji">🖥️</span><h5>A/C Modern Lecture Halls &amp; Smart Classrooms</h5><p>Interactive, tech-enabled learning spaces with air conditioning for focused, modern education.</p></div>
+      <div class="fac-card"><span class="fac-emoji">⚖️</span><h5>Fully Equipped Moot Court</h5><p>Practical training in advocacy, drafting, and courtroom procedures in a fully equipped moot court.</p></div>
+      <div class="fac-card"><span class="fac-emoji">📚</span><h5>A/C Library &amp; E-Library</h5><p>Extensive resources for legal and management research, with both physical and digital collections.</p></div>
+      <div class="fac-card"><span class="fac-emoji">🎭</span><h5>Auditorium &amp; Open-Air Theatre</h5><p>Host seminars, workshops, cultural events, and guest lectures in well-equipped venues.</p></div>
+      <div class="fac-card"><span class="fac-emoji">🏋️</span><h5>Student Amenities</h5><p>On-campus cafeteria, gym, personal lockers, indoor/outdoor recreation, and community zones.</p></div>
+      <div class="fac-card"><span class="fac-emoji">🛡️</span><h5>Accessibility &amp; Safety</h5><p>Disability-friendly campus, 24/7 security with CCTV, student health and first aid services.</p></div>
+      <div class="fac-card"><span class="fac-emoji">🚍</span><h5>Spot-Pickup Bus Service</h5><p>Ample parking and spot-pickup bus service from nearby locations for convenient daily commuting.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-sec" id="faq">
+  <div class="container">
+    <div class="row mb-5 reveal"><div class="col-lg-6"><span class="section-tag">BBA LLB (Hons)</span><h2 class="sec-title light">Frequently Asked Questions (FAQs)</h2><div class="gold-bar"></div></div></div>
+    <div class="row"><div class="col-lg-12 reveal">
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Q1: Is the BBA LLB (Hons) program approved by any authority? <span class="faq-icon"><i class="fa fa-plus"></i></span></div><div class="faq-a">Yes! The BBA LLB (Hons) program at CFI College of Law, a leading law college in Poyya, is approved by the Bar Council of India (BCI) and affiliated with the University of Calicut, ensuring your degree is recognized for legal practice and higher studies across India.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Q2: What is the duration of the program? <span class="faq-icon"><i class="fa fa-plus"></i></span></div><div class="faq-a">The program is a 5-year integrated degree divided into 10 semesters, combining law and business management subjects for a well-rounded education.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Q3: Who is eligible to apply for BBA LLB in Kerala? <span class="faq-icon"><i class="fa fa-plus"></i></span></div><div class="faq-a">Students who have passed 10+2 from a recognized board are eligible. Students from any stream (Science, Commerce, Arts) can apply, provided they meet the minimum marks and age criteria prescribed by BCI.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Q4: Is there an entrance exam for admission? <span class="faq-icon"><i class="fa fa-plus"></i></span></div><div class="faq-a">Yes, admission may be based on the Kerala State Law Entrance Examination or merit, depending on the year. The college guides all students through the BBA LLB admission 2026 Kerala process.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Q5: What documents are required for admission? <span class="faq-icon"><i class="fa fa-plus"></i></span></div><div class="faq-a">Students need to submit:<ul><li>10th &amp; 12th mark sheets</li><li>Transfer certificate &amp; conduct certificate</li><li>Entrance rank card (if applicable)</li><li>Recent passport-sized photographs</li><li>Any other documents as notified by the college</li></ul></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Q6: Are scholarships available for BBA LLB students? <span class="faq-icon"><i class="fa fa-plus"></i></span></div><div class="faq-a">Yes! Scholarships are offered for eligible students as per government and institutional rules, making it one of the affordable BBA LLB colleges in Kerala.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Q7: Does the college provide transport facilities? <span class="faq-icon"><i class="fa fa-plus"></i></span></div><div class="faq-a">Yes, CFI College of Law provides a spot-pickup bus service for students from nearby locations, ensuring convenience for day scholars.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Q8: What career options are available after BBA LLB (Hons)? <span class="faq-icon"><i class="fa fa-plus"></i></span></div><div class="faq-a">Graduates can pursue careers in:<ul><li>Litigation &amp; Advocacy (working as advocates in courts or law firms)</li><li>Corporate Law &amp; Compliance (legal advisors, in-house counsel, corporate consultants)</li><li>Judiciary &amp; Government Services (judicial services, policy-making, public administration)</li><li>Legal Research &amp; Consultancy (policy analysis, advisory roles)</li><li>Entrepreneurship &amp; Business Advisory</li><li>NGOs &amp; Social Justice (legal aid, human rights work)</li></ul></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Q9: Is this degree valid for judicial services and public sector exams? <span class="faq-icon"><i class="fa fa-plus"></i></span></div><div class="faq-a">Yes! The degree from CFI College of Law, a top law college in Poyya, is fully recognized for judicial services, public service exams, and other government opportunities.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Q10: What subjects are included in BBA LLB (Hons)? <span class="faq-icon"><i class="fa fa-plus"></i></span></div><div class="faq-a">Students study a combination of law and commerce subjects:<br><br><strong style="color:rgba(255,255,255,.7)">Law Subjects:</strong><ul><li>Constitutional Law, Criminal Law, Contract Law, Family Law, Company Law, Administrative Law, Property Law, Environmental Law, Human Rights Law, and Jurisprudence.</li></ul><strong style="color:rgba(255,255,255,.7)">Commerce Subjects:</strong><ul><li>Financial Accounting, Corporate Accounting, Business Management, Marketing, Managerial Economics, Financial Systems, Entrepreneurship Development.</li></ul></div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Q11: Does the college provide internships and practical exposure? <span class="faq-icon"><i class="fa fa-plus"></i></span></div><div class="faq-a">Yes! Students participate in moot court exercises, drafting, legal research, and internships with law firms, corporate offices, and NGOs, giving them real-world experience.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Q12: How can I apply online for BBA LLB? <span class="faq-icon"><i class="fa fa-plus"></i></span></div><div class="faq-a">You can apply through the official CFI College of Law admissions portal, fill out the application form, upload necessary documents, and follow instructions for seat allotment and counseling.</div></div>
+      <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Q13: Why should I choose CFI College of Law for BBA LLB in Kerala? <span class="faq-icon"><i class="fa fa-plus"></i></span></div><div class="faq-a">As one of the private law colleges for BBA LLB in Kerala, the college offers:<ul><li>Experienced faculty and mentorship</li><li>Balanced curriculum of law + management</li><li>Practical exposure via moot courts, internships, and workshops</li><li>Affordable fees and scholarships</li><li>Strong career guidance for students aiming for legal and corporate careers</li></ul></div></div>
+    </div></div>
+    <div class="row mt-5 reveal"><div class="col-lg-12"><div style="background:rgba(255,193,7,.1);border:1px solid rgba(255,193,7,.25);border-radius:6px;padding:32px 36px;display:flex;align-items:center;gap:24px;flex-wrap:wrap"><div style="flex:1;min-width:220px"><div style="font-family:'Playfair Display',serif;font-size:1.2rem;color:#fff;font-weight:700;margin-bottom:6px">Can't find your answer?</div><div style="font-size:.87rem;color:rgba(255,255,255,.55);line-height:1.7">If your query isn't listed above, talk directly to our expert admissions counsellor. Get personalized guidance for BBA LLB (Hons) admission 2026 in Kerala and make your application process smooth.</div></div><div style="display:flex;gap:12px;flex-wrap:wrap"><a href="https://cficollegeoflaw.in/admission-form" class="btn-cta-large"><i class="fa fa-paper-plane"></i> Apply Now</a><a href="tel:+918590759004" class="btn-ghost-cfi" style="padding:16px 24px"><i class="fa fa-phone me-2"></i>Talk to Counsellor</a></div></div></div></div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta-sec" id="cta">
+  <div class="container">
+    <div class="row justify-content-center text-center reveal">
+      <div class="col-lg-8">
+        <span class="section-tag" style="justify-content:center;display:flex">Admissions Open</span>
+        <h2>Begin Your Legal Career<br>with <em>CFI College of Law</em></h2>
+        <p class="mt-4 mb-4">Apply now for BBA LLB (Hons) 2026 at one of Kerala's leading law colleges in Poyya, Thrissur. Talk to our expert admissions counsellor and get personalized guidance every step of the way.</p>
+        <div class="d-flex justify-content-center flex-wrap gap-3">
+          <a href="https://cficollegeoflaw.in/admission-form" class="btn-cta-large"><i class="fa fa-paper-plane"></i> Apply Now </a>
+          <a href="tel:+918590759004" class="btn-ghost-cfi" style="padding:16px 36px;font-size:.9rem"><i class="fa fa-phone me-2"></i>Talk to Counsellor</a>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:28px">
+          <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,193,7,.1);border:1px solid rgba(255,193,7,.25);;font-size:.71rem;font-weight:700;padding:6px 14px;border-radius:2px;letter-spacing:.06em;text-transform:uppercase"><i class="fa fa-certificate"></i> Bar Council of India Recognition</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,193,7,.1);border:1px solid rgba(255,193,7,.25);;font-size:.71rem;font-weight:700;padding:6px 14px;border-radius:2px;letter-spacing:.06em;text-transform:uppercase"><i class="fa fa-university"></i> University / College Accreditation</span>
+          <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(67,160,71,.1);border:1px solid rgba(67,160,71,.3);;font-size:.71rem;font-weight:700;padding:6px 14px;border-radius:2px;letter-spacing:.06em;text-transform:uppercase"><i class="fa fa-medal"></i> Merit-Based Scholarships Available</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+  function switchTab(id,btn){document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));btn.classList.add('active');document.getElementById('tab-'+id).classList.add('active')}
+  function toggleFaq(el){const item=el.parentElement;const isOpen=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!isOpen)item.classList.add('open')}
+  const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')})},{threshold:.08});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+</script>
+
+

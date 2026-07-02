@@ -1,0 +1,12 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://cficollegeoflaw.in/sitemap.xml
+
+# Block old parked domain from indexing (if hosted)
+User-agent: *
+Disallow: /cgi-bin/
+Disallow: /tmp/
+
+# Optional: block admin or backend folder if applicable
+Disallow: /blogadmin/

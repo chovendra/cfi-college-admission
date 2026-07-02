@@ -1,0 +1,27 @@
+# Root .htaccess (paste this into public_html/.htaccess on cPanel)
+# SAFE minimal rules: domain redirect + site rewrites (no Options or low-level directives)
+
+RewriteEngine On
+RewriteBase /
+
+# --- Redirect old domain to canonical domain ---
+RewriteCond %{HTTP_HOST} ^(www\.)?cfilawcollege\.in$ [NC]
+RewriteRule ^(.*)$ https://cficollegeoflaw.in/$1 [R=301,L]
+
+# Redirect /index.php requests to canonical URL
+RewriteCond %{THE_REQUEST} \s/index\.php [NC]
+RewriteRule ^index\.php$ https://cficollegeoflaw.in/ [R=301,L]
+
+# Exclude existing files and directories
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule .* - [L]
+
+# Site-specific rewrites: two-level and single-level
+<IfModule mod_rewrite.c>
+    RewriteRule ^([^/]+)/([^/]+)/?$ index.php?show=$1&sublink=$2 [L,QSA]
+    RewriteRule ^([^/]+)/?$ index.php?show=$1 [L,QSA]
+</IfModule>
+
+# NOTE: cPanel may append php.ini directives or handlers below this block.
+# If your host provides php_value blocks, leave them as-is; do not duplicate them here.

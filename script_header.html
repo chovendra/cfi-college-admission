@@ -1,0 +1,157 @@
+
+<style>
+  .fixed-top{
+    z-index: 2;
+  }
+  .topbar{
+    position: relative;
+    z-index: 9 ;
+  }
+
+  .hero-prev, .hero-next{
+    z-index: 1;
+  }
+
+  .hero-stats-bar{
+    z-index: 1;
+  }
+</style>
+<!-- ══════ TOPBAR ══════════════════════════════════ -->
+<div class="topbar">
+  <div class="container">
+    <div class="d-flex justify-content-center justify-content-md-between align-items-center flex-wrap gap-2">
+      <div class="d-flex gap-3 align-items-center flex-wrap">
+        <span><i class="bi bi-telephone-fill me-1"></i>
+          <a href="tel:8590759003">8590759003</a> &nbsp;|&nbsp;
+          <a href="tel:8590759004">8590759004</a>
+        </span>
+        <span><i class="bi bi-envelope-fill me-1"></i>
+          <a href="mailto:info@cficollegeoflaw.in">info@cficollegeoflaw.in</a>
+        </span>
+      </div>                       <div class="d-flex gap-3 aling-items-center flex-wrap">             <span>                <div class="tag-line">                  <a href="">"The Premier Center for Legal Excellence"</a>                </div>             </span>          </div> 
+      <div class="d-flex gap-3 align-items-center">
+        <a href="career-and-placement">Career &amp; Placement</a>
+        <a href="gallery">Gallery</a>
+        <a href="blog">Blog</a>
+        <a href="admission-form" class="btn-admission">Admission Form</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════ NAVBAR ══════════════════════════════════ -->
+<nav class="navbar navbar-expand-lg fixed-top" id="mainNav">
+  <div class="container mob">
+    <a class="navbar-brand" href="index.php">
+      <img src="images/logo.png" alt="CFI College of Law"/>
+    </a>
+
+<button class="navbar-toggler" type="button">
+  <span class="navbar-toggler-icon"></span>
+</button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+
+        <!-- Home -->
+        <li class="nav-item">
+          <a class="nav-link" href="index.php">Home</a>
+        </li>
+
+        <!-- About -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">About</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="about-us">Introduction</a></li>
+            <li><a class="dropdown-item" href="vision-and-mission">Vision &amp; Mission</a></li>
+            <li><a class="dropdown-item" href="why-cfi-law-college">Why Choose CFI?</a></li>
+            <li><a class="dropdown-item" href="infrastructure">Infrastructure</a></li>
+            <li><a class="dropdown-item" href="campus-life">Campus Life</a></li>
+            <!--<li><a class="dropdown-item" href="career-and-placement">Career & Placement</a></li>			-->
+            <!--<li><a class="dropdown-item" href="ipc">IPC</a></li>			-->
+          </ul>
+        </li>
+
+        <!-- Courses -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Courses</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="bcom-llb">B.Com LL.B</a></li>
+            <li><a class="dropdown-item" href="bba-llb">BBA LL.B</a></li>
+
+          </ul>
+        </li>
+
+        <!-- Admission -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Admission</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="eligibility">Eligibility</a></li>
+            <li><a class="dropdown-item" href="admission-procedure">Admission Process</a></li>
+            <li><a class="dropdown-item" href="documents-required">Documents Required</a></li>
+            <li><a class="dropdown-item" href="fee-structure">Fee Structure</a></li>			
+			<li><a class="dropdown-item" href="https://cficollegeoflaw.in/scholarship-form/">Scholarship Form</a></li>
+            <li><a class="dropdown-item" href="uploads/admission-form.pdf" target="_blank">Download Form</a></li>
+          </ul>
+        </li>
+
+        <!-- Management -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Management</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="overview">Overview</a></li>
+            <li><a class="dropdown-item" href="principal">Principal</a></li>
+            <li><a class="dropdown-item" href="vice-principal">Vice Principal</a></li>
+            <li><a class="dropdown-item" href="faculty">Faculty</a></li>
+          </ul>
+        </li>
+
+
+        <!-- FAQs -->
+        <li class="nav-item">
+          <a class="nav-link" href="faqs">FAQs</a>
+        </li>
+
+        <!-- Mandatory Disclosure -->
+        <li class="nav-item">
+          <a class="nav-link" href="mandatory-disclosure">Mandatory Disclosure</a>
+        </li>
+
+        <!-- Contact -->
+        <li class="nav-item">
+          <a class="nav-link" href="contact-us">Contact</a>
+        </li>
+
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<script>
+// ═══ Hamburger Toggler — open AND close ═══
+const navToggler = document.querySelector('.navbar-toggler');
+const navMenu    = document.getElementById('navMenu');
+
+navToggler.addEventListener('click', function (e) {
+  e.stopPropagation();
+  navMenu.classList.toggle('show');
+});
+
+
+
+// ═══ Bahar click karne par sab band ═══
+document.addEventListener('click', function (e) {
+  // Dropdowns band karo
+  if (!e.target.closest('.dropdown')) {
+    document.querySelectorAll('.dropdown-menu').forEach(m => {
+      m.classList.remove('show');
+    });
+  }
+  // Mobile menu band karo (agar toggler ya menu ke bahar click hua)
+  if (!e.target.closest('#navMenu') && !e.target.closest('.navbar-toggler')) {
+    navMenu.classList.remove('show');
+  }
+});
+</script>
+

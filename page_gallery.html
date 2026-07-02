@@ -1,0 +1,172 @@
+<style>
+
+    #mainNav {
+    background: rgb(23 53 93);
+    backdrop-filter: blur(0px);
+    transition: background .4s, backdrop-filter .4s, box-shadow .4s;
+    padding: 58px 0 8px;
+}
+.gallery-masonry {
+    column-count: 4;
+    column-gap: 1rem;
+}
+
+@media (max-width: 992px) {
+    .gallery-masonry { column-count: 3; }
+}
+@media (max-width: 768px) {
+    .gallery-masonry { column-count: 2; }
+}
+@media (max-width: 576px) {
+    .gallery-masonry { column-count: 1; }
+}
+
+.gallery-item {
+    position: relative;
+    margin-bottom: 1rem;
+    break-inside: avoid;
+    cursor: pointer;
+}
+
+.gallery-item img,
+.gallery-item video {
+    width: 100%;
+    border-radius: 6px;
+    display: block;
+}
+
+.gallery-icon {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 6px 8px;
+    border-radius: 50%;
+    font-size: 14px;
+}
+
+.video-overlay {
+    position: absolute;
+    inset: 0;
+}
+</style>
+
+
+<!-- Page Title -->
+<div class="page-title text-center py-4" style="padding-top: 110px !important;">
+    <h1 class="mb-0">Gallery</h1>
+</div>
+
+<!-- Page Content -->
+<div class="page-wrapper pt-2 pb-3">
+    <div class="container">
+
+        <!-- Gallery Grid -->
+        <div class="gallery-masonry">
+
+            <?php
+            $dir = 'gallerypics/';
+            $files = scandir($dir);
+
+            $imageTypes = ['jpg', 'jpeg', 'png', 'gif'];
+            $videoTypes = ['mp4'];
+
+            foreach ($files as $file) {
+
+                if ($file === '.' || $file === '..') continue;
+
+                $path = $dir . $file;
+                $ext  = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+
+                // IMAGE FILES
+                if (in_array($ext, $imageTypes)) {
+                    ?>
+                    <div class="gallery-item">
+                        <img src="<?= $path ?>" alt="" data-bs-toggle="modal" data-bs-target="#galleryModal" data-src="<?= $path ?>" data-type="image">
+                        <span class="gallery-icon">🔍</span>
+                    </div>
+                    <?php
+                }
+
+                // VIDEO FILES
+                if (in_array($ext, $videoTypes)) {
+                    ?>
+                    <div class="gallery-item">
+                        <video muted>
+                            <source src="<?= $path ?>" type="video/mp4">
+                        </video>
+                        <span class="gallery-icon">▶</span>
+                        <div class="video-overlay"
+                             data-bs-toggle="modal"
+                             data-bs-target="#galleryModal"
+                             data-src="<?= $path ?>"
+                             data-type="video"></div>
+                    </div>
+                    <?php
+                }
+            }
+            ?>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- Gallery Modal -->
+<div class="modal fade" id="galleryModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-xl">
+        <div class="modal-content bg-dark position-relative">
+
+            <!-- Close Button -->
+            <button 
+                type="button" 
+                class="btn-close btn-close-white position-absolute"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                style="top:15px; right:15px; z-index:1056;">
+            </button>
+
+            <!-- Modal Body -->
+            <div class="modal-body text-center p-0">
+                <img id="modalImage" class="img-fluid d-none">
+                <video id="modalVideo" class="w-100 d-none" controls></video>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+const modal = document.getElementById('galleryModal');
+const modalImage = document.getElementById('modalImage');
+const modalVideo = document.getElementById('modalVideo');
+
+modal.addEventListener('show.bs.modal', function (event) {
+    const trigger = event.relatedTarget;
+    const src = trigger.getAttribute('data-src');
+    const type = trigger.getAttribute('data-type');
+
+    modalImage.classList.add('d-none');
+    modalVideo.classList.add('d-none');
+    modalVideo.pause();
+
+    if (type === 'image') {
+        modalImage.src = src;
+        modalImage.classList.remove('d-none');
+    }
+
+    if (type === 'video') {
+        modalVideo.src = src;
+        modalVideo.classList.remove('d-none');
+        modalVideo.play();
+    }
+});
+
+modal.addEventListener('hidden.bs.modal', function () {
+    modalVideo.pause();
+    modalVideo.src = '';
+});
+</script>

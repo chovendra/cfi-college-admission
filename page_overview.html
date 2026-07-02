@@ -1,0 +1,439 @@
+
+
+  <style>
+    :root {
+      --dark:        #081f3a;
+      --blue:        #0d3c78;
+      --amber:       #ffc107;
+      --amber-light: #ffd54f;
+      --light-bg:    #eef3fb;
+      --lighter-bg:  #f5f8fd;
+      --text-body:   #1e3a5f;
+      --text-muted:  #5a7a9e;
+      --grad:        radial-gradient(circle at left, #0d3c78, #081f3a);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    h1, h2, h3, h4, h5, h6 { font-family: 'Playfair Display', serif; }
+
+    /* ═══ COMMONS ═══ */
+    .section-tag { font-size: .68rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--amber); margin-bottom: 10px; display: block; }
+    .section-tag.on-dark { color: var(--amber); }
+    .sec-title { font-family: 'Playfair Display', serif; font-size: clamp(1.9rem, 3.2vw, 2.8rem); font-weight: 700; line-height: 1.18; color: var(--dark); }
+    .sec-title.light { color: #fff; }
+    .gold-bar { width: 44px; height: 3px; background: linear-gradient(90deg, var(--amber), var(--amber-light)); border-radius: 2px; margin: 14px 0 24px; }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s, transform .6s; }
+    .reveal.vis { opacity: 1; transform: translateY(0); }
+
+    .btn-primary-cfi { background: var(--amber); color: var(--dark); font-size: .82rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 13px 30px; border-radius: 3px; border: none; text-decoration: none; transition: all .25s; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-primary-cfi:hover { background: var(--amber-light); color: var(--dark); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,193,7,.45); }
+    .btn-ghost-cfi { border: 1.5px solid rgba(13,60,120,.3); color: var(--blue); background: transparent; font-size: .82rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 13px 30px; border-radius: 3px; text-decoration: none; transition: all .25s; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-ghost-cfi:hover { background: var(--blue); color: #fff; }
+    .btn-ghost-dark { border: 1.5px solid rgba(255,193,7,.5); color: var(--amber); background: transparent; font-size: .82rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 13px 30px; border-radius: 3px; text-decoration: none; transition: all .25s; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-ghost-dark:hover { background: var(--amber); color: var(--dark); }
+    .wa-btn { background: #25D366; color: #fff; font-size: .82rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 13px 28px; border-radius: 3px; text-decoration: none; transition: all .25s; display: inline-flex; align-items: center; gap: 8px; }
+    .wa-btn:hover { background: #1ebe5d; color: #fff; transform: translateY(-2px); }
+
+    /* ═══ HERO ═══ */
+    .hero {
+      background: var(--grad); min-height: 80vh; position: relative;
+      display: flex; align-items: center; overflow: hidden; padding: 80px 0 64px;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 65% 70% at 85% 50%, rgba(21,101,192,.2) 0%, transparent 60%),
+        repeating-linear-gradient(135deg, transparent, transparent 60px, rgba(255,193,7,.02) 60px, rgba(255,193,7,.02) 61px);
+    }
+    .hero-watermark { position: absolute; right: -20px; bottom: -40px; font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(100px, 15vw, 220px); color: rgba(255,193,7,.04); line-height: 1; user-select: none; pointer-events: none; letter-spacing: -.03em; }
+    .hero-tag { display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(255,193,7,.35); background: rgba(255,193,7,.1); color: var(--amber); font-size: .7rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; padding: 6px 14px; border-radius: 2px; margin-bottom: 22px; animation: up .6s ease both; }
+    .hero h1 { font-size: clamp(2.4rem, 5vw, 4.4rem); font-weight: 800; color: #fff; line-height: 1.07; animation: up .7s .1s ease both; }
+    .hero h1 em { color: var(--amber); font-style: italic; }
+    .hero-sub { font-size: 1rem; color: rgba(255,255,255,.65); line-height: 1.85; max-width: 560px; animation: up .7s .2s ease both; margin-top: 18px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; animation: up .7s .3s ease both; }
+
+    /* hero right card */
+    .hero-card { background: rgba(13,60,120,.55); border: 1px solid rgba(255,193,7,.2); border-radius: 6px; padding: 36px 32px; backdrop-filter: blur(12px); position: relative; animation: slideRight .8s .2s ease both; }
+    .hero-card::before { content: ''; position: absolute; top: 0; left: 32px; right: 32px; height: 3px; background: linear-gradient(90deg, var(--amber), var(--amber-light), var(--amber)); border-radius: 0 0 3px 3px; }
+    .hc-title { font-size: .65rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--amber); margin-bottom: 20px; }
+    .hc-item { display: flex; align-items: flex-start; gap: 13px; padding: 11px 0; border-bottom: 1px solid rgba(255,255,255,.07); }
+    .hc-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .hc-ico { width: 34px; height: 34px; min-width: 34px; border-radius: 3px; background: rgba(255,193,7,.15); display: flex; align-items: center; justify-content: center; color: var(--amber); font-size: .85rem; }
+    .hc-item h6 { font-family: 'Plus Jakarta Sans', sans-serif; font-size: .82rem; font-weight: 700; color: #fff; margin-bottom: 2px; }
+    .hc-item p { font-size: .76rem; color: rgba(255,255,255,.5); margin: 0; line-height: 1.5; }
+
+    @keyframes up        { from { opacity:0; transform:translateY(26px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes slideRight{ from { opacity:0; transform:translateX(36px); } to { opacity:1; transform:translateX(0); } }
+
+    /* ═══ STATS STRIP ═══ */
+    .intro-strip { background: var(--grad); border-top: 1px solid rgba(255,255,255,.06); }
+    .strip-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .strip-cell { padding: 30px 24px; text-align: center; border-right: 1px solid rgba(255,255,255,.08); }
+    .strip-cell:last-child { border-right: none; }
+    .sc-num { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 700; color: var(--amber); line-height: 1; }
+    .sc-lbl { font-size: .7rem; color: rgba(255,255,255,.45); letter-spacing: .1em; text-transform: uppercase; margin-top: 5px; }
+
+    /* ═══ OVERVIEW ═══ */
+    .overview-sec { background: var(--lighter-bg); padding: 90px 0; }
+    .ov-para { font-size: .97rem; color: #4a6a8a; line-height: 1.9; margin-bottom: 20px; }
+    .ov-para:last-child { margin-bottom: 0; }
+    .ov-para strong { color: var(--dark); }
+
+    /* pull quote */
+    .pull-quote { background: var(--grad); border-radius: 6px; padding: 32px 38px; position: relative; overflow: hidden; margin: 32px 0; }
+    .pull-quote::before { content: '"'; position: absolute; top: -10px; left: 16px; font-family: 'Playfair Display', serif; font-size: 110px; color: rgba(255,193,7,.1); line-height: 1; pointer-events: none; }
+    .pull-quote p { font-family: 'Playfair Display', serif; font-size: clamp(1rem, 1.8vw, 1.25rem); font-style: italic; color: #fff; line-height: 1.65; position: relative; z-index: 1; margin: 0; }
+
+    /* ═══ TWO PILLARS ═══ */
+    .pillars-sec { background: var(--light-bg); padding: 90px 0; }
+
+    .pillar-card {
+      background: #fff; border: 1px solid rgba(13,60,120,.08);
+      border-radius: 8px; padding: 44px 40px; height: 100%;
+      transition: all .35s; position: relative; overflow: hidden;
+    }
+    .pillar-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--amber), var(--amber-light));
+    }
+    .pillar-card:hover { box-shadow: 0 20px 56px rgba(13,60,120,.13); transform: translateY(-4px); }
+
+    .pillar-ico { width: 64px; height: 64px; border-radius: 50%; background: rgba(255,193,7,.1); border: 2px solid rgba(255,193,7,.25); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--amber); margin-bottom: 22px; }
+    .pillar-card h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--dark); margin-bottom: 14px; }
+    .pillar-card > p { font-size: .93rem; color: var(--text-muted); line-height: 1.8; margin-bottom: 24px; }
+
+    /* Leadership expertise pills */
+    .expertise-pill { display: inline-flex; align-items: center; gap: 6px; background: rgba(13,60,120,.07); border: 1px solid rgba(13,60,120,.12); color: var(--blue); font-size: .78rem; font-weight: 600; padding: 6px 13px; border-radius: 3px; margin: 3px 3px 0 0; transition: all .2s; }
+    .expertise-pill:hover { background: var(--blue); color: #fff; }
+    .expertise-pill i { color: var(--amber); font-size: .65rem; }
+
+    /* Strength list */
+    .strength-list { list-style: none; padding: 0; margin: 0; }
+    .strength-list li { display: flex; align-items: flex-start; gap: 14px; padding: 13px 0; border-bottom: 1px solid rgba(13,60,120,.07); font-size: .9rem; color: var(--text-body); line-height: 1.65; }
+    .strength-list li:last-child { border-bottom: none; padding-bottom: 0; }
+    .sl-ico { width: 38px; height: 38px; min-width: 38px; border-radius: 3px; background: rgba(255,193,7,.1); display: flex; align-items: center; justify-content: center; color: var(--amber); font-size: .9rem; flex-shrink: 0; }
+
+    /* ═══ VALUES STRIP ═══ */
+    .values-strip { background: var(--grad); padding: 64px 0; }
+    .values-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 2px; }
+    .val-cell { padding: 32px 24px; text-align: center; border-right: 1px solid rgba(255,255,255,.07); }
+    .val-cell:last-child { border-right: none; }
+    .val-ico { font-size: 2rem; color: var(--amber); margin-bottom: 12px; }
+    .val-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .val-desc { font-size: .8rem; color: rgba(255,255,255,.45); line-height: 1.6; }
+
+    /* ═══ CTA BAND ═══ */
+    .cta-band { background: var(--lighter-bg); padding: 90px 0; }
+
+    .cta-box { background: var(--grad); border-radius: 8px; padding: 60px 56px; position: relative; overflow: hidden; }
+    .cta-box::before { content: '⚖'; position: absolute; right: -20px; top: 50%; transform: translateY(-50%); font-size: 320px; opacity: .04; line-height: 1; pointer-events: none; }
+    .cta-box h2 { font-size: clamp(1.9rem, 3.5vw, 3rem); color: #fff; line-height: 1.2; }
+    .cta-box h2 em { color: var(--amber); font-style: italic; }
+    .cta-box p { color: rgba(255,255,255,.55); font-size: .95rem; line-height: 1.8; }
+
+    .contact-widget { background: rgba(255,255,255,.06); border: 1px solid rgba(255,193,7,.2); border-radius: 6px; padding: 32px 28px; }
+    .cw-title { font-size: .65rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--amber); margin-bottom: 20px; }
+    .cw-btn-col { display: flex; flex-direction: column; gap: 12px; }
+
+    /* ═══ PROGRAMS LINK ═══ */
+    .programs-sec { background: var(--light-bg); padding: 70px 0; border-top: 1px solid rgba(13,60,120,.07); }
+    .prog-wrap { background: #fff; border: 1px solid rgba(13,60,120,.08); border-radius: 6px; padding: 40px 36px; display: flex; align-items: center; gap: 32px; flex-wrap: wrap; transition: all .3s; }
+    .prog-wrap:hover { box-shadow: 0 12px 40px rgba(13,60,120,.12); }
+    .prog-ico { width: 72px; height: 72px; min-width: 72px; border-radius: 50%; background: rgba(255,193,7,.1); border: 2px solid rgba(255,193,7,.3); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--amber); }
+
+    @media (max-width: 991px) {
+      .strip-grid, .values-grid { grid-template-columns: repeat(2,1fr); }
+      .val-cell { border-bottom: 1px solid rgba(255,255,255,.07); }
+    }
+    @media (max-width: 767px) {
+      .cta-box { padding: 36px 28px; }
+      .prog-wrap { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-watermark">FACULTY</div>
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <span class="hero-tag"><i class="fa fa-chalkboard-teacher"></i>&nbsp; Management &amp; Faculty</span>
+        <h1>Guided by<br><em>Experience,</em><br>Driven by Purpose</h1>
+        <p class="hero-sub">
+          At CFI College of Law, strong academic leadership and dedicated faculty form the foundation of quality legal education. Our management and faculty are committed to shaping confident and competent legal graduates for Kerala and beyond.
+        </p>
+        <div class="hero-actions">
+          <a href="#pillars" class="btn-primary-cfi"><i class="fa fa-users"></i>Our Team</a>
+          <a href="#cta" class="btn-ghost-dark"><i class="fa fa-phone"></i>Get in Touch</a>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="hero-card">
+          <div class="hc-title">What Defines Our Faculty &amp; Leadership</div>
+          <div class="hc-item">
+            <div class="hc-ico"><i class="fa fa-graduation-cap"></i></div>
+            <div><h6>Advanced Qualifications</h6><p>LL.M., Ph.D., and UGC-NET (Law) qualified faculty</p></div>
+          </div>
+          <div class="hc-item">
+            <div class="hc-ico"><i class="fa fa-gavel"></i></div>
+            <div><h6>Legal &amp; Classroom Experience</h6><p>Practical exposure combined with academic teaching expertise</p></div>
+          </div>
+          <div class="hc-item">
+            <div class="hc-ico"><i class="fa fa-trophy"></i></div>
+            <div><h6>Student Mentoring</h6><p>Moot courts, internships, research, and career guidance</p></div>
+          </div>
+          <div class="hc-item">
+            <div class="hc-ico"><i class="fa fa-shield-alt"></i></div>
+            <div><h6>Regulatory Compliance</h6><p>BCI approved · University of Calicut affiliated</p></div>
+          </div>
+          <div class="hc-item">
+            <div class="hc-ico"><i class="fa fa-balance-scale"></i></div>
+            <div><h6>Core Commitment</h6><p>Integrity in teaching · Ethics in professional guidance</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STATS STRIP ═══ -->
+<div class="intro-strip">
+  <div class="strip-grid">
+    <div class="strip-cell"><div class="sc-num">5+</div><div class="sc-lbl">Expert Faculty</div></div>
+    <div class="strip-cell"><div class="sc-num">2</div><div class="sc-lbl">Programs Offered</div></div>
+    <div class="strip-cell"><div class="sc-num">BCI</div><div class="sc-lbl">Approved College</div></div>
+    <div class="strip-cell"><div class="sc-num">Calicut</div><div class="sc-lbl">University Affiliated</div></div>
+  </div>
+</div>
+
+<!-- ═══ OVERVIEW ═══ -->
+<section class="overview-sec" id="overview">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+      <div class="col-lg-7 reveal">
+        <span class="section-tag">About Our Team</span>
+        <h2 class="sec-title">Management &amp;<br>Faculty Overview</h2>
+        <div class="gold-bar"></div>
+
+        <p class="ov-para">
+          At CFI College of Law, strong academic leadership and dedicated faculty form the foundation of quality legal education. As a growing law college in Kerala, the institution is guided by experienced academicians and professionals who are committed to <strong>shaping confident and competent legal graduates.</strong>
+        </p>
+        <p class="ov-para">
+          The management ensures that academic standards, regulatory compliance, and student development remain the top priorities. With structured governance and transparent administration, the college continuously works towards strengthening its position among emerging centres for law admission in Kerala.
+        </p>
+
+        <div class="pull-quote">
+          <p>"Through academic discipline, personal mentoring, and professional integrity, the management and faculty collectively strive to position the institution as a trusted law college in Poyya, Thrissur, Kerala — offering meaningful legal education with long-term career value."</p>
+        </div>
+
+        <p class="ov-para">
+          Our faculty members bring a combination of teaching expertise, research knowledge, and practical legal exposure. Students enrolled in <strong>BBA LLB (Hons) and B.Com LLB (Hons)</strong> programmes benefit from structured classroom learning, interactive discussions, and professional mentoring — supporting both academic excellence and career readiness.
+        </p>
+        <p class="ov-para">
+          Being a BCI approved law college affiliated with the University of Calicut, the institution maintains high standards in curriculum delivery, assessment, and student guidance. Faculty members actively encourage participation in moot courts, seminars, research activities, and internships.
+        </p>
+      </div>
+
+      <div class="col-lg-5 reveal">
+        <div style="background:#fff;border:1px solid rgba(13,60,120,.08);border-radius:6px;padding:32px 28px;position:sticky;top:100px;">
+          <div style="font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--amber);margin-bottom:20px;">Quick Facts</div>
+
+          <div style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(13,60,120,.07);">
+            <div style="width:36px;height:36px;min-width:36px;border-radius:3px;background:rgba(255,193,7,.1);display:flex;align-items:center;justify-content:center;color:var(--amber);font-size:.85rem;"><i class="fa fa-certificate"></i></div>
+            <div><div style="font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:2px;">Approval</div><div style="font-size:.88rem;color:var(--text-body);">Bar Council of India (BCI)</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(13,60,120,.07);">
+            <div style="width:36px;height:36px;min-width:36px;border-radius:3px;background:rgba(255,193,7,.1);display:flex;align-items:center;justify-content:center;color:var(--amber);font-size:.85rem;"><i class="fa fa-university"></i></div>
+            <div><div style="font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:2px;">Affiliation</div><div style="font-size:.88rem;color:var(--text-body);">University of Calicut</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(13,60,120,.07);">
+            <div style="width:36px;height:36px;min-width:36px;border-radius:3px;background:rgba(255,193,7,.1);display:flex;align-items:center;justify-content:center;color:var(--amber);font-size:.85rem;"><i class="fa fa-book-open"></i></div>
+            <div><div style="font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:2px;">Programs</div><div style="font-size:.88rem;color:var(--text-body);">BBA LLB (Hons) · B.Com LLB (Hons)</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(13,60,120,.07);">
+            <div style="width:36px;height:36px;min-width:36px;border-radius:3px;background:rgba(255,193,7,.1);display:flex;align-items:center;justify-content:center;color:var(--amber);font-size:.85rem;"><i class="fa fa-graduation-cap"></i></div>
+            <div><div style="font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:2px;">Qualifications</div><div style="font-size:.88rem;color:var(--text-body);">LL.M. · Ph.D. · UGC-NET (Law)</div></div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:11px 0;">
+            <div style="width:36px;height:36px;min-width:36px;border-radius:3px;background:rgba(255,193,7,.1);display:flex;align-items:center;justify-content:center;color:var(--amber);font-size:.85rem;"><i class="fa fa-map-marker-alt"></i></div>
+            <div><div style="font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);margin-bottom:2px;">Location</div><div style="font-size:.88rem;color:var(--text-body);">Poyya P.O., Thrissur, Kerala – 680 733</div></div>
+          </div>
+
+          <div style="margin-top:24px;display:flex;flex-direction:column;gap:10px;">
+            <a href="faculty" class="btn-primary-cfi" style="justify-content:center;"><i class="fa fa-users"></i>Meet Our Faculty</a>
+            <a href="principal" class="btn-ghost-cfi" style="justify-content:center;"><i class="fa fa-user-tie"></i>Principal's Message</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TWO PILLARS ═══ -->
+<section class="pillars-sec" id="pillars">
+  <div class="container">
+    <div class="row mb-5 reveal">
+      <div class="col-lg-7">
+        <span class="section-tag">Two Pillars of Excellence</span>
+        <h2 class="sec-title">Academic Leadership &amp;<br>Faculty Strength</h2>
+        <div class="gold-bar"></div>
+      </div>
+    </div>
+
+    <div class="row g-4">
+
+      <!-- Academic Leadership -->
+      <div class="col-lg-6 reveal">
+        <div class="pillar-card">
+          <div class="pillar-ico"><i class="fa fa-crown"></i></div>
+          <h3>Academic Leadership</h3>
+          <p>The leadership team includes experienced principals, vice principals, and senior faculty members who have served in reputed institutions across Kerala. With decades of experience in legal education and academic administration, the leadership ensures students receive structured guidance throughout their five-year integrated law journey.</p>
+
+          <div style="margin-bottom:16px;">
+            <div style="font-size:.66rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px;">Areas of Expertise</div>
+            <span class="expertise-pill"><i class="fa fa-circle"></i>Constitutional Law</span>
+            <span class="expertise-pill"><i class="fa fa-circle"></i>Corporate Law</span>
+            <span class="expertise-pill"><i class="fa fa-circle"></i>Criminal Law</span>
+            <span class="expertise-pill"><i class="fa fa-circle"></i>Maritime Law</span>
+            <span class="expertise-pill"><i class="fa fa-circle"></i>Management Studies</span>
+          </div>
+
+          <div style="background:rgba(255,193,7,.07);border:1px solid rgba(255,193,7,.2);border-radius:4px;padding:16px 18px;margin-top:20px;">
+            <div style="font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--amber);margin-bottom:10px;">Leadership Profiles</div>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+              <a href="principal" style="font-size:.82rem;color:var(--blue);font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px;"><i class="fa fa-user-tie" style="color:var(--amber);font-size:.75rem;"></i>Dr. Saroja A. S. — Principal</a>
+              <a href="vice-principal" style="font-size:.82rem;color:var(--blue);font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:6px;"><i class="fa fa-user-tie" style="color:var(--amber);font-size:.75rem;"></i>Dr. Manasi Muralidharan — Vice Principal</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Faculty Strength -->
+      <div class="col-lg-6 reveal">
+        <div class="pillar-card">
+          <div class="pillar-ico"><i class="fa fa-chalkboard-teacher"></i></div>
+          <h3>Faculty Strength</h3>
+          <p>Our faculty members bring a powerful combination of academic credentials, research experience, and real-world legal knowledge to every classroom. Students gain both theoretical depth and practical insight — essential for a successful legal career.</p>
+
+          <ul class="strength-list">
+            <li>
+              <div class="sl-ico"><i class="fa fa-graduation-cap"></i></div>
+              Hold advanced qualifications including LL.M., Ph.D., and UGC-NET (Law)
+            </li>
+            <li>
+              <div class="sl-ico"><i class="fa fa-gavel"></i></div>
+              Bring both classroom teaching experience and practical legal expertise
+            </li>
+            <li>
+              <div class="sl-ico"><i class="fa fa-trophy"></i></div>
+              Mentor students for internships and moot court competitions
+            </li>
+            <li>
+              <div class="sl-ico"><i class="fa fa-pen-nib"></i></div>
+              Support research, academic writing, and legal analysis
+            </li>
+            <li>
+              <div class="sl-ico"><i class="fa fa-route"></i></div>
+              Guide students pursuing 5-year integrated BBA LLB and B.Com LLB in Kerala
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ VALUES STRIP ═══ -->
+<div class="values-strip reveal">
+  <div class="container">
+    <div class="values-grid">
+      <div class="val-cell">
+        <div class="val-ico"><i class="fa fa-balance-scale"></i></div>
+        <div class="val-title">Academic Integrity</div>
+        <div class="val-desc">Upholding the highest standards in curriculum delivery and assessment</div>
+      </div>
+      <div class="val-cell">
+        <div class="val-ico"><i class="fa fa-users"></i></div>
+        <div class="val-title">Student-First Approach</div>
+        <div class="val-desc">Personalised mentoring and structured academic support for every student</div>
+      </div>
+      <div class="val-cell">
+        <div class="val-ico"><i class="fa fa-microscope"></i></div>
+        <div class="val-title">Research Orientation</div>
+        <div class="val-desc">Encouraging legal research, writing, and analytical thinking at every level</div>
+      </div>
+      <div class="val-cell">
+        <div class="val-ico"><i class="fa fa-award"></i></div>
+        <div class="val-title">Professional Excellence</div>
+        <div class="val-desc">Preparing graduates for courts, corporate law, public service, and more</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ CTA BAND ═══ -->
+<section class="cta-band" id="cta">
+  <div class="container">
+    <div class="cta-box reveal">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-7">
+          <span class="section-tag on-dark">Learn Directly from Our Expert Faculty!</span>
+          <h2>Take the <em>Next Step</em><br>in Your Legal Journey</h2>
+          <p class="mt-3 mb-0 text-light">If you want to study under these experienced teachers and gain hands-on knowledge in BBA LLB (Hons) &amp; B.Com LLB (Hons), contact us now and start your legal journey. Call our admission counselor, WhatsApp us, or send an enquiry to learn how our faculty guide you toward a successful legal career.</p>
+          <div class="d-flex flex-wrap gap-3 mt-4">
+            <a href="tel:8590759003" class="btn-primary-cfi"><i class="fa fa-phone"></i>Call Now</a>
+            <a href="https://api.whatsapp.com/message/YE7STK6V6SV4H1?autoload=1&app_absent=0" class="wa-btn"><i class="fab fa-whatsapp"></i>WhatsApp Us</a>
+            <a href="contact-us" class="btn-ghost-dark"><i class="fa fa-envelope"></i>Send Enquiry</a>
+            <a href="admission-form" class="btn-ghost-dark"><i class="fa fa-file-signature"></i>Apply Now</a>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="contact-widget">
+            <div class="cw-title">Connect With Us</div>
+            <div class="cw-btn-col">
+              <a href="tel:8590759003" class="btn-ghost-dark" style="justify-content:center;"><i class="fa fa-phone"></i>8590759003</a>
+              <a href="tel:8590759004" class="btn-ghost-dark" style="justify-content:center;"><i class="fa fa-phone"></i>8590759004</a>
+              <a href="https://api.whatsapp.com/message/YE7STK6V6SV4H1?autoload=1&app_absent=0" class="wa-btn" style="justify-content:center;"><i class="fab fa-whatsapp"></i>WhatsApp Us</a>
+              <a href="admission-form" class="btn-primary-cfi" style="justify-content:center;"><i class="fa fa-file-signature"></i>Apply Now 2026</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROGRAMS LINK ═══ -->
+<section class="programs-sec">
+  <div class="container">
+    <div class="row justify-content-center reveal">
+      <div class="col-lg-10">
+        <div class="prog-wrap">
+          <div class="prog-ico"><i class="fa fa-book-open"></i></div>
+          <div style="flex:1;">
+            <h4 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--dark);margin-bottom:6px;">Explore Our BBA LLB &amp; B.Com LLB Programs</h4>
+            <p style="font-size:.9rem;color:var(--text-muted);line-height:1.7;margin:0;">Discover the complete curriculum, career pathways, eligibility criteria, and everything you need to know about our 5-year integrated law programs at CFI College of Law, Kerala.</p>
+          </div>
+          <div style="flex-shrink:0;display:flex;flex-direction:column;gap:10px;">
+            <a href="bba-llb" class="btn-primary-cfi"><i class="fa fa-gavel"></i>BBA LLB (Hons)</a>
+            <a href="bcom-llb" class="btn-ghost-cfi"><i class="fa fa-coins"></i>B.Com LLB (Hons)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+

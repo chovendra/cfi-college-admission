@@ -1,0 +1,669 @@
+
+  <style>
+    :root {
+      --dark:        #081f3a;
+      --blue:        #0d3c78;
+      --amber:       #ffc107;
+      --amber-light: #ffd54f;
+      --amber-pale:  #fff8e1;
+      --light-bg:    #eef3fb;
+      --lighter-bg:  #f5f8fd;
+      --text-body:   #1e3a5f;
+      --text-muted:  #5a7a9e;
+      --text-faint:  #92afc9;
+      --white:       #ffffff;
+      --grad:        radial-gradient(circle at left, #0d3c78, #081f3a);
+      --grad-card:   radial-gradient(circle at top left, #0f4490, #081f3a);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+
+    h1, h2, h3, h4, h5, h6 { font-family: 'Playfair Display', serif; }
+
+    /* ═══ NAVBAR ═══ */
+    .navbar-top {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+      background: rgba(8, 31, 58, 0.97);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,193,7,.2);
+    }
+    .navbar-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 32px;
+    }
+    .nav-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem; font-weight: 700;
+      color: var(--amber); text-decoration: none; letter-spacing: .02em;
+    }
+    .nav-brand span { color: #fff; }
+    .nav-links { display: flex; align-items: center; gap: 4px; }
+    .nav-links a {
+      color: rgba(255,255,255,.7); font-size: .78rem; font-weight: 500;
+      letter-spacing: .08em; text-transform: uppercase; padding: 7px 14px;
+      text-decoration: none; border-radius: 3px; transition: all .2s;
+    }
+    .nav-links a:hover { color: var(--amber); background: rgba(255,193,7,.08); }
+    .btn-nav {
+      background: var(--amber); color: var(--dark);
+      font-size: .75rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; padding: 9px 22px; border-radius: 3px;
+      border: none; cursor: pointer; text-decoration: none; transition: all .25s;
+      display: inline-block;
+    }
+    .btn-nav:hover { background: var(--amber-light); color: var(--dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(255,193,7,.4); }
+
+    /* ═══ HERO ═══ */
+    .hero {
+      background: var(--grad);
+      min-height: 72vh; position: relative;
+      display: flex; align-items: center;
+      overflow: hidden; padding-top: 80px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 70% at 80% 50%, rgba(21,101,192,.2) 0%, transparent 65%),
+        repeating-linear-gradient(135deg, transparent, transparent 60px, rgba(255,193,7,.02) 60px, rgba(255,193,7,.02) 61px);
+    }
+    .hero-watermark {
+      position: absolute; right: -20px; bottom: -40px;
+      font-family: 'Playfair Display', serif; font-weight: 800;
+      font-size: clamp(120px, 18vw, 280px);
+      color: rgba(255,193,7,.04); line-height: 1;
+      user-select: none; pointer-events: none;
+      letter-spacing: -.03em;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid rgba(255,193,7,.35);
+      background: rgba(255,193,7,.1);
+      color: var(--amber); font-size: .7rem; font-weight: 600;
+      letter-spacing: .15em; text-transform: uppercase;
+      padding: 6px 14px; border-radius: 2px; margin-bottom: 22px;
+      animation: up .6s ease both;
+    }
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4.4rem);
+      font-weight: 800; color: #fff;
+      line-height: 1.07; margin-bottom: 8px;
+      animation: up .7s .1s ease both;
+    }
+    .hero h1 em { color: var(--amber); font-style: italic; }
+    .hero-sub {
+      font-size: 1.05rem; color: rgba(255,255,255,.65);
+      line-height: 1.75; max-width: 600px;
+      animation: up .7s .2s ease both; margin-top: 16px;
+    }
+    .hero-actions {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      margin-top: 32px; animation: up .7s .3s ease both;
+    }
+    .btn-primary-cfi {
+      background: var(--amber); color: var(--dark);
+      font-size: .82rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; padding: 13px 30px; border-radius: 3px;
+      border: none; text-decoration: none; transition: all .25s;
+      display: inline-block;
+    }
+    .btn-primary-cfi:hover { background: var(--amber-light); color: var(--dark); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,193,7,.45); }
+    .btn-ghost-cfi {
+      border: 1.5px solid rgba(255,193,7,.5); color: var(--amber);
+      background: transparent; font-size: .82rem; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: 13px 30px; border-radius: 3px; text-decoration: none;
+      transition: all .25s; display: inline-block;
+    }
+    .btn-ghost-cfi:hover { background: var(--amber); color: var(--dark); border-color: var(--amber); }
+
+    /* Quick links strip */
+    .quick-strip {
+      background: var(--grad); border-top: 1px solid rgba(255,255,255,.08);
+      padding: 0;
+    }
+    .qs-grid { display: grid; grid-template-columns: repeat(5,1fr); }
+    .qs-cell {
+      padding: 20px 18px; text-align: center;
+      border-right: 1px solid rgba(255,255,255,.07);
+      cursor: pointer; transition: background .2s;
+    }
+    .qs-cell:last-child { border-right: none; }
+    .qs-cell:hover { background: rgba(255,193,7,.08); }
+    .qs-cell a {
+      text-decoration: none; color: rgba(255,255,255,.55);
+      font-size: .72rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; transition: color .2s;
+      display: block;
+    }
+    .qs-cell a:hover { color: var(--amber); }
+    .qs-cell i { display: block; color: var(--amber); font-size: 1rem; margin-bottom: 6px; }
+
+    @keyframes up    { from { opacity:0; transform:translateY(26px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes right { from { opacity:0; transform:translateX(36px); } to { opacity:1; transform:translateX(0); } }
+
+    /* ═══ SECTION COMMONS ═══ */
+    .section-tag {
+      font-size: .68rem; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--amber);
+      margin-bottom: 10px; display: block;
+    }
+    .section-tag.on-dark { color: var(--amber); }
+    .sec-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+      font-weight: 700; line-height: 1.18;
+      color: var(--dark);
+    }
+    .sec-title.light { color: #fff; }
+    .gold-bar {
+      width: 44px; height: 3px;
+      background: linear-gradient(90deg, var(--amber), var(--amber-light));
+      border-radius: 2px; margin: 14px 0 24px;
+    }
+    .reveal { opacity:0; transform:translateY(24px); transition: opacity .6s, transform .6s; }
+    .reveal.vis { opacity:1; transform:translateY(0); }
+
+    /* ═══ ELIGIBILITY CRITERIA SECTION ═══ */
+    .elig-main-sec { background: var(--lighter-bg); padding: 90px 0; }
+
+    /* criterion card */
+    .crit-card {
+      background: #fff;
+      border: 1px solid rgba(13,60,120,.08);
+      border-radius: 6px;
+      padding: 0; overflow: hidden;
+      margin-bottom: 20px;
+      transition: box-shadow .3s;
+    }
+    .crit-card:hover { box-shadow: 0 12px 36px rgba(13,60,120,.12); }
+    .crit-header {
+      display: flex; align-items: center; gap: 18px;
+      padding: 22px 28px;
+      border-bottom: 1px solid rgba(13,60,120,.06);
+      background: var(--lighter-bg);
+    }
+    .crit-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem; font-weight: 700;
+      color: rgba(255,193,7,.35); line-height: 1;
+      min-width: 48px;
+    }
+    .crit-ico {
+      width: 44px; height: 44px; min-width: 44px; border-radius: 4px;
+      background: rgba(255,193,7,.12);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--amber); font-size: 1.1rem;
+    }
+    .crit-header h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; font-weight: 700; color: var(--dark); margin: 0;
+    }
+    .crit-body { padding: 22px 28px; }
+    .crit-item {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 9px 0; border-bottom: 1px solid rgba(13,60,120,.05);
+      font-size: .88rem; color: var(--text-body); line-height: 1.65;
+    }
+    .crit-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .crit-item i { color: var(--amber); margin-top: 3px; flex-shrink: 0; font-size: .85rem; }
+
+    /* marks table */
+    .marks-table {
+      width: 100%; border-collapse: collapse; margin-top: 12px;
+    }
+    .marks-table th {
+      background: var(--dark); color: var(--amber);
+      font-size: .72rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; padding: 10px 16px; text-align: left;
+    }
+    .marks-table td {
+      padding: 11px 16px; font-size: .87rem; color: var(--text-body);
+      border-bottom: 1px solid rgba(13,60,120,.07);
+    }
+    .marks-table tr:last-child td { border-bottom: none; }
+    .marks-table tr:nth-child(even) td { background: rgba(13,60,120,.03); }
+    .marks-badge {
+      display: inline-block;
+      background: rgba(255,193,7,.15); color: var(--dark);
+      font-weight: 700; font-size: .82rem;
+      padding: 3px 10px; border-radius: 2px;
+      border: 1px solid rgba(255,193,7,.3);
+    }
+
+    /* program badges */
+    .prog-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: .7rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; padding: 4px 11px; border-radius: 2px;
+      margin-right: 6px; margin-bottom: 6px;
+    }
+    .prog-badge.bba { background: rgba(13,60,120,.1); color: var(--blue); border: 1px solid rgba(13,60,120,.2); }
+    .prog-badge.bcom { background: rgba(255,193,7,.15); color: #7a5800; border: 1px solid rgba(255,193,7,.3); }
+
+    /* action cards */
+    .action-strip { background: var(--light-bg); padding: 50px 0; }
+    .action-card {
+      background: #fff; border: 1px solid rgba(13,60,120,.08);
+      border-radius: 6px; padding: 32px 28px;
+      text-align: center; height: 100%; transition: all .3s;
+      position: relative; overflow: hidden;
+    }
+    .action-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--amber), var(--amber-light));
+      transform: scaleX(0); transform-origin: left; transition: transform .35s;
+    }
+    .action-card:hover { transform: translateY(-4px); box-shadow: 0 14px 40px rgba(13,60,120,.14); }
+    .action-card:hover::before { transform: scaleX(1); }
+    .action-ico {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(255,193,7,.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; color: var(--amber);
+      margin: 0 auto 16px;
+    }
+    .action-card h5 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem; font-weight: 700; color: var(--dark); margin-bottom: 8px;
+    }
+    .action-card p { font-size: .84rem; color: var(--text-muted); line-height: 1.65; margin-bottom: 18px; }
+
+    /* ═══ FAQ ═══ */
+    .faq-sec { background: var(--grad); padding: 90px 0; }
+    .faq-item { border-bottom: 1px solid rgba(255,255,255,.08); }
+    .faq-q {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 20px; padding: 20px 0; cursor: pointer;
+      color: rgba(255,255,255,.9); font-size: .95rem; font-weight: 500;
+      line-height: 1.5; transition: color .2s;
+    }
+    .faq-q:hover { color: var(--amber); }
+    .faq-icon { color: var(--amber); font-size: .85rem; transition: transform .3s; flex-shrink: 0; margin-top: 3px; }
+    .faq-a {
+      display: none; padding-bottom: 18px;
+      color: rgba(255,255,255,.55); font-size: .87rem; line-height: 1.8;
+    }
+    .faq-item.open .faq-a { display: block; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+    /* ═══ CTA ═══ */
+    .cta-sec {
+     
+      padding: 100px 0; position: relative; overflow: hidden;
+    }
+    .cta-sec::before {
+      content: '⚖'; position: absolute; right: -30px; top: 50%;
+      transform: translateY(-50%); font-size: 380px;
+      opacity: .03; line-height: 1; pointer-events: none;
+    }
+    .cta-sec h2 {
+      font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+      line-height: 1.2;
+    }
+    .cta-sec h2 em { color: var(--amber); font-style: italic; }
+    .cta-sec p {  font-size: 1rem; line-height: 1.75; }
+
+    /* ═══ FOOTER ═══ */
+   
+    .ft-brand { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--amber); }
+    .ft-about { font-size: .83rem; color: #446080; line-height: 1.75; margin-top: 12px; }
+    .ft-head { font-size: .68rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: rgba(255,255,255,.4); margin-bottom: 14px; }
+    .ft-link { display: block; color: #446080; font-size: .83rem; text-decoration: none; margin-bottom: 7px; transition: color .2s; }
+    .ft-link:hover { color: var(--amber); }
+    footer hr { border-color: rgba(255,255,255,.06); margin: 36px 0 18px; }
+    .ft-copy { font-size: .75rem; color: #2a4060; }
+
+    @media (max-width: 991px) {
+      .qs-grid { grid-template-columns: repeat(3,1fr); }
+      .nav-links { display: none; }
+    }
+    @media (max-width: 575px) {
+      .qs-grid { grid-template-columns: repeat(2,1fr); }
+    }
+  </style>
+</head>
+<body>
+
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-watermark">ELIGIBILITY</div>
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7">
+        <span class="hero-tag"><i class="fa fa-clipboard-check"></i>&nbsp; Admission Eligibility</span>
+        <h1>Eligibility <em>Criteria</em><br>for 5-Year Integrated<br>Law Programs</h1>
+        <p class="hero-sub">
+          To apply for the 5-year integrated law programs (BBA LLB / B.Com LLB) at CFI College of Law, candidates must meet the following eligibility requirements. Students from Commerce, Science, or Arts streams are eligible to apply.
+        </p>
+        <div class="hero-actions">
+          <a href="https://cficollegeoflaw.in/admission-form" class="btn-primary-cfi">Admission Form</a>
+          <a href="#criteria" class="btn-ghost-cfi">Check Eligibility</a>
+        </div>
+      </div>
+      <div class="col-lg-5 d-none d-lg-flex flex-column gap-3" style="animation: right .8s .2s ease both;">
+        <div style="background:rgba(13,60,120,.55);border:1px solid rgba(255,193,7,.2);border-radius:6px;padding:28px 28px;backdrop-filter:blur(12px);">
+          <div style="font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:16px;">Programs Covered</div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;">
+            <span class="prog-badge bba" style="background:rgba(255,255,255,.1);color:#fff;border-color:rgba(255,255,255,.2);"><i class="fa fa-gavel"></i> BBA LLB (Hons)</span>
+            <span class="prog-badge bcom" style="background:rgba(255,193,7,.15);color:var(--amber);border-color:rgba(255,193,7,.3);"><i class="fa fa-coins"></i> B.Com LLB (Hons)</span>
+          </div>
+          <div style="border-top:1px solid rgba(255,255,255,.1);padding-top:16px;">
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 0;color:rgba(255,255,255,.75);font-size:.85rem;"><i class="fa fa-check-circle" style="color:var(--amber);"></i> 10+2 from any stream</div>
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 0;color:rgba(255,255,255,.75);font-size:.85rem;"><i class="fa fa-check-circle" style="color:var(--amber);"></i> General: 45% | OBC: 42% | SC/ST: 40%</div>
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 0;color:rgba(255,255,255,.75);font-size:.85rem;"><i class="fa fa-check-circle" style="color:var(--amber);"></i> Age as per BCI norms</div>
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 0;color:rgba(255,255,255,.75);font-size:.85rem;"><i class="fa fa-check-circle" style="color:var(--amber);"></i> Provisional applications accepted</div>
+            <div style="display:flex;align-items:center;gap:10px;padding:8px 0;color:rgba(255,255,255,.75);font-size:.85rem;border-bottom:none;"><i class="fa fa-check-circle" style="color:var(--amber);"></i> BCI approved | Calicut University affiliated</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ QUICK LINKS STRIP ═══ -->
+<div class="quick-strip">
+  <div class="qs-grid">
+    <div class="qs-cell"><a href="#edu"><i class="fa fa-graduation-cap"></i>Educational Qualification</a></div>
+    <div class="qs-cell"><a href="#marks"><i class="fa fa-percent"></i>Minimum Marks</a></div>
+    <div class="qs-cell"><a href="#age"><i class="fa fa-calendar-alt"></i>Age Limit</a></div>
+    <div class="qs-cell"><a href="#admission"><i class="fa fa-file-alt"></i>Admission Criteria</a></div>
+    <div class="qs-cell"><a href="#docs"><i class="fa fa-folder-open"></i>Document Verification</a></div>
+  </div>
+</div>
+
+<!-- ═══ ELIGIBILITY CRITERIA ═══ -->
+<section class="elig-main-sec" id="criteria">
+  <div class="container">
+    <div class="row mb-5 reveal">
+      <div class="col-lg-7">
+        <span class="section-tag">5-Year Integrated Law Programs — BBA LLB &amp; B.Com LLB</span>
+        <h2 class="sec-title">Eligibility Criteria</h2>
+        <div class="gold-bar"></div>
+        <p style="font-size:.95rem;color:var(--text-muted);line-height:1.8;">
+          To apply for the 5-year integrated law programs at CFI College of Law, candidates must meet the following eligibility requirements as per Bar Council of India (BCI) norms and University of Calicut regulations.
+        </p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
+          <span class="prog-badge bba"><i class="fa fa-gavel"></i> BBA LLB (Hons)</span>
+          <span class="prog-badge bcom"><i class="fa fa-coins"></i> B.Com LLB (Hons)</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 1. Educational Qualification -->
+    <div class="crit-card reveal" id="edu">
+      <div class="crit-header">
+        <div class="crit-num">01</div>
+        <div class="crit-ico"><i class="fa fa-graduation-cap"></i></div>
+        <h4>Educational Qualification</h4>
+      </div>
+      <div class="crit-body">
+        <div class="crit-item">
+          <i class="fa fa-check-circle"></i>
+          <span>The candidate must have successfully passed <strong>10+2 (Higher Secondary Examination)</strong> or any equivalent examination from a recognized board or institution.</span>
+        </div>
+        <div class="crit-item">
+          <i class="fa fa-check-circle"></i>
+          <span>Students from <strong>Commerce, Science, or Arts streams</strong> are eligible to apply — no specific stream is mandatory.</span>
+        </div>
+        <div class="crit-item">
+          <i class="fa fa-check-circle"></i>
+          <span>Candidates <strong>awaiting their 10+2 results</strong> may apply provisionally, subject to submission of proof of qualification at the time of admission.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Minimum Marks -->
+    <div class="crit-card reveal" id="marks">
+      <div class="crit-header">
+        <div class="crit-num">02</div>
+        <div class="crit-ico"><i class="fa fa-percent"></i></div>
+        <h4>Minimum Marks Requirement (As per BCI Norms)</h4>
+      </div>
+      <div class="crit-body">
+        <div class="crit-item" style="border-bottom:none;padding-bottom:0;">
+          <i class="fa fa-info-circle"></i>
+          <span>The percentage calculation will be based on the total aggregate marks obtained in the qualifying examination. Category-wise minimum requirements are as follows:</span>
+        </div>
+        <table class="marks-table mt-3">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Minimum Aggregate Marks</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>General Category</strong></td>
+              <td><span class="marks-badge">45%</span></td>
+              <td>In qualifying examination</td>
+            </tr>
+            <tr>
+              <td><strong>OBC Category</strong></td>
+              <td><span class="marks-badge">42%</span></td>
+              <td>In qualifying examination</td>
+            </tr>
+            <tr>
+              <td><strong>SC / ST Category</strong></td>
+              <td><span class="marks-badge">40%</span></td>
+              <td>In qualifying examination</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 3. Age Limit -->
+    <div class="crit-card reveal" id="age">
+      <div class="crit-header">
+        <div class="crit-num">03</div>
+        <div class="crit-ico"><i class="fa fa-calendar-alt"></i></div>
+        <h4>Age Limit</h4>
+      </div>
+      <div class="crit-body">
+        <div class="crit-item">
+          <i class="fa fa-check-circle"></i>
+          <span>The age of the candidate must be in accordance with the <strong>rules and regulations prescribed by the Bar Council of India (BCI)</strong> at the time of admission.</span>
+        </div>
+        <div class="crit-item">
+          <i class="fa fa-check-circle"></i>
+          <span>Any changes or updates issued by the Bar Council of India will be applicable to all candidates.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. Admission Criteria -->
+    <div class="crit-card reveal" id="admission">
+      <div class="crit-header">
+        <div class="crit-num">04</div>
+        <div class="crit-ico"><i class="fa fa-file-alt"></i></div>
+        <h4>Admission Criteria</h4>
+      </div>
+      <div class="crit-body">
+        <div class="crit-item">
+          <i class="fa fa-check-circle"></i>
+          <span>Admission is granted based on <strong>merit in the qualifying examination</strong> and/or performance in the qualifying entrance examination, as applicable.</span>
+        </div>
+        <div class="crit-item">
+          <i class="fa fa-check-circle"></i>
+          <span>Candidates may also be required to attend a <strong>counseling session or interview</strong> as part of the admission process.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Document Verification -->
+    <div class="crit-card reveal" id="docs">
+      <div class="crit-header">
+        <div class="crit-num">05</div>
+        <div class="crit-ico"><i class="fa fa-folder-open"></i></div>
+        <h4>Document Verification</h4>
+      </div>
+      <div class="crit-body">
+        <div class="crit-item">
+          <i class="fa fa-check-circle"></i>
+          <span>All admissions are subject to <strong>verification of original documents</strong>, eligibility confirmation, and compliance with college and university regulations.</span>
+        </div>
+        <div class="crit-item">
+          <i class="fa fa-check-circle"></i>
+          <span>10th &amp; 12th mark sheets, TC &amp; conduct certificates, entrance rank card (if applicable), photographs, and category certificates (if applicable).</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ ACTION STRIP ═══ -->
+<section class="action-strip reveal">
+  <div class="container">
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-4 reveal">
+        <div class="action-card">
+          <div class="action-ico"><i class="fa fa-file-signature"></i></div>
+          <h5>Admission Form</h5>
+          <p>Fill out and submit your application through the official CFI College of Law admission portal before the last date.</p>
+          <a href="https://cficollegeoflaw.in/admission-form" class="btn-primary-cfi">Apply Now</a>
+        </div>
+      </div>
+      <div class="col-md-4 reveal">
+        <div class="action-card">
+          <div class="action-ico"><i class="fa fa-route"></i></div>
+          <h5>Admission Procedure</h5>
+          <p>Learn the step-by-step process — application, counseling, seat allotment, and final confirmation.</p>
+          <a href="https://cficollegeoflaw.in/admission-form" class="btn-ghost-cfi" style="display:inline-block;">Check Procedure</a>
+        </div>
+      </div>
+      <div class="col-md-4 reveal">
+        <div class="action-card">
+          <div class="action-ico"><i class="fa fa-headset"></i></div>
+          <h5>Talk to Counsellor</h5>
+          <p>Still unsure about your eligibility? Connect with our expert admissions team for clear, personalized guidance.</p>
+          <a href="tel:8590759004" class="btn-ghost-cfi" style="display:inline-block;">Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ═══ -->
+<section class="faq-sec" id="faq">
+  <div class="container">
+    <div class="row mb-5 reveal">
+      <div class="col-lg-7">
+        <span class="section-tag on-dark">Eligibility FAQs</span>
+        <h2 class="sec-title light">Eligibility FAQs – BBA LLB (Hons) &amp; B.Com LLB (Hons)</h2>
+        <div class="gold-bar"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 reveal">
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">1. What is the basic eligibility for BBA LLB (Hons) in Kerala? <span class="faq-icon"><i class="fa fa-plus"></i></span></div>
+          <div class="faq-a">Candidates must pass 10+2 from a recognized board with required marks as per BBA LLB admission process Kerala and BCI norms.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">2. What is the eligibility for B.Com LLB (Hons) admission? <span class="faq-icon"><i class="fa fa-plus"></i></span></div>
+          <div class="faq-a">Students who completed 10+2 in any stream can apply under the B.Com LLB admission procedure Kerala, subject to minimum marks criteria.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">3. What minimum marks are required for law admission in Kerala? <span class="faq-icon"><i class="fa fa-plus"></i></span></div>
+          <div class="faq-a">As per law college admission guidelines Kerala, minimum <strong style="color:var(--amber);">45% (General)</strong>, <strong style="color:var(--amber);">42% (OBC)</strong>, and <strong style="color:var(--amber);">40% (SC/ST)</strong> is required for law college 5-year course admission Kerala.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">4. Can Science students apply for BBA LLB or B.Com LLB? <span class="faq-icon"><i class="fa fa-plus"></i></span></div>
+          <div class="faq-a">Yes, students from Commerce, Science, or Arts streams are eligible under the law college admission procedure Kerala.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">5. Is there an age limit for the 5-year law course in Kerala? <span class="faq-icon"><i class="fa fa-plus"></i></span></div>
+          <div class="faq-a">Yes, age eligibility must follow the rules prescribed by the Bar Council of India for law college 5-year course admission Kerala.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">6. Can students awaiting 10+2 results apply? <span class="faq-icon"><i class="fa fa-plus"></i></span></div>
+          <div class="faq-a">Yes, provisional applications are allowed under the step by step law college admission Kerala process, subject to result submission at the time of admission.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">7. Is entrance exam mandatory for eligibility? <span class="faq-icon"><i class="fa fa-plus"></i></span></div>
+          <div class="faq-a">Eligibility requires 10+2 qualification; admission may include merit or entrance evaluation as per law college admission guidelines Kerala.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">8. Is Commerce stream compulsory for B.Com LLB (Hons)? <span class="faq-icon"><i class="fa fa-plus"></i></span></div>
+          <div class="faq-a">No, students from any stream can apply under the B.Com LLB admission procedure Kerala, if eligibility criteria are met.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">9. What documents are required to prove eligibility? <span class="faq-icon"><i class="fa fa-plus"></i></span></div>
+          <div class="faq-a">10+2 mark sheet, certificates, ID proof, and category certificates are needed for law college admission procedure Kerala verification.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">10. Where can I check complete eligibility details? <span class="faq-icon"><i class="fa fa-plus"></i></span></div>
+          <div class="faq-a">Full details are available in the prospectus under how to apply law college Kerala and law college admission procedure Kerala sections.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Still Have Questions -->
+    <div class="row mt-5 reveal">
+      <div class="col-lg-12">
+        <div style="background:rgba(255,193,7,.1);border:1px solid rgba(255,193,7,.25);border-radius:6px;padding:36px 36px;">
+          <div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:#fff;font-weight:700;margin-bottom:8px;">Still Have Questions About Eligibility or Admission?</div>
+          <div style="font-size:.9rem;color:rgba(255,255,255,.55);line-height:1.75;margin-bottom:24px;">Call us, WhatsApp us, or chat with our admission counselor for clear guidance on the application process.</div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="tel:8590759004" class="btn-primary-cfi"><i class="fa fa-phone me-2"></i>Call Now</a>
+            <a href="https://wa.me/message/YE7STK6V6SV4H1" class="btn-ghost-cfi"><i class="fab fa-whatsapp me-2"></i>WhatsApp Us</a>
+            <a href="https://wa.me/message/YE7STK6V6SV4H1" class="btn-ghost-cfi"><i class="fa fa-comments me-2"></i>Chat with Counselor</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="cta-sec" id="cta">
+  <div class="container">
+    <div class="row justify-content-center text-center reveal">
+      <div class="col-lg-8">
+        <span class="section-tag" style="justify-content:center;display:flex;">Admissions Open 2026</span>
+        <h2>Begin Your Legal Career<br>with <em>CFI College of Law</em></h2>
+        <p class="mt-4 mb-5">
+          Apply now for BBA LLB (Hons) or B.Com LLB (Hons) 2026 at one of Kerala's leading law colleges in Poyya, Thrissur. Talk to our expert admissions counsellor and get personalized guidance every step of the way.
+        </p>
+        <div class="d-flex justify-content-center flex-wrap gap-3">
+          <a href="https://cficollegeoflaw.in/admission-form" class="btn-primary-cfi" style="padding:15px 40px;font-size:.9rem;">Admission Form</a>
+          <a href="tel:8590759004" class="btn-ghost-cfi" style="padding:15px 40px;font-size:.9rem;"><i class="fa fa-phone me-2"></i>Talk to Counsellor</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<script>
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+

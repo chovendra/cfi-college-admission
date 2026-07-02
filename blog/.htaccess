@@ -1,0 +1,10 @@
+Options +FollowSymlinks -MultiViews
+RewriteEngine On
+RewriteBase /blog/
+
+# If the request is a file or directory, skip the rewrite
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Rewrite /blog/some-permalink to /blog/index.php?permalink=some-permalink
+RewriteRule ^(.+)$ index.php?permalink=$1 [L,QSA]

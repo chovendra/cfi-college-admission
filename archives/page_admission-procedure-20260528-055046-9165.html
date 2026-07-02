@@ -1,0 +1,581 @@
+
+  <style>
+    :root {
+      --dark:        #081f3a;
+      --blue:        #0d3c78;
+      --amber:       #ffc107;
+      --amber-light: #ffd54f;
+      --amber-pale:  #fff8e1;
+      --light-bg:    #eef3fb;
+      --lighter-bg:  #f5f8fd;
+      --text-body:   #1e3a5f;
+      --text-muted:  #5a7a9e;
+      --white:       #ffffff;
+      --grad:        radial-gradient(circle at left, #0d3c78, #081f3a);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+
+
+    h1, h2, h3, h4, h5, h6 { font-family: 'Playfair Display', serif; }
+
+    /* ═══ COMMONS ═══ */
+    .section-tag {
+      font-size: .68rem; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--amber);
+      margin-bottom: 10px; display: block;
+    }
+    .section-tag.on-dark { color: var(--amber); }
+    .sec-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 3.2vw, 2.8rem);
+      font-weight: 700; line-height: 1.18;
+      color: var(--dark);
+    }
+    .sec-title.light { color: #fff; }
+    .gold-bar {
+      width: 44px; height: 3px;
+      background: linear-gradient(90deg, var(--amber), var(--amber-light));
+      border-radius: 2px; margin: 14px 0 24px;
+    }
+    .reveal { opacity:0; transform:translateY(24px); transition: opacity .6s, transform .6s; }
+    .reveal.vis { opacity:1; transform:translateY(0); }
+
+    .btn-primary-cfi {
+      background: var(--amber); color: var(--dark);
+      font-size: .82rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; padding: 13px 30px; border-radius: 3px;
+      border: none; text-decoration: none; transition: all .25s;
+      display: inline-block;
+    }
+    .btn-primary-cfi:hover { background: var(--amber-light); color: var(--dark); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,193,7,.45); }
+    .btn-ghost-cfi {
+      border: 1.5px solid rgba(13,60,120,.3); color: var(--blue);
+      background: transparent; font-size: .82rem; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: 13px 30px; border-radius: 3px; text-decoration: none;
+      transition: all .25s; display: inline-block;
+    }
+    .btn-ghost-cfi:hover { background: var(--blue); color: #fff; border-color: var(--blue); }
+    .btn-ghost-dark {
+      border: 1.5px solid rgba(255,193,7,.5); color: var(--amber);
+      background: transparent; font-size: .82rem; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase;
+      padding: 13px 30px; border-radius: 3px; text-decoration: none;
+      transition: all .25s; display: inline-block;
+    }
+    .btn-ghost-dark:hover { background: var(--amber); color: var(--dark); border-color: var(--amber); }
+
+    /* ═══ HERO ═══ */
+    .hero {
+      background: var(--grad);
+      min-height: 72vh; position: relative;
+      display: flex; align-items: center;
+      overflow: hidden; padding: 140px 0 60px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 70% 70% at 80% 50%, rgba(21,101,192,.2) 0%, transparent 65%),
+        repeating-linear-gradient(135deg, transparent, transparent 60px, rgba(255,193,7,.02) 60px, rgba(255,193,7,.02) 61px);
+    }
+    .hero-watermark {
+      position: absolute; right: -20px; bottom: -40px;
+      font-family: 'Playfair Display', serif; font-weight: 800;
+      font-size: clamp(100px, 16vw, 240px);
+      color: rgba(255,193,7,.04); line-height: 1;
+      user-select: none; pointer-events: none;
+      letter-spacing: -.03em;
+    }
+    .hero-tag {
+      display: inline-flex; align-items: center; gap: 8px;
+      border: 1px solid rgba(255,193,7,.35);
+      background: rgba(255,193,7,.1);
+      color: var(--amber); font-size: 1rem; font-weight: 600;
+      letter-spacing: .15em; text-transform: uppercase;
+      padding: 6px 14px; border-radius: 2px; margin-bottom: 22px;
+      animation: up .6s ease both;
+    }
+    .hero h1 {
+      font-size: clamp(2.4rem, 5vw, 4.4rem);
+      font-weight: 800; color: #fff;
+      line-height: 1.07; margin-bottom: 8px;
+      animation: up .7s .1s ease both;
+    }
+    .hero h1 em { color: var(--amber); font-style: italic; }
+    .hero-sub {
+      font-size: 1rem; color: rgba(255,255,255,.65);
+      line-height: 1.8; max-width: 580px;
+      animation: up .7s .2s ease both; margin-top: 14px;
+    }
+    .hero-actions {
+      display: flex; flex-wrap: wrap; gap: 12px;
+      margin-top: 32px; animation: up .7s .3s ease both;
+    }
+    .hero-card {
+      background: rgba(13,60,120,.55);
+      border: 1px solid rgba(255,193,7,.2);
+      border-radius: 6px; padding: 32px 28px;
+      backdrop-filter: blur(12px); position: relative;
+      animation: slideRight .8s .2s ease both;
+    }
+    .hero-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 28px; right: 28px; height: 3px;
+      background: linear-gradient(90deg, var(--amber), var(--amber-light), var(--amber));
+      border-radius: 0 0 3px 3px;
+    }
+    .hero-card-title {
+      font-size: 1rem; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--amber); margin-bottom: 18px;
+    }
+    .hc-step {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,.06);
+      color: rgba(255,255,255,.8); font-size: .85rem; line-height: 1.5;
+    }
+    .hc-step:last-child { border-bottom: none; padding-bottom: 0; }
+    .hc-num {
+      width: 26px; height: 26px; min-width: 26px; border-radius: 50%;
+      background: rgba(255,193,7,.2); border: 1px solid rgba(255,193,7,.4);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--amber); font-size: .68rem; font-weight: 700;
+    }
+
+    @keyframes up        { from { opacity:0; transform:translateY(26px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes slideRight{ from { opacity:0; transform:translateX(36px); } to { opacity:1; transform:translateX(0); } }
+
+    /* ═══ STATS STRIP ═══ */
+    .intro-strip { background: var(--grad); padding: 0; }
+    .strip-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .strip-cell {
+      padding: 32px 24px; text-align: center;
+      border-right: 1px solid rgba(255,255,255,.08);
+    }
+    .strip-cell:last-child { border-right: none; }
+    .strip-cell .sc-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.6rem; font-weight: 700; color: var(--amber); line-height: 1;
+    }
+    .strip-cell .sc-lbl {
+      font-size: .7rem; color: rgba(255,255,255,.45);
+      letter-spacing: .1em; text-transform: uppercase; margin-top: 5px;
+    }
+
+    /* ═══ STEPS SECTION ═══ */
+    .steps-sec { background: var(--lighter-bg); padding: 90px 0; }
+
+    .step-row {
+      display: grid; grid-template-columns: 56px 1fr;
+      gap: 0 28px; margin-bottom: 0;
+      position: relative;
+    }
+    /* vertical line connecting steps */
+    .steps-wrap { position: relative; }
+    .steps-wrap::before {
+      content: ''; position: absolute;
+      left: 27px; top: 56px; bottom: 56px;
+      width: 2px;
+      background: linear-gradient(180deg, var(--amber), rgba(255,193,7,.1));
+    }
+
+    .step-circle {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--dark); border: 3px solid var(--amber);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; font-weight: 700; color: var(--amber);
+      flex-shrink: 0; position: relative; z-index: 1;
+      margin-top: 4px;
+    }
+    .step-body {
+      background: #fff; border: 1px solid rgba(13,60,120,.08);
+      border-radius: 6px; padding: 26px 30px;
+      margin-bottom: 20px; transition: all .3s;
+    }
+    .step-body:hover { border-color: rgba(255,193,7,.4); box-shadow: 0 10px 32px rgba(13,60,120,.1); }
+    .step-body h4 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; font-weight: 700; color: var(--dark); margin-bottom: 10px;
+    }
+    .step-body p {
+      font-size: .88rem; color: var(--text-muted); line-height: 1.75; margin: 0;
+    }
+    .step-body ul {
+      list-style: none; padding: 0; margin-top: 10px;
+    }
+    .step-body ul li {
+      font-size: .87rem; color: var(--text-muted);
+      line-height: 1.65; padding: 4px 0;
+      display: flex; align-items: baseline; gap: 8px;
+    }
+    .step-body ul li::before { content: '—'; color: var(--amber); flex-shrink: 0; font-size: .75rem; }
+    .step-tag {
+      display: inline-block;
+      background: rgba(255,193,7,.12); color: var(--dark);
+      font-size: .63rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; padding: 3px 9px; border-radius: 2px;
+      border: 1px solid rgba(255,193,7,.25); margin-bottom: 10px;
+    }
+
+    /* CTA row between steps and FAQ */
+    .mid-cta {
+      background: var(--light-bg); padding: 60px 0;
+      border-top: 1px solid rgba(13,60,120,.07);
+      border-bottom: 1px solid rgba(13,60,120,.07);
+    }
+    .mid-cta-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 24px;
+    }
+    .mid-cta h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 700; color: var(--dark);
+    }
+    .mid-cta p { font-size: .9rem; color: var(--text-muted); margin-top: 4px; }
+
+    /* ═══ FAQ ═══ */
+    .faq-sec { background: var(--grad); padding: 90px 0; }
+    .faq-item { border-bottom: 1px solid rgba(255,255,255,.08); }
+    .faq-q {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 20px; padding: 20px 0; cursor: pointer;
+      color: rgba(255,255,255,.9); font-size: .95rem; font-weight: 500;
+      line-height: 1.5; transition: color .2s;
+    }
+    .faq-q:hover { color: var(--amber); }
+    .faq-icon { color: var(--amber); font-size: .85rem; transition: transform .3s; flex-shrink: 0; margin-top: 3px; }
+    .faq-a {
+      display: none; padding-bottom: 18px;
+      color: rgba(255,255,255,.55); font-size: .87rem; line-height: 1.8;
+    }
+    .faq-item.open .faq-a { display: block; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+    /* ═══ BOTTOM CTA ═══ */
+    .bottom-cta {
+      background: var(--lighter-bg);
+      padding: 70px 0;
+    }
+    .cta-box {
+      background: var(--grad);
+      border-radius: 8px; padding: 56px 52px;
+      position: relative; overflow: hidden;
+    }
+    .cta-box::before {
+      content: '⚖'; position: absolute; right: -20px; top: 50%;
+      transform: translateY(-50%); font-size: 300px;
+      opacity: .04; line-height: 1; pointer-events: none;
+    }
+    .cta-box h2 {
+      font-size: clamp(1.9rem, 3.5vw, 3rem);
+      color: #fff; line-height: 1.2;
+    }
+    .cta-box h2 em { color: var(--amber); font-style: italic; }
+    .cta-box p { color: rgba(255,255,255,.55); font-size: .95rem; line-height: 1.75; }
+    .wa-btn {
+      background: #25D366; color: #fff;
+      font-size: .82rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; padding: 13px 28px; border-radius: 3px;
+      border: none; text-decoration: none; transition: all .25s;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .wa-btn:hover { background: #1ebe5d; color: #fff; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(37,211,102,.4); }
+    .call-btn {
+      background: transparent; color: rgba(255,255,255,.8);
+      font-size: .82rem; font-weight: 600; letter-spacing: .08em;
+      text-transform: uppercase; padding: 13px 28px; border-radius: 3px;
+      border: 1.5px solid rgba(255,255,255,.25); text-decoration: none;
+      transition: all .25s; display: inline-flex; align-items: center; gap: 8px;
+    }
+    .call-btn:hover { border-color: var(--amber); color: var(--amber); }
+
+    @media (max-width: 991px) {
+      .strip-grid { grid-template-columns: repeat(2,1fr); }
+    }
+    @media (max-width: 767px) {
+      .cta-box { padding: 40px 28px; }
+      .steps-wrap::before { display: none; }
+    }
+  </style>
+
+
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-watermark">ADMISSION</div>
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <span class="hero-tag"><i class="fa fa-route"></i>&nbsp; Admission Procedure</span>
+        <h1>Step-by-Step<br><em>Admission</em><br>Guide</h1>
+        <p class="hero-sub">
+          Starting your journey in law is easier with CFI College of Law, a premier law college in Poyya, Thrissur, Kerala. We offer a smooth, transparent, and student-friendly admission process for both BBA LLB and B.Com LLB programs.
+        </p>
+        <div class="hero-actions">
+          <a href="https://cficollegeoflaw.in/admission-form" class="btn-primary-cfi">Fill Application Form</a>
+          <a href="#steps" class="btn-ghost-dark">View All Steps</a>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="hero-card">
+          <div class="hero-card-title">Admission at a Glance</div>
+          <div class="hc-step"><div class="hc-num">1</div>Check Eligibility</div>
+          <div class="hc-step"><div class="hc-num">2</div>Obtain Prospectus &amp; Application Form</div>
+          <div class="hc-step"><div class="hc-num">3</div>Prepare Required Documents</div>
+          <div class="hc-step"><div class="hc-num">4</div>Fill the Application Form</div>
+          <div class="hc-step"><div class="hc-num">5</div>Submit Application</div>
+          <div class="hc-step"><div class="hc-num">6</div>Entrance Test / Merit Evaluation</div>
+          <div class="hc-step"><div class="hc-num">7</div>Interview / Counseling</div>
+          <div class="hc-step"><div class="hc-num">8</div>Fee Payment &amp; Confirmation</div>
+          <div class="hc-step"><div class="hc-num">9</div>Orientation &amp; Commencement</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STATS STRIP ═══ -->
+<div class="intro-strip">
+  <div class="strip-grid">
+    <div class="strip-cell"><div class="sc-num">2</div><div class="sc-lbl">Programs Available</div></div>
+    <div class="strip-cell"><div class="sc-num">9</div><div class="sc-lbl">Simple Steps</div></div>
+    <div class="strip-cell"><div class="sc-num">5 Yrs</div><div class="sc-lbl">Integrated Degree</div></div>
+    <div class="strip-cell"><div class="sc-num">2026</div><div class="sc-lbl">Admissions Open</div></div>
+  </div>
+</div>
+
+<!-- ═══ STEPS ═══ -->
+<section class="steps-sec" id="steps">
+  <div class="container">
+    <div class="row mb-5 reveal">
+      <div class="col-lg-7">
+        <span class="section-tag">Step-by-Step Law College Admission Procedure Kerala</span>
+        <h2 class="sec-title">How to Apply at<br>CFI College of Law</h2>
+        <div class="gold-bar"></div>
+        <p style="font-size:.95rem;color:var(--text-muted);line-height:1.8;">
+          Follow our step-by-step guide to secure your seat and begin your legal career with confidence. The process is transparent, student-friendly, and guided at every stage.
+        </p>
+      </div>
+    </div>
+
+    <div class="steps-wrap">
+
+      <!-- Step 1 -->
+      <div class="step-row reveal">
+        <div class="step-circle">1</div>
+        <div class="step-body">
+          <span class="step-tag">Step 1</span>
+          <h4>Check Eligibility</h4>
+          <p>Ensure you meet the eligibility requirements before applying for either program.</p>
+          <ul>
+            <li><strong>BBA LLB admission process Kerala:</strong> Completion of 10+2 or equivalent with minimum marks as per college guidelines.</li>
+            <li><strong>B.Com LLB admission procedure Kerala:</strong> 10+2 completion in any stream is acceptable.</li>
+            <li>Ensure you meet age and academic requirements before applying.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="step-row reveal">
+        <div class="step-circle">2</div>
+        <div class="step-body">
+          <span class="step-tag">Step 2</span>
+          <h4>Obtain Prospectus &amp; Application Form</h4>
+          <p>Download or collect the college prospectus to review law college admission guidelines Kerala, eligibility, fee structure, and course details.</p>
+          <ul>
+            <li>The prospectus includes all information for law college 5-year course admission Kerala.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="step-row reveal">
+        <div class="step-circle">3</div>
+        <div class="step-body">
+          <span class="step-tag">Step 3</span>
+          <h4>Prepare Required Documents</h4>
+          <p>Gather all necessary documents before filling the application form to ensure a smooth submission.</p>
+          <ul>
+            <li>10+2 Marksheet &amp; Certificates</li>
+            <li>Transfer &amp; Conduct Certificates</li>
+            <li>Passport-size Photographs</li>
+            <li>ID Proof (Aadhar, Passport, or School ID)</li>
+            <li>Scholarship / Category Certificates (if applicable)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="step-row reveal">
+        <div class="step-circle">4</div>
+        <div class="step-body">
+          <span class="step-tag">Step 4</span>
+          <h4>Fill the Application Form</h4>
+          <p>Complete the application form accurately for BBA LLB or B.Com LLB programs. Attach all required documents before submission. This is your first step for how to apply law college Kerala.</p>
+        </div>
+      </div>
+
+      <!-- Step 5 -->
+      <div class="step-row reveal">
+        <div class="step-circle">5</div>
+        <div class="step-body">
+          <span class="step-tag">Step 5</span>
+          <h4>Submit Application</h4>
+          <p>Submit online or at the college office before the deadline. Double-check all details to avoid delays in processing.</p>
+        </div>
+      </div>
+
+      <!-- Step 6 -->
+      <div class="step-row reveal">
+        <div class="step-circle">6</div>
+        <div class="step-body">
+          <span class="step-tag">Step 6</span>
+          <h4>Entrance Test / Merit Evaluation</h4>
+          <p>Admissions may be based on merit from qualifying exams or an entrance test, depending on the program. CFI College of Law follows fair and transparent law college admission guidelines Kerala.</p>
+        </div>
+      </div>
+
+      <!-- Step 7 -->
+      <div class="step-row reveal">
+        <div class="step-circle">7</div>
+        <div class="step-body">
+          <span class="step-tag">Step 7</span>
+          <h4>Interview / Counseling</h4>
+          <p>Shortlisted candidates may attend counseling or an interview. Guidance on course selection, fees, and campus facilities is provided at this stage.</p>
+        </div>
+      </div>
+
+      <!-- Step 8 -->
+      <div class="step-row reveal">
+        <div class="step-circle">8</div>
+        <div class="step-body">
+          <span class="step-tag">Step 8</span>
+          <h4>Fee Payment &amp; Confirmation</h4>
+          <p>Pay the admission fees to secure your seat. Complete all formalities to enroll in the 5-year integrated law programs at CFI College of Law.</p>
+        </div>
+      </div>
+
+      <!-- Step 9 -->
+      <div class="step-row reveal">
+        <div class="step-circle">9</div>
+        <div class="step-body">
+          <span class="step-tag">Step 9</span>
+          <h4>Orientation &amp; Commencement</h4>
+          <p>Attend the orientation session to get familiar with the campus, faculty, and academic schedule. Classes begin as per the academic calendar.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MID CTA ═══ -->
+<div class="mid-cta reveal">
+  <div class="container">
+    <div class="mid-cta-inner">
+      <div>
+        <h3>Ready to Begin Your Application?</h3>
+        <p>Fill the form now or read the complete eligibility guidelines before applying.</p>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <a href="https://cficollegeoflaw.in/admission-form" class="btn-primary-cfi"><i class="fa fa-file-signature me-2"></i>Fill the Application Form</a>
+        <a href="#" class="btn-ghost-cfi"><i class="fa fa-clipboard-check me-2"></i>Read Complete Eligibility Guidelines</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ FAQ ═══ -->
+<section class="faq-sec" id="faq">
+  <div class="container">
+    <div class="row mb-5 reveal">
+      <div class="col-lg-7">
+        <span class="section-tag on-dark">Admission FAQs</span>
+        <h2 class="sec-title light">Admission FAQs –<br>CFI College of Law</h2>
+        <div class="gold-bar"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 reveal">
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">1. What courses are offered at CFI College of Law? <span class="faq-icon"><i class="fa fa-plus"></i></span></div>
+          <div class="faq-a">We offer 5-year integrated programs: <strong style="color:var(--amber-light);">BBA LLB (Hons)</strong> and <strong style="color:var(--amber-light);">B.Com LLB (Hons)</strong>.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">2. What is the eligibility criteria for admission? <span class="faq-icon"><i class="fa fa-plus"></i></span></div>
+          <div class="faq-a">Candidates must have completed 10+2 or equivalent with minimum marks as per college guidelines. Students from all streams — Commerce, Science, and Arts — are eligible to apply.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">3. How can I apply for admission? <span class="faq-icon"><i class="fa fa-plus"></i></span></div>
+          <div class="faq-a">You can apply online or offline by filling the application form and submitting the required documents. Follow the 9-step admission procedure outlined above for a smooth process.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">4. Are internships and practical training part of the course? <span class="faq-icon"><i class="fa fa-plus"></i></span></div>
+          <div class="faq-a">Yes, students get structured internships, moot court exposure, and workshops to gain practical legal skills throughout the 5-year program.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">5. Is there any support for scholarships? <span class="faq-icon"><i class="fa fa-plus"></i></span></div>
+          <div class="faq-a">Yes, we provide guidance for scholarship applications based on merit or category, as mentioned in the prospectus. Eligible students can avail government and institutional scholarships.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">6. How will I know the admission status? <span class="faq-icon"><i class="fa fa-plus"></i></span></div>
+          <div class="faq-a">Shortlisted candidates are notified via email, phone, or during counseling, and further guidance is provided for fee payment and enrollment.</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BOTTOM CTA ═══ -->
+<section class="bottom-cta" id="cta">
+  <div class="container">
+    <div class="cta-box reveal">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-7">
+          <span class="section-tag on-dark">Admissions Open</span>
+          <h2>Begin Your Legal Career<br>with <em>CFI College of Law</em></h2>
+          <p class="mt-3">
+            Apply now for BBA LLB (Hons) or B.Com LLB (Hons) 2026 at one of Kerala's leading law colleges in Poyya, Thrissur. Our admissions team is here to guide you at every step.
+          </p>
+          <div class="d-flex flex-wrap gap-3 mt-4">
+            <a href="https://cficollegeoflaw.in/admission-form" class="btn-primary-cfi" style="padding:14px 36px;font-size:.88rem;"><i class="fa fa-file-signature me-2"></i>Fill Application Form</a>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div style="background:rgba(255,255,255,.06);border:1px solid rgba(255,193,7,.2);border-radius:6px;padding:32px 28px;">
+            <div style="font-size:.65rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:18px;">Get in Touch</div>
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <a href="tel:8590759004" class="call-btn" style="justify-content:center;"><i class="fa fa-phone"></i>Call Us Now</a>
+              <a href="mailto:admissions@cficollegeoflaw.in" class="call-btn" style="justify-content:center;"><i class="fa fa-envelope"></i> E-mail</a>
+            </div>
+     
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>

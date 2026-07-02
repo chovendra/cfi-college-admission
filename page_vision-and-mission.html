@@ -1,0 +1,296 @@
+
+  <style>
+    :root {
+      --dark:        #081f3a;
+      --blue:        #0d3c78;
+      --amber:       #ffc107;
+      --amber-light: #ffd54f;
+      --light-bg:    #eef3fb;
+      --lighter-bg:  #f5f8fd;
+      --text-body:   #1e3a5f;
+      --text-muted:  #5a7a9e;
+      --grad:        radial-gradient(circle at left, #0d3c78, #081f3a);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    h1,h2,h3,h4,h5,h6 { font-family: 'Playfair Display', serif; }
+
+    .section-tag { font-size:.68rem; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--amber); margin-bottom:10px; display:block; }
+    .section-tag.on-dark { color:var(--amber); }
+    .sec-title { font-family:'Playfair Display',serif; font-size:clamp(1.9rem,3.2vw,2.8rem); font-weight:700; line-height:1.18; color:var(--dark); }
+    .sec-title.light { color:#fff; }
+    .gold-bar { width:44px; height:3px; background:linear-gradient(90deg,var(--amber),var(--amber-light)); border-radius:2px; margin:14px 0 24px; }
+    .reveal { opacity:0; transform:translateY(24px); transition:opacity .6s,transform .6s; }
+    .reveal.vis { opacity:1; transform:translateY(0); }
+
+    .btn-primary-cfi { background:var(--amber); color:var(--dark); font-size:.82rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:13px 30px; border-radius:3px; border:none; text-decoration:none; transition:all .25s; display:inline-flex; align-items:center; gap:8px; }
+    .btn-primary-cfi:hover { background:var(--amber-light); color:var(--dark); transform:translateY(-2px); box-shadow:0 8px 28px rgba(255,193,7,.45); }
+    .btn-ghost-cfi { border:1.5px solid rgba(13,60,120,.3); color:var(--blue); background:transparent; font-size:.82rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; padding:13px 30px; border-radius:3px; text-decoration:none; transition:all .25s; display:inline-flex; align-items:center; gap:8px; }
+    .btn-ghost-cfi:hover { background:var(--blue); color:#fff; }
+    .btn-ghost-dark { border:1.5px solid rgba(255,193,7,.5); color:var(--amber); background:transparent; font-size:.82rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; padding:13px 30px; border-radius:3px; text-decoration:none; transition:all .25s; display:inline-flex; align-items:center; gap:8px; }
+    .btn-ghost-dark:hover { background:var(--amber); color:var(--dark); }
+    .wa-btn { background:#25D366; color:#fff; font-size:.82rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:13px 28px; border-radius:3px; text-decoration:none; transition:all .25s; display:inline-flex; align-items:center; gap:8px; }
+    .wa-btn:hover { background:#1ebe5d; color:#fff; transform:translateY(-2px); }
+
+    /* ═══ IMAGE PLACEHOLDER ═══ */
+    .img-ph {
+      background: linear-gradient(135deg,#dce8f8,#c8daf0);
+      border: 2px dashed rgba(13,60,120,.2);
+      border-radius: 6px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 10px; position: relative; overflow: hidden;
+    }
+    .img-ph::before { content:''; position:absolute; inset:0; background:repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(13,60,120,.03) 10px,rgba(13,60,120,.03) 11px); }
+    .img-ph i { font-size:2rem; color:rgba(13,60,120,.22); position:relative; z-index:1; }
+    .img-ph span { font-size:.72rem; font-weight:600; letter-spacing:.07em; text-transform:uppercase; color:rgba(13,60,120,.3); position:relative; z-index:1; text-align:center; padding:0 16px; line-height:1.6; }
+
+    /* dark variant for placeholders on dark bg */
+    .img-ph.dark { background:rgba(13,60,120,.4); border-color:rgba(255,193,7,.2); }
+    .img-ph.dark i { color:rgba(255,193,7,.3); }
+    .img-ph.dark span { color:rgba(255,255,255,.22); }
+
+    /* ═══ HERO ═══ */
+    .hero { background:var(--grad); min-height:72vh; position:relative; display:flex; align-items:center; overflow:hidden; padding:80px 0 64px; }
+    .hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 65% 70% at 85% 50%,rgba(21,101,192,.2) 0%,transparent 60%), repeating-linear-gradient(135deg,transparent,transparent 60px,rgba(255,193,7,.02) 60px,rgba(255,193,7,.02) 61px); }
+    .hero > .container { position:relative; z-index:1; }
+    .hero-watermark { position:absolute; right:-20px; bottom:-40px; font-family:'Playfair Display',serif; font-weight:800; font-size:clamp(100px,16vw,240px); color:rgba(255,193,7,.04); line-height:1; user-select:none; pointer-events:none; letter-spacing:-.03em; }
+    .hero-tag { display:inline-flex; align-items:center; gap:8px; border:1px solid rgba(255,193,7,.35); background:rgba(255,193,7,.1); color:var(--amber); font-size:.7rem; font-weight:600; letter-spacing:.15em; text-transform:uppercase; padding:6px 14px; border-radius:2px; margin-bottom:22px; animation:up .6s ease both; }
+    .hero h1 { font-size:clamp(2.4rem,5vw,4.4rem); font-weight:800; color:#fff; line-height:1.07; animation:up .7s .1s ease both; }
+    .hero h1 em { color:var(--amber); font-style:italic; }
+    .hero-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; animation:up .7s .2s ease both; }
+
+    /* hero image placeholder */
+    .hero-img-wrap { border-radius:8px; overflow:hidden; border:3px solid rgba(255,193,7,.25); box-shadow:0 20px 60px rgba(8,31,58,.5); animation:slideRight .8s .2s ease both; aspect-ratio:4/3; }
+
+    @keyframes up        { from{opacity:0;transform:translateY(26px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes slideRight{ from{opacity:0;transform:translateX(36px)} to{opacity:1;transform:translateX(0)} }
+
+    /* ═══ STATS STRIP ═══ */
+    .intro-strip { background:var(--grad); border-top:1px solid rgba(255,255,255,.06); }
+    .strip-grid { display:grid; grid-template-columns:repeat(4,1fr); }
+    .strip-cell { padding:28px 24px; text-align:center; border-right:1px solid rgba(255,255,255,.08); }
+    .strip-cell:last-child { border-right:none; }
+    .sc-num { font-family:'Playfair Display',serif; font-size:2.4rem; font-weight:700; color:var(--amber); line-height:1; }
+    .sc-lbl { font-size:.7rem; color:rgba(255,255,255,.45); letter-spacing:.1em; text-transform:uppercase; margin-top:5px; }
+
+    /* ═══ VISION ═══ */
+    .vision-sec { background:var(--lighter-bg); padding:90px 0; }
+    .body-para { font-size:.97rem; color:#4a6a8a; line-height:1.9; margin-bottom:20px; }
+    .body-para:last-child { margin-bottom:0; }
+    .body-para strong { color:var(--dark); }
+
+    /* vision large image */
+    .vision-img { border-radius:8px; overflow:hidden; border:1px solid rgba(13,60,120,.08); box-shadow:0 12px 40px rgba(13,60,120,.1); }
+
+    /* ═══ MISSION ═══ */
+    .mission-sec { background:var(--light-bg); padding:90px 0; }
+    .mission-subtitle { font-family:'Playfair Display',serif; font-size:1.2rem; font-style:italic; color:var(--text-muted); margin-bottom:28px; }
+
+    .mission-item { display:flex; align-items:flex-start; gap:18px; padding:18px 0; border-bottom:1px solid rgba(13,60,120,.07); }
+    .mission-item:last-of-type { border-bottom:none; padding-bottom:0; }
+    .mission-num { min-width:38px; height:38px; border-radius:4px; background:var(--grad); display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:.9rem; font-weight:700; color:var(--amber); flex-shrink:0; }
+    .mission-item p { font-size:.93rem; color:#4a6a8a; line-height:1.8; margin:0; }
+    .mission-item p strong { color:var(--dark); }
+
+    .mission-close { font-size:.97rem; color:#4a6a8a; line-height:1.9; padding-top:22px; border-top:1px solid rgba(13,60,120,.07); margin-top:4px; }
+
+    /* mission side image stack */
+    .mission-img-stack { display:flex; flex-direction:column; gap:12px; position:sticky; top:100px; }
+
+    /* ═══ CTA ═══ */
+    .cta-sec { background:var(--grad); padding:90px 0; position:relative; overflow:hidden; }
+    .cta-sec::before { content:'⚖'; position:absolute; right:-30px; top:50%; transform:translateY(-50%); font-size:380px; opacity:.03; line-height:1; pointer-events:none; }
+    .cta-sec h2 { font-size:clamp(2rem,3.5vw,3rem); color:#fff; line-height:1.2; }
+    .cta-sec h2 em { color:var(--amber); font-style:italic; }
+    .cta-sec p { color:rgba(255,255,255,.6); font-size:.95rem; line-height:1.8; }
+
+    /* ═══ PROGRAMS ═══ */
+    .programs-sec { background:var(--lighter-bg); padding:70px 0; border-top:1px solid rgba(13,60,120,.07); }
+    .prog-wrap { background:#fff; border:1px solid rgba(13,60,120,.08); border-radius:6px; padding:40px 36px; display:flex; align-items:center; gap:32px; flex-wrap:wrap; transition:all .3s; }
+    .prog-wrap:hover { box-shadow:0 12px 40px rgba(13,60,120,.12); }
+    .prog-ico { width:72px; height:72px; min-width:72px; border-radius:50%; background:rgba(255,193,7,.1); border:2px solid rgba(255,193,7,.3); display:flex; align-items:center; justify-content:center; font-size:1.8rem; color:var(--amber); }
+
+    @media (max-width:991px) { .strip-grid { grid-template-columns:repeat(2,1fr); } .mission-img-stack { position:static; } }
+    @media (max-width:767px) { .prog-wrap { flex-direction:column; text-align:center; } }
+  </style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-watermark">VISION</div>
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <span class="hero-tag"><i class="fa fa-eye"></i>&nbsp; Vision &amp; Mission</span>
+        <h1>Vision &amp;<br><em>Mission</em></h1>
+        <div class="hero-actions">
+          <a href="#vision" class="btn-primary-cfi"><i class="fa fa-eye"></i>Our Vision</a>
+          <a href="#mission" class="btn-ghost-dark"><i class="fa fa-bullseye"></i>Our Mission</a>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="hero-img-wrap">
+          <div class="img-ph dark" style="min-height:300px;width:100%;height:100%;">
+          <img src="images/newphotos/pic17.jpg" alt="CFI College of Law" style="width:100%;height:100%;object-fit:cover;"> 
+           
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STATS STRIP ═══ -->
+<div class="intro-strip">
+  <div class="strip-grid">
+    <div class="strip-cell"><div class="sc-num">2</div><div class="sc-lbl">Programs Offered</div></div>
+    <div class="strip-cell"><div class="sc-num">5 Yrs</div><div class="sc-lbl">Integrated Degree</div></div>
+    <div class="strip-cell"><div class="sc-num">BCI</div><div class="sc-lbl">Approved College</div></div>
+    <div class="strip-cell"><div class="sc-num">Calicut</div><div class="sc-lbl">University Affiliated</div></div>
+  </div>
+</div>
+
+<!-- ═══ VISION ═══ -->
+<section class="vision-sec" id="vision">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+
+      <div class="col-lg-12 reveal">
+        <span class="section-tag">Vision</span>
+        <h2 class="sec-title">Our Vision</h2>
+        <div class="gold-bar"></div>
+
+        <p class="body-para">Our vision is to build a strong and respected centre for legal education where students feel supported, guided, and inspired throughout their journey. The institution aims to grow as a trusted Law College in India that is known not only for academic quality but also for discipline, transparency, and strong values. We believe that law is not just a subject to study, but a responsibility to understand and practise with honesty.</p>
+
+        <p class="body-para">As a developing Law college in Poyya Thrissur Kerala, the goal is to create an environment where students can confidently prepare for their future careers in advocacy, corporate law, judiciary, legal services, and higher studies. The vision is to combine classroom learning with practical exposure so that every graduate leaves with knowledge, confidence, and a clear sense of professional ethics. Step by step, through consistent effort and quality education, the institution aspires to be recognised among the most dependable law colleges for serious legal studies.</p>
+      </div>
+
+
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MISSION ═══ -->
+<section class="mission-sec" id="mission">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+
+      <div class="col-lg-12 reveal">
+        <span class="section-tag">Mission</span>
+        <h2 class="sec-title">Our Mission</h2>
+        <div class="gold-bar"></div>
+        <div class="mission-subtitle">Building Strong Legal Professionals Through Meaningful Education</div>
+        <p class="body-para" style="margin-bottom:30px;">Our mission is centred on students — their growth, their confidence, and their professional success. We aim to create a learning space where students are encouraged to think independently, speak clearly, and understand the deeper purpose of law in society.</p>
+
+        <div class="mission-item">
+          <div class="mission-num">1</div>
+          <p>To provide structured and well-planned academic programs that make legal concepts easy to understand, while also maintaining seriousness and academic discipline.</p>
+        </div>
+
+        <div class="mission-item">
+          <div class="mission-num">2</div>
+          <p>To offer <strong>5 year integrated BBA LLB and B.Com LLB in Kerala</strong>, allowing students to study law together with business and commerce subjects. This helps them understand how law works in companies, financial systems, and corporate environments, opening wider career paths.</p>
+        </div>
+
+        <div class="mission-item">
+          <div class="mission-num">3</div>
+          <p>To deliver high-quality <strong>BBA LLB (Hons) &amp; B.Com LLB (Hons)</strong> courses/education that focus on building practical skills such as drafting legal documents, analysing case laws, participating in moot courts, improving public speaking, and strengthening research ability.</p>
+        </div>
+
+        <div class="mission-item">
+          <div class="mission-num">4</div>
+          <p>To strengthen <strong>Integrated Law Courses Kerala</strong> by including internships, court visits, seminars, workshops, legal awareness programs, and academic mentoring so students gain real-world exposure along with theoretical knowledge.</p>
+        </div>
+
+        <div class="mission-item">
+          <div class="mission-num">5</div>
+          <p>To encourage active classroom participation where students can ask questions, engage in discussions, take part in debates, and develop confidence in expressing legal opinions.</p>
+        </div>
+
+        <div class="mission-item">
+          <div class="mission-num">6</div>
+          <p>To promote research habits and critical thinking so students learn to examine laws carefully, understand policy decisions, and stay updated with legal developments in India.</p>
+        </div>
+
+        <div class="mission-item">
+          <div class="mission-num">7</div>
+          <p>To teach the importance of honesty, discipline, constitutional values, and social responsibility so that students become ethical professionals who respect justice and fairness.</p>
+        </div>
+
+        <div class="mission-item">
+          <div class="mission-num">8</div>
+          <p>To maintain high academic standards as a <strong>BCI (Bar Council of India) approved college in Kerala</strong>, ensuring that all programs follow proper guidelines, regulatory requirements, and transparent administrative practices.</p>
+        </div>
+
+        <div class="mission-item">
+          <div class="mission-num">9</div>
+          <p>To provide continuous academic guidance, mentoring support, and personal attention so that students improve not only in marks but also in communication skills, leadership qualities, and professional behaviour.</p>
+        </div>
+
+        <p class="mission-close">Through consistent effort, student care, and practical training, the mission is to shape graduates who are confident in the courtroom, responsible in society, and prepared for the challenges of the legal profession.</p>
+      </div>
+
+
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section class="cta-sec" id="cta">
+  <div class="container">
+    <div class="row align-items-center g-5 reveal">
+      <div class="col-lg-7">
+        <span class="section-tag on-dark">Inspired by Our Vision? Take the Next Step.</span>
+        <h2>Inspired by Our Vision?<br><em>Take the Next Step.</em></h2>
+        <p class="mt-3">Call our admission counselor, chat with our experts, or send an enquiry — we're here to guide you.</p>
+        <div class="d-flex flex-wrap gap-3 mt-4">
+          <a href="tel:8590759003" class="btn-primary-cfi"><i class="fa fa-phone"></i>Call Now</a>
+          <a href="https://api.whatsapp.com/message/YE7STK6V6SV4H1?autoload=1&app_absent=0" class="wa-btn"><i class="fab fa-whatsapp"></i>Chat with Experts</a>
+          <a href="contact-us" class="btn-ghost-dark"><i class="fa fa-envelope"></i>Send Enquiry</a>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="img-ph dark" style="min-height:260px;border-radius:8px;">
+       <img src="images/newphotos/1000198920.jpg" alt="CFI Students" style="width:100%;height:100%;object-fit:cover;border-radius:8px;"> 
+         
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROGRAMS ═══ -->
+<section class="programs-sec">
+  <div class="container">
+    <div class="row justify-content-center reveal">
+      <div class="col-lg-10">
+        <div class="prog-wrap">
+          <div class="prog-ico"><i class="fa fa-book-open"></i></div>
+          <div style="flex:1;">
+            <h4 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--dark);margin-bottom:6px;">Explore Our BBA LLB &amp; B.Com LLB Programs</h4>
+          </div>
+          <div style="flex-shrink:0;display:flex;flex-direction:column;gap:10px;">
+            <a href="bba-llb" class="btn-primary-cfi"><i class="fa fa-gavel"></i>BBA LLB (Hons)</a>
+            <a href="bcom-llb" class="btn-ghost-cfi"><i class="fa fa-coins"></i>B.Com LLB (Hons)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,558 @@
+
+
+  <style>
+    :root {
+      --dark:        #081f3a;
+      --blue:        #0d3c78;
+      --amber:       #ffc107;
+      --amber-light: #ffd54f;
+      --light-bg:    #eef3fb;
+      --lighter-bg:  #f5f8fd;
+      --text-body:   #1e3a5f;
+      --text-muted:  #5a7a9e;
+      --grad:        radial-gradient(circle at left, #0d3c78, #081f3a);
+    }
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+    html { scroll-behavior:smooth; }
+
+    h1,h2,h3,h4,h5,h6 { font-family:'Playfair Display',serif; }
+
+    .section-tag { font-size:.68rem; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--amber); margin-bottom:10px; display:block; }
+    .section-tag.on-dark { color:var(--amber); }
+    .sec-title { font-family:'Playfair Display',serif; font-size:clamp(1.9rem,3.2vw,2.8rem); font-weight:700; line-height:1.18; color:var(--dark); }
+    .sec-title.light { color:#fff; }
+    .gold-bar { width:44px; height:3px; background:linear-gradient(90deg,var(--amber),var(--amber-light)); border-radius:2px; margin:14px 0 24px; }
+    .reveal { opacity:0; transform:translateY(24px); transition:opacity .6s,transform .6s; }
+    .reveal.vis { opacity:1; transform:translateY(0); }
+
+    .btn-primary-cfi { background:var(--amber); color:var(--dark); font-size:.82rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:13px 30px; border-radius:3px; border:none; text-decoration:none; transition:all .25s; display:inline-flex; align-items:center; gap:8px; }
+    .btn-primary-cfi:hover { background:var(--amber-light); color:var(--dark); transform:translateY(-2px); box-shadow:0 8px 28px rgba(255,193,7,.45); }
+    .btn-ghost-dark { border:1.5px solid rgba(255,193,7,.5); color:var(--amber); background:transparent; font-size:.82rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; padding:13px 30px; border-radius:3px; text-decoration:none; transition:all .25s; display:inline-flex; align-items:center; gap:8px; }
+    .btn-ghost-dark:hover { background:var(--amber); color:var(--dark); }
+    .wa-btn { background:#25D366; color:#fff; font-size:.82rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:13px 28px; border-radius:3px; text-decoration:none; transition:all .25s; display:inline-flex; align-items:center; gap:8px; }
+    .wa-btn:hover { background:#1ebe5d; color:#fff; transform:translateY(-2px); }
+
+    /* HERO */
+    .hero { background:var(--grad); min-height:72vh; position:relative; display:flex; align-items:center; overflow:hidden; padding:80px 0 64px; }
+    .hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 65% 70% at 85% 50%,rgba(21,101,192,.2) 0%,transparent 60%), repeating-linear-gradient(135deg,transparent,transparent 60px,rgba(255,193,7,.02) 60px,rgba(255,193,7,.02) 61px); }
+    .hero > .container { position:relative; z-index:1; }
+    .hero-watermark { position:absolute; right:-20px; bottom:-40px; font-family:'Playfair Display',serif; font-weight:800; font-size:clamp(80px,13vw,200px); color:rgba(255,193,7,.04); line-height:1; user-select:none; pointer-events:none; letter-spacing:-.03em; }
+    .hero-tag { display:inline-flex; align-items:center; gap:8px; border:1px solid rgba(255,193,7,.35); background:rgba(255,193,7,.1); color:var(--amber); font-size:.7rem; font-weight:600; letter-spacing:.15em; text-transform:uppercase; padding:6px 14px; border-radius:2px; margin-bottom:22px; animation:up .6s ease both; }
+    .hero h1 { font-size:clamp(2.2rem,4.5vw,4rem); font-weight:800; color:#fff; line-height:1.07; animation:up .7s .1s ease both; }
+    .hero h1 em { color:var(--amber); font-style:italic; }
+    .hero-sub { font-size:.97rem; color:rgba(255,255,255,.6); line-height:1.85; max-width:580px; animation:up .7s .2s ease both; margin-top:18px; }
+    .hero-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; animation:up .7s .3s ease both; }
+
+    .hero-card { background:rgba(13,60,120,.55); border:1px solid rgba(255,193,7,.2); border-radius:6px; padding:30px 26px; backdrop-filter:blur(12px); position:relative; animation:slideRight .8s .2s ease both; }
+    .hero-card::before { content:''; position:absolute; top:0; left:26px; right:26px; height:3px; background:linear-gradient(90deg,var(--amber),var(--amber-light),var(--amber)); border-radius:0 0 3px 3px; }
+    .hc-title { font-size:.65rem; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--amber); margin-bottom:16px; }
+    .hc-row { display:flex; align-items:center; gap:11px; padding:9px 0; border-bottom:1px solid rgba(255,255,255,.06); color:rgba(255,255,255,.72); font-size:.84rem; }
+    .hc-row:last-child { border-bottom:none; padding-bottom:0; }
+    .hc-row i { color:var(--amber); font-size:.75rem; min-width:14px; }
+
+    @keyframes up        { from{opacity:0;transform:translateY(26px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes slideRight{ from{opacity:0;transform:translateX(36px)} to{opacity:1;transform:translateX(0)} }
+
+    /* STATS STRIP */
+    .intro-strip { background:var(--grad); border-top:1px solid rgba(255,255,255,.06); }
+    .strip-grid { display:grid; grid-template-columns:repeat(4,1fr); }
+    .strip-cell { padding:28px 24px; text-align:center; border-right:1px solid rgba(255,255,255,.08); }
+    .strip-cell:last-child { border-right:none; }
+    .sc-num { font-family:'Playfair Display',serif; font-size:2.2rem; font-weight:700; color:var(--amber); line-height:1; }
+    .sc-lbl { font-size:.7rem; color:rgba(255,255,255,.45); letter-spacing:.1em; text-transform:uppercase; margin-top:5px; }
+
+    /* INTRO */
+    .intro-sec { background:var(--lighter-bg); padding:90px 0; }
+    .body-para { font-size:.97rem; color:#4a6a8a; line-height:1.9; margin-bottom:20px; }
+    .body-para:last-child { margin-bottom:0; }
+    .body-para strong { color:var(--dark); }
+
+    /* INTERNSHIP SECTION */
+    .internship-sec { background:var(--light-bg); padding:90px 0; }
+
+    .int-card { background:#fff; border:1px solid rgba(13,60,120,.08); border-radius:8px; padding:28px 26px; height:100%; transition:all .35s; position:relative; overflow:hidden; }
+    .int-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg,var(--amber),var(--amber-light)); transform:scaleX(0); transform-origin:left; transition:transform .35s; }
+    .int-card:hover { box-shadow:0 16px 44px rgba(13,60,120,.12); transform:translateY(-4px); }
+    .int-card:hover::before { transform:scaleX(1); }
+    .int-ico { width:52px; height:52px; border-radius:5px; background:rgba(255,193,7,.1); border:1px solid rgba(255,193,7,.2); display:flex; align-items:center; justify-content:center; color:var(--amber); font-size:1.25rem; margin-bottom:18px; }
+    .int-card h4 { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; color:var(--dark); margin-bottom:10px; }
+    .int-card p { font-size:.88rem; color:var(--text-muted); line-height:1.75; margin:0; }
+
+    .faculty-note { background:rgba(255,193,7,.07); border:1px solid rgba(255,193,7,.25); border-radius:5px; padding:18px 22px; margin-top:32px; font-size:.9rem; color:var(--text-body); line-height:1.7; }
+    .faculty-note i { color:var(--amber); margin-right:8px; }
+
+    /* CAREER SECTION */
+    .career-sec { background:var(--grad); padding:90px 0; position:relative; overflow:hidden; }
+    .career-sec::before { content:'⚖'; position:absolute; right:-30px; top:50%; transform:translateY(-50%); font-size:380px; opacity:.035; line-height:1; pointer-events:none; }
+
+    .career-item { display:flex; align-items:flex-start; gap:16px; padding:16px 0; border-bottom:1px solid rgba(255,255,255,.07); }
+    .career-item:last-child { border-bottom:none; padding-bottom:0; }
+    .ci-ico { width:42px; height:42px; min-width:42px; border-radius:4px; background:rgba(255,193,7,.15); border:1px solid rgba(255,193,7,.2); display:flex; align-items:center; justify-content:center; color:var(--amber); font-size:.95rem; flex-shrink:0; }
+    .career-item h5 { font-family:'Plus Jakarta Sans',sans-serif; font-size:.9rem; font-weight:700; color:#fff; margin-bottom:4px; }
+    .career-item p { font-size:.85rem; color:rgba(255,255,255,.55); line-height:1.65; margin:0; }
+
+    /* PLACEMENT CELL */
+    .placement-sec { background:var(--lighter-bg); padding:90px 0; }
+
+    .placement-item { background:#fff; border:1px solid rgba(13,60,120,.08); border-radius:8px; padding:28px 26px; margin-bottom:16px; display:flex; align-items:flex-start; gap:20px; transition:all .3s; }
+    .placement-item:last-child { margin-bottom:0; }
+    .placement-item:hover { box-shadow:0 10px 30px rgba(13,60,120,.1); transform:translateY(-2px); }
+    .pi-num { min-width:48px; height:48px; border-radius:50%; background:var(--grad); display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--amber); flex-shrink:0; }
+    .placement-item h4 { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; color:var(--dark); margin-bottom:10px; }
+    .pi-list { list-style:none; padding:0; margin:0; }
+    .pi-list li { display:flex; align-items:flex-start; gap:10px; font-size:.88rem; color:var(--text-muted); line-height:1.65; padding:5px 0; border-bottom:1px solid rgba(13,60,120,.05); }
+    .pi-list li:last-child { border-bottom:none; padding-bottom:0; }
+    .pi-list li::before { content:''; min-width:5px; height:5px; border-radius:50%; background:var(--amber); margin-top:8px; flex-shrink:0; }
+
+    /* FAQ */
+    .faq-sec { background:var(--light-bg); padding:90px 0; }
+    .faq-item { background:#fff; border:1px solid rgba(13,60,120,.08); border-radius:6px; margin-bottom:10px; overflow:hidden; transition:box-shadow .25s; }
+    .faq-item.open { border-color:rgba(255,193,7,.3); box-shadow:0 8px 28px rgba(13,60,120,.1); }
+    .faq-question { display:flex; align-items:center; gap:14px; padding:18px 22px; cursor:pointer; user-select:none; transition:background .2s; }
+    .faq-question:hover { background:rgba(255,193,7,.04); }
+    .faq-item.open .faq-question { background:rgba(255,193,7,.05); border-bottom:1px solid rgba(255,193,7,.15); }
+    .faq-num { min-width:34px; height:34px; border-radius:3px; background:rgba(13,60,120,.08); display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:.88rem; font-weight:700; color:var(--blue); flex-shrink:0; transition:all .25s; }
+    .faq-item.open .faq-num { background:var(--amber); color:var(--dark); }
+    .faq-q-text { flex:1; font-size:.9rem; font-weight:600; color:var(--text-body); line-height:1.45; }
+    .faq-item.open .faq-q-text { color:var(--dark); }
+    .faq-chevron { width:26px; height:26px; border-radius:50%; background:rgba(13,60,120,.06); display:flex; align-items:center; justify-content:center; color:var(--text-muted); font-size:.7rem; flex-shrink:0; transition:all .3s; }
+    .faq-item.open .faq-chevron { background:var(--amber); color:var(--dark); transform:rotate(180deg); }
+    .faq-answer { max-height:0; overflow:hidden; transition:max-height .35s ease; }
+    .faq-answer.open { max-height:200px; }
+    .faq-answer-inner { padding:0 22px 20px 70px; font-size:.88rem; color:var(--text-muted); line-height:1.8; }
+
+    /* CTA */
+    .cta-sec { background:var(--grad); padding:80px 0; position:relative; overflow:hidden; }
+    .cta-sec::before { content:'⚖'; position:absolute; right:-30px; top:50%; transform:translateY(-50%); font-size:380px; opacity:.03; line-height:1; pointer-events:none; }
+    .cta-sec h2 { font-size:clamp(1.9rem,3.2vw,2.8rem); color:#fff; line-height:1.2; }
+    .cta-sec h2 em { color:var(--amber); font-style:italic; }
+    .cta-sec p { color:rgba(255,255,255,.6); font-size:.95rem; line-height:1.8; }
+    .contact-widget { background:rgba(255,255,255,.06); border:1px solid rgba(255,193,7,.2); border-radius:6px; padding:32px 28px; }
+    .cw-title { font-size:.65rem; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--amber); margin-bottom:18px; }
+
+    @media (max-width:991px) { .strip-grid { grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:575px) { .faq-answer-inner { padding:0 16px 16px 16px; } }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-watermark">CAREER</div>
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <span class="hero-tag"><i class="fa fa-briefcase"></i>&nbsp; Internship · Placement · Career</span>
+        <h1>Career Opportunities,<br>Internship &amp;<br><em>Placement Support</em></h1>
+        <p class="hero-sub">Building a successful career in law or corporate management requires more than just academic knowledge — it demands practical exposure, industry connections, and professional readiness.</p>
+        <div class="hero-actions">
+          <a href="#internship" class="btn-primary-cfi"><i class="fa fa-arrow-down"></i>Explore</a>
+          <a href="tel:8590759003" class="btn-ghost-dark"><i class="fa fa-phone"></i>Talk to Expert</a>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="hero-card">
+          <div class="hc-title">Career Pathways Available</div>
+          <div class="hc-row"><i class="fa fa-gavel"></i>Litigation &amp; Advocacy</div>
+          <div class="hc-row"><i class="fa fa-building"></i>Corporate Law &amp; Compliance</div>
+          <div class="hc-row"><i class="fa fa-coins"></i>Banking &amp; Finance Law</div>
+          <div class="hc-row"><i class="fa fa-landmark"></i>Judiciary &amp; Government Services</div>
+          <div class="hc-row"><i class="fa fa-microscope"></i>Legal Research &amp; Consultancy</div>
+          <div class="hc-row"><i class="fa fa-rocket"></i>Entrepreneurship &amp; Legal Tech</div>
+          <div class="hc-row"><i class="fa fa-hands-helping"></i>NGOs &amp; Social Justice</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS STRIP -->
+<div class="intro-strip">
+  <div class="strip-grid">
+    <div class="strip-cell"><div class="sc-num">4</div><div class="sc-lbl">Internship Types</div></div>
+    <div class="strip-cell"><div class="sc-num">7</div><div class="sc-lbl">Career Pathways</div></div>
+    <div class="strip-cell"><div class="sc-num">PPO</div><div class="sc-lbl">Pre-Placement Offers</div></div>
+    <div class="strip-cell"><div class="sc-num">100%</div><div class="sc-lbl">Placement Support</div></div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<section class="intro-sec">
+  <div class="container">
+    <div class="row justify-content-center reveal">
+      <div class="col-lg-9 text-center">
+        <span class="section-tag" style="justify-content:center;display:flex;">Career Opportunities, Internship &amp; Placement Support</span>
+        <h2 class="sec-title" style="text-align:center;">For BBA LLB and B.Com LLB Students</h2>
+        <div class="gold-bar mx-auto"></div>
+        <p class="body-para" style="text-align:center;">The integrated programs of <strong>BBA LLB (Hons)</strong> and <strong>B.Com LLB (Hons)</strong> at CFI College of Law, a leading law college in Thrissur Kerala, are designed to give students exactly that edge, ensuring they are job-ready and confident the moment they graduate.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERNSHIP -->
+<section class="internship-sec" id="internship">
+  <div class="container">
+    <div class="row mb-5 reveal">
+      <div class="col-lg-7">
+        <span class="section-tag">Structured Internship Support</span>
+        <h2 class="sec-title">Structured Internship Support</h2>
+        <div class="gold-bar"></div>
+        <p class="body-para">Internships are a core component of our curriculum, giving students real-world experience and an opportunity to apply classroom learning in professional environments:</p>
+      </div>
+    </div>
+
+    <div class="row g-4">
+
+      <div class="col-md-6 col-lg-3 reveal">
+        <div class="int-card">
+          <div class="int-ico"><i class="fa fa-university"></i></div>
+          <h4>Judicial &amp; Court Internships</h4>
+          <p>Students work in district courts, high courts, and tribunals, learning courtroom procedures, drafting petitions, and observing litigation firsthand.</p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3 reveal">
+        <div class="int-card">
+          <div class="int-ico"><i class="fa fa-building"></i></div>
+          <h4>Corporate &amp; Law Firm Internships</h4>
+          <p>Partnerships with law firms, corporate legal teams, and compliance departments expose students to corporate law, taxation, banking law, and advisory roles.</p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3 reveal">
+        <div class="int-card">
+          <div class="int-ico"><i class="fa fa-hands-helping"></i></div>
+          <h4>NGOs &amp; Social Justice Projects</h4>
+          <p>Internships with NGOs, government agencies, and advocacy groups allow students to contribute to human rights, public interest law, and community legal services.</p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-3 reveal">
+        <div class="int-card">
+          <div class="int-ico"><i class="fa fa-microscope"></i></div>
+          <h4>Research &amp; Policy Internships</h4>
+          <p>Opportunities with think tanks and research organizations strengthen analytical and policy formulation skills.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="reveal">
+      <div class="faculty-note">
+        <i class="fa fa-info-circle"></i>Faculty guidance ensures students select internships aligned with career goals, while regular mentoring and skill-building sessions enhance employability and professional competence.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CAREER OPPORTUNITIES -->
+<section class="career-sec" id="career">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+
+      <div class="col-lg-5 reveal">
+        <span class="section-tag on-dark">Career Opportunities After Graduation</span>
+        <h2 class="sec-title light">Career Opportunities<br>After Graduation</h2>
+        <div class="gold-bar"></div>
+        <p style="font-size:.95rem;color:rgba(255,255,255,.55);line-height:1.85;">Graduates of BBA LLB (Hons) and B.Com LLB (Hons) have access to a wide spectrum of professional opportunities:</p>
+      </div>
+
+      <div class="col-lg-7 reveal">
+        <div class="career-item">
+          <div class="ci-ico"><i class="fa fa-gavel"></i></div>
+          <div><h5>Litigation &amp; Advocacy</h5><p>Become advocates, legal consultants, or associates in law firms and courts.</p></div>
+        </div>
+        <div class="career-item">
+          <div class="ci-ico"><i class="fa fa-building"></i></div>
+          <div><h5>Corporate Law &amp; Compliance</h5><p>Work as legal advisors, in-house counsels, compliance officers, or corporate consultants.</p></div>
+        </div>
+        <div class="career-item">
+          <div class="ci-ico"><i class="fa fa-coins"></i></div>
+          <div><h5>Banking &amp; Finance Law</h5><p>Careers in financial institutions, taxation, auditing, and corporate advisory.</p></div>
+        </div>
+        <div class="career-item">
+          <div class="ci-ico"><i class="fa fa-landmark"></i></div>
+          <div><h5>Judiciary &amp; Government Services</h5><p>Opportunities in judicial services, public administration, regulatory bodies, and policy-making.</p></div>
+        </div>
+        <div class="career-item">
+          <div class="ci-ico"><i class="fa fa-microscope"></i></div>
+          <div><h5>Legal Research &amp; Consultancy</h5><p>Engage in policy analysis, corporate advisory, and strategic legal consulting.</p></div>
+        </div>
+        <div class="career-item">
+          <div class="ci-ico"><i class="fa fa-rocket"></i></div>
+          <div><h5>Entrepreneurship &amp; Legal Tech</h5><p>Start law consultancies, advisory firms, or legal technology ventures.</p></div>
+        </div>
+        <div class="career-item">
+          <div class="ci-ico"><i class="fa fa-hands-helping"></i></div>
+          <div><h5>NGOs &amp; Social Justice</h5><p>Contribute to public interest law, human rights advocacy, and legal aid initiatives.</p></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PLACEMENT CELL -->
+<section class="placement-sec" id="placement">
+  <div class="container">
+    <div class="row mb-5 reveal">
+      <div class="col-lg-7">
+        <span class="section-tag">Placement &amp; Career Development Support</span>
+        <h2 class="sec-title">Placement &amp; Career<br>Development Support</h2>
+        <div class="gold-bar"></div>
+        <p class="body-para">The college provides a dedicated Placement &amp; Career Development Cell that ensures every student is prepared to step into the professional world with confidence:</p>
+      </div>
+    </div>
+
+    <div class="row g-0 reveal">
+      <div class="col-lg-12">
+
+        <div class="placement-item">
+          <div class="pi-num">1</div>
+          <div>
+            <h4>Industry Tie-Ups &amp; Collaborations</h4>
+            <ul class="pi-list">
+              <li>Partnerships with law firms, corporate houses, NGOs, and government agencies.</li>
+              <li>Exclusive placement drives, recruitment workshops, and internship tie-ups.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="placement-item">
+          <div class="pi-num">2</div>
+          <div>
+            <h4>Personalized Career Guidance</h4>
+            <ul class="pi-list">
+              <li>One-on-one mentorship with experienced faculty and career counselors.</li>
+              <li>Guidance on selecting career paths aligned with student interests, skills, and goals.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="placement-item">
+          <div class="pi-num">3</div>
+          <div>
+            <h4>Skill Development &amp; Professional Training</h4>
+            <ul class="pi-list">
+              <li>Workshops on resume building, interview preparation, professional ethics, legal drafting, and negotiation skills.</li>
+              <li>Soft skills development: communication, leadership, teamwork, and client management.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="placement-item">
+          <div class="pi-num">4</div>
+          <div>
+            <h4>Internship-to-Placement Pathways</h4>
+            <ul class="pi-list">
+              <li>Top-performing interns often receive pre-placement offers from law firms, corporates, or NGOs.</li>
+              <li>Continuous tracking of internship performance to help students improve and maximize placement opportunities.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="placement-item">
+          <div class="pi-num">5</div>
+          <div>
+            <h4>Alumni Mentorship &amp; Networking</h4>
+            <ul class="pi-list">
+              <li>Access to alumni in courts, corporate law, banking, government, and consultancy sectors.</li>
+              <li>Networking events, guest lectures, and industry interaction sessions to connect students with potential employers.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="placement-item">
+          <div class="pi-num">6</div>
+          <div>
+            <h4>Placement Success Support</h4>
+            <ul class="pi-list">
+              <li>Mock interviews, aptitude tests, and case-study sessions to prepare students for competitive job markets.</li>
+              <li>Assistance with documentation, certifications, and professional portfolio creation for smooth onboarding.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-sec" id="faq">
+  <div class="container">
+    <div class="row mb-5 reveal">
+      <div class="col-lg-7">
+        <span class="section-tag">Frequently Asked Questions</span>
+        <h2 class="sec-title">Internship, Placement &amp;<br>Career Opportunities FAQs</h2>
+        <div class="gold-bar"></div>
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-lg-9 reveal">
+
+        <div class="faq-item" id="faq1">
+          <div class="faq-question" onclick="toggleFaq('faq1')">
+            <div class="faq-num">Q1</div>
+            <div class="faq-q-text">What legal internships are available for BBA LLB and B.Com LLB students in a law college in Thrissur Kerala?</div>
+            <div class="faq-chevron"><i class="fa fa-chevron-down"></i></div>
+          </div>
+          <div class="faq-answer" id="ans1">
+            <div class="faq-answer-inner">Students can intern in courts, corporate law firms, NGOs, and policy research organizations, gaining practical experience in litigation, corporate law, taxation, and human rights.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" id="faq2">
+          <div class="faq-question" onclick="toggleFaq('faq2')">
+            <div class="faq-num">Q2</div>
+            <div class="faq-q-text">Does CFI College of Law provide placement support for BBA LLB and B.Com LLB graduates?</div>
+            <div class="faq-chevron"><i class="fa fa-chevron-down"></i></div>
+          </div>
+          <div class="faq-answer" id="ans2">
+            <div class="faq-answer-inner">Yes, the Placement &amp; Career Development Cell offers industry tie-ups, career guidance, workshops, and connections with law firms, corporate teams, and NGOs.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" id="faq3">
+          <div class="faq-question" onclick="toggleFaq('faq3')">
+            <div class="faq-num">Q3</div>
+            <div class="faq-q-text">How do internships help in career opportunities after BBA LLB or B.Com LLB?</div>
+            <div class="faq-chevron"><i class="fa fa-chevron-down"></i></div>
+          </div>
+          <div class="faq-answer" id="ans3">
+            <div class="faq-answer-inner">Internships give real-world experience, improve employability, and often lead to pre-placement offers in law firms, corporates, and NGOs.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" id="faq4">
+          <div class="faq-question" onclick="toggleFaq('faq4')">
+            <div class="faq-num">Q4</div>
+            <div class="faq-q-text">What career guidance is offered for students pursuing corporate law or litigation?</div>
+            <div class="faq-chevron"><i class="fa fa-chevron-down"></i></div>
+          </div>
+          <div class="faq-answer" id="ans4">
+            <div class="faq-answer-inner">Faculty mentors provide personalized guidance, internship advice, and job preparation for careers in corporate law, litigation, research, and consultancy.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" id="faq5">
+          <div class="faq-question" onclick="toggleFaq('faq5')">
+            <div class="faq-num">Q5</div>
+            <div class="faq-q-text">Can students intern in corporate companies and law firms through the college?</div>
+            <div class="faq-chevron"><i class="fa fa-chevron-down"></i></div>
+          </div>
+          <div class="faq-answer" id="ans5">
+            <div class="faq-answer-inner">Yes, students get exposure to corporate law, taxation, banking law, and advisory roles through collaborations with top law firms and corporate legal teams.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" id="faq6">
+          <div class="faq-question" onclick="toggleFaq('faq6')">
+            <div class="faq-num">Q6</div>
+            <div class="faq-q-text">Are pre-placement offers (PPOs) available through internships?</div>
+            <div class="faq-chevron"><i class="fa fa-chevron-down"></i></div>
+          </div>
+          <div class="faq-answer" id="ans6">
+            <div class="faq-answer-inner">Yes, high-performing interns often receive PPOs from law firms, corporates, and NGOs, giving them a head start in their careers.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" id="faq7">
+          <div class="faq-question" onclick="toggleFaq('faq7')">
+            <div class="faq-num">Q7</div>
+            <div class="faq-q-text">What skills do students develop during internships?</div>
+            <div class="faq-chevron"><i class="fa fa-chevron-down"></i></div>
+          </div>
+          <div class="faq-answer" id="ans7">
+            <div class="faq-answer-inner">Students gain legal drafting, research, communication, negotiation, and management skills, making them ready for careers in litigation, corporate law, or consultancy.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" id="faq8">
+          <div class="faq-question" onclick="toggleFaq('faq8')">
+            <div class="faq-num">Q8</div>
+            <div class="faq-q-text">How does the college prepare students for competitive placements?</div>
+            <div class="faq-chevron"><i class="fa fa-chevron-down"></i></div>
+          </div>
+          <div class="faq-answer" id="ans8">
+            <div class="faq-answer-inner">Through mock interviews, workshops, case studies, resume building, and portfolio guidance, students are fully prepared for corporate and legal recruitment.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" id="faq9">
+          <div class="faq-question" onclick="toggleFaq('faq9')">
+            <div class="faq-num">Q9</div>
+            <div class="faq-q-text">Are internships mandatory, and how long do they last?</div>
+            <div class="faq-chevron"><i class="fa fa-chevron-down"></i></div>
+          </div>
+          <div class="faq-answer" id="ans9">
+            <div class="faq-answer-inner">Yes, internships are mandatory. Students complete 4–8 week internships in courts, law firms, corporate offices, and NGOs during the 5-year program.</div>
+          </div>
+        </div>
+
+        <div class="faq-item" id="faq10">
+          <div class="faq-question" onclick="toggleFaq('faq10')">
+            <div class="faq-num">Q10</div>
+            <div class="faq-q-text">How do internship and placement support help in long-term career growth?</div>
+            <div class="faq-chevron"><i class="fa fa-chevron-down"></i></div>
+          </div>
+          <div class="faq-answer" id="ans10">
+            <div class="faq-answer-inner">Structured internships, mentorship, and placement support help students build practical skills, networks, and confidence for careers in litigation, corporate law, judiciary, and entrepreneurship.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec" id="cta">
+  <div class="container">
+    <div class="row align-items-center g-5 reveal">
+      <div class="col-lg-7">
+        <span class="section-tag on-dark">Still Have Questions?</span>
+        <h2>Talk to Our<br><em>Admissions Expert</em></h2>
+        <p class="mt-3">Call our admissions expert today to get personalized guidance on BBA LLB or B.Com LLB internships, placements, and career opportunities at CFI College of Law, a leading law college in Thrissur Kerala.</p>
+        <div class="d-flex flex-wrap gap-3 mt-4">
+          <a href="tel:8590759003" class="btn-primary-cfi"><i class="fa fa-phone"></i>Talk to Our Admissions Expert</a>
+          <a href="https://api.whatsapp.com/message/YE7STK6V6SV4H1?autoload=1&app_absent=0" class="wa-btn"><i class="fab fa-whatsapp"></i>WhatsApp Us</a>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="contact-widget">
+          <div class="cw-title">Placement &amp; Career Cell</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <a href="tel:8590759003" class="btn-ghost-dark" style="justify-content:center;"><i class="fa fa-phone"></i>Talk to Counsellor</a>
+            <a href="tel:8590759004" class="btn-ghost-dark" style="justify-content:center;"><i class="fa fa-phone"></i>Talk to Counsellor</a>
+            <a href="https://api.whatsapp.com/message/YE7STK6V6SV4H1?autoload=1&app_absent=0" class="wa-btn" style="justify-content:center;"><i class="fab fa-whatsapp"></i>WhatsApp Us</a>
+            <a href="contact-us" class="btn-primary-cfi" style="justify-content:center;"><i class="fa fa-envelope"></i>Send Enquiry</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+  function toggleFaq(id) {
+    const item  = document.getElementById(id);
+    const num   = id.replace('faq','');
+    const ans   = document.getElementById('ans'+num);
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(el => el.classList.remove('open'));
+    document.querySelectorAll('.faq-answer').forEach(el => el.classList.remove('open'));
+    if (!isOpen) { item.classList.add('open'); ans.classList.add('open'); }
+  }
+  toggleFaq('faq1');
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.07 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

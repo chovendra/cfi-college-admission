@@ -1,0 +1,20 @@
+[
+  { "keywords": ["hello", "hi", "hey", "good morning", "good afternoon", "good evening"], "answer": "Hello! 👋 How can I help you today? You can ask about our LL.B, B.A. LL.B, admissions, facilities, or anything else related to CFI College of Law." },
+  { "keywords": ["courses", "programs", "degree", "llb", "ba llb"], "answer": "We offer 5-year B.A. LL.B and 3-year LL.B programs approved by the Bar Council of India (BCI)." },
+  { "keywords": ["admission", "apply", "admissions"], "answer": "Admissions are now open. Apply online through our website: https://cficollegeoflaw.in/admissions" },
+  { "keywords": ["fees", "fee structure", "tuition"], "answer": "Please contact our admissions team for the latest fee structure of the LL.B and B.A. LL.B programs." },
+  { "keywords": ["eligibility", "criteria", "qualification"], "answer": "For B.A. LL.B: 10+2 with minimum 45% marks. For LL.B: Graduation in any stream with at least 45% marks." },
+  { "keywords": ["duration", "how long", "course length"], "answer": "B.A. LL.B is a 5-year integrated program, while LL.B is a 3-year program." },
+  { "keywords": ["syllabus", "subjects", "curriculum"], "answer": "Our syllabus includes Constitutional Law, IPC, Contract Law, Jurisprudence, Moot Court, and Legal Writing, aligned with BCI guidelines." },
+  { "keywords": ["internship", "court visit", "practical"], "answer": "Students participate in internships, moot court sessions, and legal aid camps as part of their practical training." },
+  { "keywords": ["placement", "jobs", "recruitment"], "answer": "We assist students with placements and internships at law firms, corporate houses, and courts." },
+  { "keywords": ["faculty", "teachers", "professors"], "answer": "Our faculty includes experienced law professionals, advocates, and academicians." },
+  { "keywords": ["infrastructure", "facilities", "campus"], "answer": "Our campus features modern classrooms, moot court hall, library, digital labs, and hostel facilities." },
+  { "keywords": ["library", "books", "resources"], "answer": "We have a well-equipped library with law journals, textbooks, case law digests, and online databases." },
+  { "keywords": ["hostel", "accommodation", "stay"], "answer": "Yes, separate hostels for boys and girls are available with all basic amenities." },
+  { "keywords": ["scholarship", "financial aid", "bursary"], "answer": "Scholarships are available for eligible students. Please contact the administration for details." },
+  { "keywords": ["contact", "phone", "email"], "answer": "You can reach us at +91-8547637842 or email us at info@cficollegeoflaw.in." },
+  { "keywords": ["location", "where", "address"], "answer": "CFI College of Law is located at CFI Teacher Education Campus, Poyya, Thrissur, Kerala." },
+  { "keywords": ["approvals", "affiliation", "recognised"], "answer": "Our law programs are approved by the Bar Council of India and affiliated with the University of Calicut." },
+  { "keywords": ["website", "site", "official link"], "answer": "Visit our official website for more info: https://cficollegeoflaw.in" }
+]

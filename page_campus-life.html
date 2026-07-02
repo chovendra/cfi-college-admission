@@ -1,0 +1,318 @@
+
+  <style>
+    :root {
+      --dark:        #081f3a;
+      --blue:        #0d3c78;
+      --amber:       #ffc107;
+      --amber-light: #ffd54f;
+      --light-bg:    #eef3fb;
+      --lighter-bg:  #f5f8fd;
+      --text-body:   #1e3a5f;
+      --text-muted:  #5a7a9e;
+      --grad:        radial-gradient(circle at left, #0d3c78, #081f3a);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    h1,h2,h3,h4,h5,h6 { font-family: 'Playfair Display', serif; }
+
+    .section-tag { font-size:.68rem; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--amber); margin-bottom:10px; display:block; }
+    .section-tag.on-dark { color:var(--amber); }
+    .sec-title { font-family:'Playfair Display',serif; font-size:clamp(1.9rem,3.2vw,2.8rem); font-weight:700; line-height:1.18; color:var(--dark); }
+    .sec-title.light { color:#fff; }
+    .gold-bar { width:44px; height:3px; background:linear-gradient(90deg,var(--amber),var(--amber-light)); border-radius:2px; margin:14px 0 24px; }
+    .reveal { opacity:0; transform:translateY(24px); transition:opacity .6s,transform .6s; }
+    .reveal.vis { opacity:1; transform:translateY(0); }
+
+    .btn-primary-cfi { background:var(--amber); color:var(--dark); font-size:.82rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:13px 30px; border-radius:3px; border:none; text-decoration:none; transition:all .25s; display:inline-flex; align-items:center; gap:8px; }
+    .btn-primary-cfi:hover { background:var(--amber-light); color:var(--dark); transform:translateY(-2px); box-shadow:0 8px 28px rgba(255,193,7,.45); }
+    .btn-ghost-dark { border:1.5px solid rgba(255,193,7,.5); color:var(--amber); background:transparent; font-size:.82rem; font-weight:600; letter-spacing:.08em; text-transform:uppercase; padding:13px 30px; border-radius:3px; text-decoration:none; transition:all .25s; display:inline-flex; align-items:center; gap:8px; }
+    .btn-ghost-dark:hover { background:var(--amber); color:var(--dark); }
+    .wa-btn { background:#25D366; color:#fff; font-size:.82rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:13px 28px; border-radius:3px; text-decoration:none; transition:all .25s; display:inline-flex; align-items:center; gap:8px; }
+    .wa-btn:hover { background:#1ebe5d; color:#fff; transform:translateY(-2px); }
+
+    /* HERO */
+    .hero { background:var(--grad); min-height:55vh; position:relative; display:flex; align-items:center; overflow:hidden; padding:80px 0 60px; }
+    .hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 65% 70% at 85% 50%,rgba(21,101,192,.2) 0%,transparent 60%), repeating-linear-gradient(135deg,transparent,transparent 60px,rgba(255,193,7,.02) 60px,rgba(255,193,7,.02) 61px); }
+    .hero-watermark { position:absolute; right:-20px; bottom:-40px; font-family:'Playfair Display',serif; font-weight:800; font-size:clamp(80px,13vw,200px); color:rgba(255,193,7,.04); line-height:1; user-select:none; pointer-events:none; letter-spacing:-.03em; }
+    .hero-tag { display:inline-flex; align-items:center; gap:8px; border:1px solid rgba(255,193,7,.35); background:rgba(255,193,7,.1); color:var(--amber); font-size:.7rem; font-weight:600; letter-spacing:.15em; text-transform:uppercase; padding:6px 14px; border-radius:2px; margin-bottom:22px; animation:up .6s ease both; }
+    .hero h1 { font-size:clamp(2.3rem,4.8vw,4.2rem); font-weight:800; color:#fff; line-height:1.07; animation:up .7s .1s ease both; }
+    .hero h1 em { color:var(--amber); font-style:italic; }
+    .hero-actions { display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; animation:up .7s .2s ease both; }
+    @keyframes up { from{opacity:0;transform:translateY(26px)} to{opacity:1;transform:translateY(0)} }
+
+    /* FACILITIES */
+    .facilities-sec { background:var(--lighter-bg); padding:90px 0; }
+    .facility-card { background:#fff; border:1px solid rgba(13,60,120,.08); border-radius:6px; padding:28px 26px; height:100%; transition:all .35s; position:relative; overflow:hidden; display:flex; flex-direction:column; gap:14px; }
+    .facility-card::after { content:''; position:absolute; bottom:0; left:0; right:0; height:3px; background:linear-gradient(90deg,var(--amber),var(--amber-light)); transform:scaleX(0); transform-origin:left; transition:transform .35s; }
+    .facility-card:hover { transform:translateY(-5px); box-shadow:0 16px 44px rgba(13,60,120,.12); }
+    .facility-card:hover::after { transform:scaleX(1); }
+    .fc-ico { width:54px; height:54px; border-radius:5px; background:rgba(255,193,7,.1); border:1px solid rgba(255,193,7,.2); display:flex; align-items:center; justify-content:center; font-size:1.3rem; color:var(--amber); flex-shrink:0; }
+    .facility-card h5 { font-family:'Playfair Display',serif; font-size:1.05rem; font-weight:700; color:var(--dark); margin:0; }
+    .facility-card p { font-size:.87rem; color:var(--text-muted); line-height:1.75; margin:0; flex:1; }
+
+    /* HIGHLIGHTS */
+    .highlights-sec { background:var(--light-bg); padding:90px 0; }
+    .hl-card { background:#fff; border:1px solid rgba(13,60,120,.08); border-radius:8px; overflow:hidden; height:100%; transition:all .35s; }
+    .hl-card:hover { box-shadow:0 16px 48px rgba(13,60,120,.13); transform:translateY(-4px); }
+    .hl-top { background:var(--grad); padding:26px 28px 20px; }
+    .hl-badge { display:inline-flex; align-items:center; gap:6px; background:rgba(255,193,7,.15); border:1px solid rgba(255,193,7,.3); color:var(--amber); font-size:.6rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; padding:4px 11px; border-radius:2px; margin-bottom:12px; }
+    .hl-top h4 { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:#fff; margin-bottom:6px; line-height:1.3; }
+    .hl-subtitle { font-size:.76rem; color:rgba(255,255,255,.5); font-style:italic; line-height:1.5; }
+    .hl-body { padding:22px 28px 26px; }
+    .hl-body p { font-size:.87rem; color:var(--text-muted); line-height:1.75; margin:0; }
+
+    /* CTA */
+    .cta-sec {  padding:90px 0; position:relative; overflow:hidden; }
+    .cta-sec::before { content:'⚖'; position:absolute; right:-30px; top:50%; transform:translateY(-50%); font-size:380px; opacity:.03; line-height:1; pointer-events:none; }
+    .cta-sec h2 { font-size:clamp(2rem,3.5vw,3rem);  line-height:1.2; }
+    .cta-sec h2 em { color:var(--amber); font-style:italic; }
+    .cta-sec p {  font-size:.95rem; line-height:1.8; }
+    .cta-widget { background:rgba(255,255,255,.06); border:1px solid rgba(255,193,7,.2); border-radius:6px; padding:32px 28px; }
+    .cta-widget-title { font-size:.65rem; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--amber); margin-bottom:18px; }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-watermark">CAMPUS</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+        <span class="hero-tag"><i class="fa fa-university"></i>&nbsp; Student Support &amp; Campus Life</span>
+        <h1>Student Support<br>&amp; <em>Campus Life</em></h1>
+        <div class="hero-actions">
+          <a href="#facilities" class="btn-primary-cfi"><i class="fa fa-building"></i>Campus Facilities</a>
+          <a href="#highlights" class="btn-ghost-dark"><i class="fa fa-star"></i>Highlights</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FACILITIES -->
+<section class="facilities-sec" id="facilities">
+  <div class="container">
+    <div class="row mb-5 reveal">
+      <div class="col-lg-6">
+        <span class="section-tag">Student Support &amp; Campus Life</span>
+        <h2 class="sec-title">Campus Facilities</h2>
+        <div class="gold-bar"></div>
+      </div>
+    </div>
+    <div class="row g-4">
+
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="facility-card">
+          <div class="fc-ico"><i class="fa fa-kit-medical"></i></div>
+          <h5>Student Health &amp; First Aid</h5>
+          <p>Basic medical support and first aid facilities are available to ensure student safety and immediate care when required.</p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="facility-card">
+          <div class="fc-ico"><i class="fa fa-lock"></i></div>
+          <h5>Personal Lockers</h5>
+          <p>Secure locker facilities allow students to safely store books and personal belongings, making daily academic life more convenient.</p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="facility-card">
+          <div class="fc-ico"><i class="fa fa-utensils"></i></div>
+          <h5>On-Campus Cafeteria</h5>
+          <p>The cafeteria offers a comfortable space where students can relax, interact, and refresh between classes, creating a balanced campus experience.</p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="facility-card">
+          <div class="fc-ico"><i class="fa fa-wheelchair"></i></div>
+          <h5>Disability-Friendly Infrastructure</h5>
+          <p>The campus is designed to ensure accessibility for all students, promoting inclusivity and equal learning opportunities.</p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="facility-card">
+          <div class="fc-ico"><i class="fa fa-running"></i></div>
+          <h5>Indoor &amp; Outdoor Recreation</h5>
+          <p>Recreation spaces support physical activity and stress relief, helping students maintain mental and physical well-being during demanding academic schedules.</p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="facility-card">
+          <div class="fc-ico"><i class="fa fa-users"></i></div>
+          <h5>Student Community Zones</h5>
+          <p>These areas encourage group discussions, collaborative study, and peer interaction — important elements for students preparing for moot courts, research projects, and examinations.</p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="facility-card">
+          <div class="fc-ico"><i class="fa fa-theater-masks"></i></div>
+          <h5>Open-Air Theatre</h5>
+          <p>The open-air theatre hosts cultural events, awareness programmes, academic discussions, and student activities, supporting overall personality development.</p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="facility-card">
+          <div class="fc-ico"><i class="fa fa-dumbbell"></i></div>
+          <h5>Campus Gym</h5>
+          <p>The gym promotes fitness and health, helping students maintain energy and focus throughout their academic journey.</p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="facility-card">
+          <div class="fc-ico"><i class="fa fa-bus"></i></div>
+          <h5>Transportation &amp; Accessibility</h5>
+          <p>Spot-pickup bus service and ample parking facilities make daily commuting easier for students seeking B.Com LLB Admission Kerala and other law programmes.</p>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="facility-card">
+          <div class="fc-ico"><i class="fa fa-shield-alt"></i></div>
+          <h5>24/7 Security &amp; CCTV Surveillance</h5>
+          <p>Round-the-clock security and CCTV monitoring ensure a safe and disciplined campus environment for all students.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HIGHLIGHTS -->
+<section class="highlights-sec" id="highlights">
+  <div class="container">
+    <div class="row mb-5 reveal">
+      <div class="col-lg-6">
+        <span class="section-tag">Highlights You Must Know</span>
+        <h2 class="sec-title">Highlights You Must Know</h2>
+        <div class="gold-bar"></div>
+      </div>
+    </div>
+    <div class="row g-4">
+
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="hl-card">
+          <div class="hl-top">
+            <span class="hl-badge"><i class="fa fa-circle"></i></span>
+            <h4>Simple &amp; Guided Admission Process</h4>
+            <div class="hl-subtitle">Support at Every Step of Law Admission Kerala</div>
+          </div>
+          <div class="hl-body">
+            <p>If you are planning for law admission Kerala, you can expect a smooth and transparent admission process with proper guidance, clear communication, and a supportive team ready to assist you from enquiry to enrollment.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="hl-card">
+          <div class="hl-top">
+            <span class="hl-badge"><i class="fa fa-circle"></i></span>
+            <h4>Integrated Programs with Practical Learning</h4>
+            <div class="hl-subtitle">Balanced Structure for 5 Year B.Com LLB &amp; BBA LLB</div>
+          </div>
+          <div class="hl-body">
+            <p>If you choose the 5 Year B.Com LLB Course or an integrated BBA LLB programme, you will study under a well-organised academic system that combines classroom theory with practical training and real-world legal exposure.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="hl-card">
+          <div class="hl-top">
+            <span class="hl-badge"><i class="fa fa-circle"></i></span>
+            <h4>Career-Focused Training Environment</h4>
+            <div class="hl-subtitle">Modern Facilities with Real Legal Practice Exposure</div>
+          </div>
+          <div class="hl-body">
+            <p>You will have access to advanced infrastructure, dedicated moot court sessions, internship opportunities, and skill-based development programs designed to prepare you confidently for professional legal careers.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="hl-card">
+          <div class="hl-top">
+            <span class="hl-badge"><i class="fa fa-circle"></i></span>
+            <h4>Quality Education at Affordable Fees</h4>
+            <div class="hl-subtitle">Accessible Learning at an Affordable BBA LLB College in Kerala</div>
+          </div>
+          <div class="hl-body">
+            <p>As an Affordable BBA LLB College in Kerala, the institution ensures that students receive strong academic training, practical exposure, and professional guidance without financial burden affecting educational quality.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="hl-card">
+          <div class="hl-top">
+            <span class="hl-badge"><i class="fa fa-circle"></i></span>
+            <h4>Strong Commerce &amp; Law Foundation</h4>
+            <div class="hl-subtitle">Why It's a Preferred Choice for B.Com LLB Aspirants</div>
+          </div>
+          <div class="hl-body">
+            <p>If you are searching for the Best B.Com LLB College in Kerala, you will benefit from a curriculum that builds deep knowledge in both commerce and law, expanding your career options in corporate and legal sectors.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="hl-card">
+          <div class="hl-top">
+            <span class="hl-badge"><i class="fa fa-circle"></i></span>
+            <h4>Confidence &amp; Professional Growth</h4>
+            <div class="hl-subtitle">Focused Preparation for BBA LLB Students</div>
+          </div>
+          <div class="hl-body">
+            <p>For those aiming to join the Best Law College in Kerala for BBA LLB, the emphasis remains on strengthening your communication skills, analytical thinking, legal understanding, and overall professional confidence.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec" id="cta">
+  <div class="container">
+    <div class="row align-items-center g-5 reveal">
+      <div class="col-lg-7">
+        <span class="section-tag on-dark">Want to Be Part of Our Campus Community?</span>
+        <h2>Want to Be Part of<br>Our <em>Campus Community?</em></h2>
+        <p class="mt-3">Reach out to our admission team for complete guidance.</p>
+        <div class="d-flex flex-wrap gap-3 mt-4">
+          <a href="admission-procedure" class="btn-primary-cfi"><i class="fa fa-route"></i>Learn About the Admission Process</a>
+          <a href="admission-form" class="btn-ghost-dark"><i class="fa fa-file-signature"></i>Apply Now</a>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="cta-widget">
+          <div class="cta-widget-title">Connect With Our Admission Team</div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <a href="tel:8590759004" class="btn-ghost-dark" style="justify-content:center;"><i class="fa fa-phone"></i>Talk to Counselor</a>
+            <a href="https://wa.me/message/YE7STK6V6SV4H1" class="wa-btn" style="justify-content:center;"><i class="fab fa-whatsapp"></i>Enquire Today</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

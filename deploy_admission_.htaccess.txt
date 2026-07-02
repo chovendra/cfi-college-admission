@@ -1,0 +1,15 @@
+# Admission folder .htaccess (paste this into public_html/admission/.htaccess)
+# Minimal safe rewrite rules for the admission app
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /admission/
+
+    # Serve real files and directories directly
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Map clean URLs to index.php?show=page
+    RewriteRule ^([A-Za-z0-9\-]+)/?$ index.php?show=$1 [L,QSA]
+</IfModule>

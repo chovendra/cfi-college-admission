@@ -1,0 +1,520 @@
+
+  <style>
+    :root {
+      --dark:        #081f3a;
+      --blue:        #0d3c78;
+      --amber:       #ffc107;
+      --amber-light: #ffd54f;
+      --light-bg:    #eef3fb;
+      --lighter-bg:  #f5f8fd;
+      --text-body:   #1e3a5f;
+      --text-muted:  #5a7a9e;
+      --white:       #ffffff;
+      --grad:        radial-gradient(circle at left, #0d3c78, #081f3a);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+
+    /* ═══ COMMONS ═══ */
+    .section-tag { font-size: .68rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--amber); margin-bottom: 10px; display: block; }
+    .section-tag.on-dark { color: var(--amber); }
+    .sec-title { font-family: 'Playfair Display', serif; font-size: clamp(1.9rem, 3.2vw, 2.8rem); font-weight: 700; line-height: 1.18; color: var(--dark); }
+    .sec-title.light { color: #fff; }
+    .gold-bar { width: 44px; height: 3px; background: linear-gradient(90deg, var(--amber), var(--amber-light)); border-radius: 2px; margin: 14px 0 24px; }
+    .reveal { opacity:0; transform:translateY(24px); transition: opacity .6s, transform .6s; }
+    .reveal.vis { opacity:1; transform:translateY(0); }
+
+    .btn-primary-cfi { background: var(--amber); color: var(--dark); font-size: .82rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 13px 30px; border-radius: 3px; border: none; text-decoration: none; transition: all .25s; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-primary-cfi:hover { background: var(--amber-light); color: var(--dark); transform: translateY(-2px); box-shadow: 0 8px 28px rgba(255,193,7,.45); }
+    .btn-ghost-cfi { border: 1.5px solid rgba(13,60,120,.3); color: var(--blue); background: transparent; font-size: .82rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 13px 30px; border-radius: 3px; text-decoration: none; transition: all .25s; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-ghost-cfi:hover { background: var(--blue); color: #fff; border-color: var(--blue); }
+    .btn-ghost-dark { border: 1.5px solid rgba(255,193,7,.5); color: var(--amber); background: transparent; font-size: .82rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; padding: 13px 30px; border-radius: 3px; text-decoration: none; transition: all .25s; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-ghost-dark:hover { background: var(--amber); color: var(--dark); border-color: var(--amber); }
+    .wa-btn { background: #25D366; color: #fff; font-size: .82rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 13px 28px; border-radius: 3px; text-decoration: none; transition: all .25s; display: inline-flex; align-items: center; gap: 8px; }
+    .wa-btn:hover { background: #1ebe5d; color: #fff; transform: translateY(-2px); }
+
+    /* ═══ HERO ═══ */
+    .hero {
+      background: var(--grad);
+      min-height: 100vh; position: relative;
+      display: flex; align-items: center;
+      overflow: hidden; padding: 80px 0 60px;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 80% at 90% 50%, rgba(21,101,192,.18) 0%, transparent 60%),
+        repeating-linear-gradient(135deg, transparent, transparent 60px, rgba(255,193,7,.02) 60px, rgba(255,193,7,.02) 61px);
+    }
+    .hero-watermark {
+      position: absolute; right: -10px; bottom: -30px;
+      font-family: 'Playfair Display', serif; font-weight: 800;
+      font-size: clamp(100px, 15vw, 220px);
+      color: rgba(255,193,7,.04); line-height: 1;
+      user-select: none; pointer-events: none; letter-spacing: -.03em;
+    }
+
+    .hero-tag { display: inline-flex; align-items: center; gap: 8px; border: 1px solid rgba(255,193,7,.35); background: rgba(255,193,7,.1); color: var(--amber); font-size: .7rem; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; padding: 6px 14px; border-radius: 2px; margin-bottom: 20px; animation: up .6s ease both; }
+
+    /* quote block */
+    .hero-quote {
+      border-left: 3px solid var(--amber);
+      padding: 18px 24px;
+      background: rgba(255,193,7,.07);
+      border-radius: 0 5px 5px 0;
+      margin-bottom: 28px;
+      animation: up .7s .1s ease both;
+    }
+    .hero-quote blockquote {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.15rem, 2.5vw, 1.55rem);
+      font-style: italic; color: #fff; line-height: 1.55; font-weight: 600;
+      margin: 0 0 10px;
+    }
+    .hero-quote cite {
+      font-size: .78rem; color: var(--amber); font-style: normal;
+      font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    }
+
+    .hero-intro {
+      font-size: .97rem; color: rgba(255,255,255,.65);
+      line-height: 1.85; max-width: 560px;
+      animation: up .7s .2s ease both;
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; animation: up .7s .3s ease both; }
+
+    /* Principal profile card */
+    .principal-card {
+      background: rgba(13,60,120,.55);
+      border: 1px solid rgba(255,193,7,.2);
+      border-radius: 6px; padding: 36px 32px;
+      backdrop-filter: blur(12px); position: relative;
+      animation: slideRight .8s .2s ease both;
+    }
+    .principal-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 32px; right: 32px; height: 3px;
+      background: linear-gradient(90deg, var(--amber), var(--amber-light), var(--amber));
+      border-radius: 0 0 3px 3px;
+    }
+
+    /* avatar placeholder */
+    .principal-avatar {
+      width: 140px; height: 140px; border-radius: 50%;
+      border: 4px solid rgba(255,193,7,.5);
+      box-shadow: 0 0 0 6px rgba(255,193,7,.1), 0 12px 40px rgba(8,31,58,.5);
+      margin: 0 auto 20px;
+      overflow: hidden; display: block;
+    }
+    .principal-avatar img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center top;
+      display: block;
+    }
+    .principal-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; font-weight: 700; color: #fff;
+      text-align: center; margin-bottom: 4px;
+    }
+    .principal-title {
+      font-size: .72rem; font-weight: 700; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--amber);
+      text-align: center; margin-bottom: 22px;
+    }
+    .pc-divider { border: none; border-top: 1px solid rgba(255,255,255,.1); margin: 0 0 20px; }
+
+    .pc-row {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.05);
+      font-size: .82rem; color: rgba(255,255,255,.7); line-height: 1.5;
+    }
+    .pc-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .pc-label {
+      font-size: .65rem; font-weight: 700; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--amber);
+      min-width: 90px; margin-top: 2px; flex-shrink: 0;
+    }
+
+    @keyframes up        { from { opacity:0; transform:translateY(26px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes slideRight{ from { opacity:0; transform:translateX(36px); } to { opacity:1; transform:translateX(0); } }
+
+    /* ═══ STATS STRIP ═══ */
+    .intro-strip { background: var(--grad); padding: 0; border-top: 1px solid rgba(255,255,255,.06); }
+    .strip-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
+    .strip-cell { padding: 28px 24px; text-align: center; border-right: 1px solid rgba(255,255,255,.08); }
+    .strip-cell:last-child { border-right: none; }
+    .strip-cell .sc-num { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 700; color: var(--amber); line-height: 1; }
+    .strip-cell .sc-lbl { font-size: .7rem; color: rgba(255,255,255,.45); letter-spacing: .1em; text-transform: uppercase; margin-top: 5px; }
+
+    /* ═══ MESSAGE SECTION ═══ */
+    .message-sec { background: var(--lighter-bg); padding: 90px 0; }
+
+    .msg-para {
+      font-size: .97rem; color: #4a6a8a; line-height: 1.9;
+      margin-bottom: 22px; position: relative; padding-left: 20px;
+    }
+    .msg-para::before {
+      content: ''; position: absolute; left: 0; top: 8px;
+      width: 4px; height: calc(100% - 16px);
+      background: rgba(255,193,7,.2); border-radius: 2px;
+    }
+    .msg-para:last-child { margin-bottom: 0; }
+
+    /* pull quote */
+    .pull-quote {
+      background: var(--grad);
+      border-radius: 6px; padding: 36px 40px;
+      position: relative; overflow: hidden;
+      margin: 40px 0;
+    }
+    .pull-quote::before {
+      content: '"'; position: absolute; top: -10px; left: 20px;
+      font-family: 'Playfair Display', serif; font-size: 120px;
+      color: rgba(255,193,7,.1); line-height: 1; pointer-events: none;
+    }
+    .pull-quote p {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.1rem, 2vw, 1.4rem);
+      font-style: italic; color: #fff; line-height: 1.65;
+      position: relative; z-index: 1; margin: 0;
+    }
+    .pull-quote cite {
+      display: block; margin-top: 12px;
+      font-size: .72rem; color: var(--amber); font-style: normal;
+      font-weight: 700; letter-spacing: .15em; text-transform: uppercase;
+    }
+
+    /* ═══ BACKGROUND SECTION ═══ */
+    .bg-sec { background: var(--light-bg); padding: 90px 0; }
+
+    .qual-card {
+      background: #fff; border: 1px solid rgba(13,60,120,.08);
+      border-radius: 6px; padding: 32px 28px; height: 100%;
+      transition: all .3s;
+    }
+    .qual-card:hover { box-shadow: 0 12px 36px rgba(13,60,120,.12); transform: translateY(-3px); }
+    .qual-card-head {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 22px;
+      padding-bottom: 18px; border-bottom: 1px solid rgba(13,60,120,.08);
+    }
+    .qual-ico { width: 44px; height: 44px; min-width: 44px; border-radius: 4px; background: rgba(255,193,7,.12); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; color: var(--amber); }
+    .qual-card h5 { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: var(--dark); margin: 0; }
+
+    .qual-item { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; border-bottom: 1px solid rgba(13,60,120,.05); font-size: .87rem; color: var(--text-body); line-height: 1.6; }
+    .qual-item:last-child { border-bottom: none; padding-bottom: 0; }
+    .qual-item i { color: var(--amber); margin-top: 3px; flex-shrink: 0; font-size: .78rem; }
+
+    /* specialisation pills */
+    .spec-pill { display: inline-flex; align-items: center; gap: 7px; background: rgba(13,60,120,.07); border: 1px solid rgba(13,60,120,.12); color: var(--blue); font-size: .8rem; font-weight: 600; padding: 7px 14px; border-radius: 3px; margin: 4px 4px 0 0; transition: all .2s; }
+    .spec-pill:hover { background: var(--blue); color: #fff; }
+    .spec-pill i { color: var(--amber); font-size: .7rem; }
+
+    /* ═══ INVITATION ═══ */
+    .invitation-sec { background: var(--grad); padding: 90px 0; position: relative; overflow: hidden; }
+    .invitation-sec::before { content: '⚖'; position: absolute; right: -30px; top: 50%; transform: translateY(-50%); font-size: 380px; opacity: .03; line-height: 1; pointer-events: none; }
+
+    .inv-para { font-size: .97rem; color: rgba(255,255,255,.65); line-height: 1.9; margin-bottom: 18px; }
+    .inv-para:last-of-type { margin-bottom: 0; }
+
+    /* contact card */
+    .contact-card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,193,7,.2); border-radius: 6px; padding: 32px 28px; }
+    .contact-card-title { font-size: .65rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: var(--amber); margin-bottom: 20px; }
+    .contact-line { display: flex; align-items: center; gap: 14px; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,.07); font-size: .88rem; color: rgba(255,255,255,.75); }
+    .contact-line:last-child { border-bottom: none; padding-bottom: 0; }
+    .contact-line i { width: 32px; height: 32px; min-width: 32px; background: rgba(255,193,7,.15); border-radius: 3px; display: flex; align-items: center; justify-content: center; color: var(--amber); font-size: .85rem; }
+
+    /* ═══ FACULTY LINK ═══ */
+    .faculty-link-sec { background: var(--lighter-bg); padding: 70px 0; border-top: 1px solid rgba(13,60,120,.07); }
+    .faculty-card {
+      background: #fff; border: 1px solid rgba(13,60,120,.08);
+      border-radius: 6px; padding: 40px 36px;
+      display: flex; align-items: center; gap: 32px;
+      transition: all .3s; flex-wrap: wrap;
+    }
+    .faculty-card:hover { box-shadow: 0 12px 40px rgba(13,60,120,.12); }
+    .fac-card-ico { width: 72px; height: 72px; min-width: 72px; border-radius: 50%; background: rgba(255,193,7,.12); border: 2px solid rgba(255,193,7,.3); display: flex; align-items: center; justify-content: center; font-size: 1.8rem; color: var(--amber); }
+    .fac-card-text h4 { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: var(--dark); margin-bottom: 6px; }
+    .fac-card-text p { font-size: .9rem; color: var(--text-muted); line-height: 1.7; margin: 0; }
+
+    @media (max-width: 991px) { .strip-grid { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width: 767px) { .faculty-card { flex-direction: column; text-align: center; } }
+  </style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-watermark">PRINCIPAL</div>
+  <div class="container">
+    <div class="row align-items-center g-5">
+
+      <div class="col-lg-7">
+        <span class="hero-tag"><i class="fa fa-university"></i>&nbsp; Principal's Message</span>
+
+        <div class="hero-quote">
+          <blockquote>"Legal education must not only inform the mind but also shape character, discipline, and a deep respect for justice."</blockquote>
+          <cite>— Dr. Saroja A. S., Principal, CFI College of Law</cite>
+        </div>
+
+        <p class="hero-intro">
+          I am proud to lead CFI College of Law at a time when legal education in India is rapidly evolving. With over 35 years of experience in teaching, academic leadership, and institutional administration, I strongly believe that a law college must do more than deliver lectures — it must build confidence, ethical strength, and professional clarity in every student.
+        </p>
+
+        <div class="hero-actions">
+          <a href="https://cficollegeoflaw.in/principal#message" class="btn-primary-cfi"><i class="fa fa-book-open"></i>Read Full Message</a>
+          <a href="https://cficollegeoflaw.in/principal#invitation" class="btn-ghost-dark"><i class="fa fa-envelope-open-text"></i>Personal Invitation</a>
+        </div>
+      </div>
+
+      <div class="col-lg-5">
+        <div class="principal-card">
+          <div class="principal-avatar">  <img 
+                    src="uploads/faculty/Saroja_A_S.jpg"
+                    alt="Dr. Saroja A. S."
+                    class="img-fluid rounded shadow-sm"
+                ></div>
+          <div class="principal-name">Dr. Saroja A. S.</div>
+          <div class="principal-title">Principal, CFI College of Law</div>
+          <hr class="pc-divider"/>
+          <div class="pc-row">
+            <span class="pc-label">Qualification</span>
+            <span>B.Sc., LL.M., Ph.D.</span>
+          </div>
+          <div class="pc-row">
+            <span class="pc-label">Experience</span>
+            <span>Over 35 years in legal education</span>
+          </div>
+          <div class="pc-row">
+            <span class="pc-label">Former Role</span>
+            <span>Principal, Government Law College, Thiruvananthapuram</span>
+          </div>
+          <div class="pc-row">
+            <span class="pc-label">University</span>
+            <span>Dean &amp; Chairperson — Kerala University &amp; MG University</span>
+          </div>
+          <div class="pc-row">
+            <span class="pc-label">Visiting Prof.</span>
+            <span>National University of Advanced Legal Studies (NUALS)</span>
+          </div>
+          <div class="pc-row">
+            <span class="pc-label">Specialisation</span>
+            <span>Constitutional Law · Maritime Law · UGC–NET (Law)</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STATS STRIP ═══ -->
+<div class="intro-strip">
+  <div class="strip-grid">
+    <div class="strip-cell"><div class="sc-num">35+</div><div class="sc-lbl">Years of Experience</div></div>
+    <div class="strip-cell"><div class="sc-num">Ph.D.</div><div class="sc-lbl">Academic Qualification</div></div>
+    <div class="strip-cell"><div class="sc-num">BCI</div><div class="sc-lbl">Approved College</div></div>
+    <div class="strip-cell"><div class="sc-num">Calicut</div><div class="sc-lbl">University Affiliated</div></div>
+  </div>
+</div>
+
+<!-- ═══ FULL MESSAGE ═══ -->
+<section class="message-sec" id="message">
+  <div class="container">
+    <div class="row g-5 align-items-start">
+      <div class="col-lg-5 reveal">
+        <span class="section-tag">From the Desk of the Principal</span>
+        <h2 class="sec-title">A Message from<br>Dr. Saroja A. S.</h2>
+        <div class="gold-bar"></div>
+        <p style="font-size:.9rem;color:var(--text-muted);line-height:1.8;">Principal · CFI College of Law<br>Poyya, Thrissur, Kerala</p>
+
+        <!-- quick highlights -->
+        <div style="margin-top:28px;">
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(13,60,120,.07);">
+            <div style="width:36px;height:36px;min-width:36px;border-radius:3px;background:rgba(255,193,7,.1);display:flex;align-items:center;justify-content:center;color:var(--amber);font-size:.85rem;"><i class="fa fa-graduation-cap"></i></div>
+            <span style="font-size:.85rem;color:var(--text-body);">Former Principal — All Govt. Law Colleges in Kerala</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(13,60,120,.07);">
+            <div style="width:36px;height:36px;min-width:36px;border-radius:3px;background:rgba(255,193,7,.1);display:flex;align-items:center;justify-content:center;color:var(--amber);font-size:.85rem;"><i class="fa fa-book"></i></div>
+            <span style="font-size:.85rem;color:var(--text-body);">Curriculum Reformer — Kerala &amp; MG Universities</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(13,60,120,.07);">
+            <div style="width:36px;height:36px;min-width:36px;border-radius:3px;background:rgba(255,193,7,.1);display:flex;align-items:center;justify-content:center;color:var(--amber);font-size:.85rem;"><i class="fa fa-anchor"></i></div>
+            <span style="font-size:.85rem;color:var(--text-body);">Maritime Law Expert — Visiting Prof. at NUALS</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 0;">
+            <div style="width:36px;height:36px;min-width:36px;border-radius:3px;background:rgba(255,193,7,.1);display:flex;align-items:center;justify-content:center;color:var(--amber);font-size:.85rem;"><i class="fa fa-balance-scale"></i></div>
+            <span style="font-size:.85rem;color:var(--text-body);">Champion of Ethics, Integrity &amp; Academic Discipline</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-7 reveal">
+        <p class="msg-para">
+          My academic journey includes serving as Principal of Government Law College, Thiruvananthapuram, and holding the position of Principal across all Government Law Colleges in Kerala during my service. Throughout these years, I have worked closely with students, faculty members, universities, and regulatory authorities to uphold academic discipline, transparency, and quality standards in legal education. Maintaining an exemplary service record has always been rooted in one principle: <strong>students deserve structured guidance and sincere mentorship.</strong>
+        </p>
+        <p class="msg-para">
+          I have also had the opportunity to serve as Dean and Chairperson of the Board of Studies at Kerala University and Mahatma Gandhi University, contributing to curriculum development, academic reforms, and the strengthening of university-level legal education. As a Visiting Professor at the National University of Advanced Legal Studies (NUALS), I taught Maritime Law and engaged with advanced legal research and professional training. These experiences have shaped my understanding of how integrated law programs such as BBA LLB (Hons) and B.Com LLB (Hons) must combine theory, research, and practical exposure.
+        </p>
+
+        <div class="pull-quote">
+          <p>"At CFI College of Law, our focus is on building a strong academic foundation for students pursuing integrated law courses in Kerala — preparing graduates not only for court practice, but also for careers in corporate law, judiciary, public service, legal consultancy, and higher legal research."</p>
+          <cite>— Dr. Saroja A. S.</cite>
+        </div>
+
+        <p class="msg-para">
+          Through structured classroom teaching, moot court training, internships, and research guidance, we strive to position ourselves among the emerging top law colleges in Kerala. As a BCI approved law college affiliated with the University of Calicut, we maintain strict academic standards and regulatory compliance.
+        </p>
+        <p class="msg-para">
+          Our mission is to support students seeking law admission in Kerala by providing clarity in learning, discipline in practice, and integrity in professional conduct. I warmly welcome every aspiring student to be part of an institution where legal knowledge is strengthened by ethics, dedication, and a commitment to justice.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ BACKGROUND ═══ -->
+<section class="bg-sec" id="background">
+  <div class="container">
+    <div class="row mb-5 reveal">
+      <div class="col-lg-7">
+        <span class="section-tag">My Professional &amp; Academic Background</span>
+        <h2 class="sec-title">Credentials &amp;<br>Leadership Roles</h2>
+        <div class="gold-bar"></div>
+      </div>
+    </div>
+    <div class="row g-4">
+
+      <!-- Qualifications -->
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="qual-card">
+          <div class="qual-card-head">
+            <div class="qual-ico"><i class="fa fa-graduation-cap"></i></div>
+            <h5>Qualifications</h5>
+          </div>
+          <div class="qual-item"><i class="fa fa-check-circle"></i><span>B.Sc.</span></div>
+          <div class="qual-item"><i class="fa fa-check-circle"></i><span>LL.M.</span></div>
+          <div class="qual-item"><i class="fa fa-check-circle"></i><span>Ph.D.</span></div>
+          <div class="qual-item"><i class="fa fa-check-circle"></i><span>Over 35 years in legal education</span></div>
+        </div>
+      </div>
+
+      <!-- Leadership Roles -->
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="qual-card">
+          <div class="qual-card-head">
+            <div class="qual-ico"><i class="fa fa-crown"></i></div>
+            <h5>Leadership Roles</h5>
+          </div>
+          <div class="qual-item"><i class="fa fa-check-circle"></i><span>Principal — Government Law College, Thiruvananthapuram</span></div>
+          <div class="qual-item"><i class="fa fa-check-circle"></i><span>Former Principal — All Government Law Colleges in Kerala</span></div>
+          <div class="qual-item"><i class="fa fa-check-circle"></i><span>Dean &amp; Chairperson, Board of Studies — Kerala University</span></div>
+          <div class="qual-item"><i class="fa fa-check-circle"></i><span>Dean &amp; Chairperson, Board of Studies — Mahatma Gandhi University</span></div>
+          <div class="qual-item"><i class="fa fa-check-circle"></i><span>Visiting Professor — NUALS (National University of Advanced Legal Studies)</span></div>
+        </div>
+      </div>
+
+      <!-- Specialisation -->
+      <div class="col-md-6 col-lg-4 reveal">
+        <div class="qual-card">
+          <div class="qual-card-head">
+            <div class="qual-ico"><i class="fa fa-microscope"></i></div>
+            <h5>Areas of Specialisation</h5>
+          </div>
+          <div style="margin-top:4px;">
+            <span class="spec-pill"><i class="fa fa-circle"></i>Constitutional Law</span>
+            <span class="spec-pill"><i class="fa fa-circle"></i>Maritime Law</span>
+            <span class="spec-pill"><i class="fa fa-circle"></i>UGC–NET (Law)</span>
+          </div>
+          <div style="margin-top:24px;padding-top:20px;border-top:1px solid rgba(13,60,120,.08);">
+            <div style="font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted);margin-bottom:12px;">Programs Offered at CFI</div>
+            <span class="spec-pill"><i class="fa fa-circle"></i>BBA LLB (Hons)</span>
+            <span class="spec-pill"><i class="fa fa-circle"></i>B.Com LLB (Hons)</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ INVITATION ═══ -->
+<section class="invitation-sec" id="invitation">
+  <div class="container">
+    <div class="row g-5 align-items-center reveal">
+      <div class="col-lg-7">
+        <span class="section-tag on-dark">A Personal Invitation to Future Law Students</span>
+        <h2 class="sec-title light">I Warmly Invite You to<br>Begin Your Journey in Law</h2>
+        <div class="gold-bar"></div>
+        <p class="inv-para">
+          I warmly invite every aspiring student who is passionate about law and justice to take the next step with confidence. Legal education is not only about earning a degree — it is about building character, discipline, and professional strength that will guide you throughout your career.
+        </p>
+        <p class="inv-para">
+          If you are ready to begin your journey in law, I encourage you to connect with us. My team and I are committed to guiding you, supporting you, and helping you grow into a responsible and confident legal professional.
+        </p>
+        <p class="inv-para">
+          Call us today to speak directly with our admission team and clarify your queries. Or simply fill out the enquiry form, and we will reach out to guide you through the admission process. <strong style="color:rgba(255,255,255,.85);">Your journey in law can begin here</strong> — and I look forward to welcoming you to our academic community.
+        </p>
+        <div class="d-flex flex-wrap gap-3 mt-4">
+          <a href="https://cficollegeoflaw.in/admission-form" class="btn-primary-cfi"><i class="fa fa-file-signature"></i>Fill Enquiry Form</a>
+          <a href="tel:+91 85907 59004" class="btn-ghost-dark"><i class="fa fa-phone"></i>Call Us Today</a>
+        </div>
+      </div>
+      <div class="col-lg-5">
+        <div class="contact-card">
+          <div class="contact-card-title">Connect With Us</div>
+          <div class="contact-line">
+            <i class="fa fa-phone"></i>
+            <div>
+              <div style="font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px;">Call Admission Team</div>
+              <a href="tel:+91 85907 59004" style="color:rgba(255,255,255,.85);text-decoration:none;font-weight:600;">Contact Admissions</a>
+            </div>
+          </div>
+          <div class="contact-line">
+            <i class="fab fa-whatsapp" style="color:#25D366;"></i>
+            <div>
+              <div style="font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px;">WhatsApp</div>
+              <a href="https://api.whatsapp.com/message/YE7STK6V6SV4H1?autoload=1&app_absent=0" class="wa-btn" style="padding:8px 20px;font-size:.75rem;"><i class="fab fa-whatsapp"></i>Chat with Counselor</a>
+            </div>
+          </div>
+          <div class="contact-line">
+            <i class="fa fa-map-marker-alt"></i>
+            <div>
+              <div style="font-size:.7rem;color:rgba(255,255,255,.4);letter-spacing:.1em;text-transform:uppercase;margin-bottom:2px;">Location</div>
+              <span>CFI College of Law, Poyya, Thrissur, Kerala</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ MEET FACULTY ═══ -->
+<section class="faculty-link-sec">
+  <div class="container">
+    <div class="row justify-content-center reveal">
+      <div class="col-lg-10">
+        <div class="faculty-card">
+          <div class="fac-card-ico"><i class="fa fa-chalkboard-teacher"></i></div>
+          <div class="fac-card-text" style="flex:1;">
+            <h4>Meet Our Expert Faculty</h4>
+            <p>Our distinguished faculty team brings decades of legal expertise, academic excellence, and real-world professional experience to the classroom. Explore their profiles and discover the mentors who will guide your legal career.</p>
+          </div>
+          <div style="flex-shrink:0;">
+            <a href="#" class="btn-primary-cfi"><i class="fa fa-users"></i>Meet Our Faculty</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<script>
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
