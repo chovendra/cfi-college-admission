@@ -1,3 +1,11 @@
+<?php
+$sessionDir = __DIR__ . '/tmp_sessions';
+if (!is_dir($sessionDir)) {
+    mkdir($sessionDir, 0777, true);
+}
+ini_set('session.save_path', $sessionDir);
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <?php

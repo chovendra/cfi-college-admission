@@ -52,6 +52,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         return $destination;
     }
 
+    $captchaA = isset($_POST['captcha_a']) ? intval($_POST['captcha_a']) : null;
+    $captchaB = isset($_POST['captcha_b']) ? intval($_POST['captcha_b']) : null;
+    $captchaToken = isset($_POST['captcha_token']) ? $_POST['captcha_token'] : '';
+    $expectedToken = hash_hmac('sha256', "$captchaA|$captchaB", 'cfilaw-secret-key-2026');
+
+    if ($captchaA === null || $captchaB === null || $captchaToken !== $expectedToken || intval($_POST['captcha_answer']) !== ($captchaA + $captchaB)) {
+        header('Location: index.php?show=admission-form&captcha=failed');
+        exit();
+    }
+
     // Collect and sanitize all form inputs
     $studentName = clean($_POST['studentName'] ?? '');
     $dob = clean($_POST['dob'] ?? '');
@@ -101,6 +111,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $marksheet12 = uploadFile('marksheet12', 'uploads/admission-documents/marksheet12', $studentName);
     $idproof = uploadFile('idproof', 'uploads/admission-documents/idproof', $studentName);
 
+// Helper to render uploaded file preview in HTML summary
+    function renderUploadPreview($path, $label) {
+        $ext = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+        $preview = "<a href='../$path' target='_blank'>View $label</a>";
+        if (in_array($ext, ['jpg', 'jpeg', 'png'])) {
+            $preview .= "<div style='margin-top:8px;'><img src='../$path' alt='" . htmlspecialchars($label) . "' style='max-width:220px;border:1px solid #ccc;padding:4px;border-radius:6px;'></div>";
+        }
+        return $preview;
+    }
+
     // Create HTML table
     $htmlContent = "
     <html>
@@ -109,7 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <h2>Admission Form Submission</h2>
     <table border='1' cellspacing='0' cellpadding='5'>
       <tr><th>Field</th><th>Value</th></tr>
-	  <tr><td>Selected Course</td><td>$course</td></tr> 	  
+	  <tr><td>Selected Course</td><td>$course</td></tr>	  
       <tr><td>Name</td><td>$studentName</td></tr>
       <tr><td>Date of Birth</td><td>$dob</td></tr>
       <tr><td>Place of Birth</td><td>$birthPlace</td></tr>
@@ -147,23 +167,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
       <tr><td>Email</td><td>$email</td></tr>
       <tr>
         <td>Passport Photo</td>
-        <td><a href='../$photo' target='_blank'>View Photo</a></td>
-        </tr>
-
-        <tr>
-            <td>10th Marksheet</td>
-            <td><a href='../$marksheet10' target='_blank'>View Marksheet</a></td>
-        </tr>
-
-        <tr>
-            <td>12th Marksheet</td>
-            <td><a href='../$marksheet12' target='_blank'>View Marksheet</a></td>
-        </tr>
-
-        <tr>
-            <td>Identity Proof</td>
-            <td><a href='../$idproof' target='_blank'>View Document</a></td>
-        </tr>
+        <td>" . renderUploadPreview($photo, 'Passport Photo') . "</td>
+      </tr>
+      <tr>
+        <td>10th Marksheet</td>
+        <td>" . renderUploadPreview($marksheet10, '10th Marksheet') . "</td>
+      </tr>
+      <tr>
+        <td>12th Marksheet</td>
+        <td>" . renderUploadPreview($marksheet12, '12th Marksheet') . "</td>
+      </tr>
+      <tr>
+        <td>Identity Proof</td>
+        <td>" . renderUploadPreview($idproof, 'Identity Proof') . "</td>
+      </tr>
     </table>
     </body>
     </html>
@@ -182,6 +199,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $filePath = __DIR__ . "/forms/" . $fileName;
 
     if (file_put_contents($filePath, $htmlContent)) {
+        $csvFile = __DIR__ . '/forms/enquiries.csv';
+        $csvHeader = [
+            'Date', 'Course', 'Name', 'Dob', 'BirthPlace', 'Nationality', 'SSLCDetails', 'LastInstitution', 'QualifyingExam',
+            'NoOfChances', 'ReligionCommunity', 'Category', 'Subject1Title', 'Subject1Max', 'Subject1Marks',
+            'Subject2Title', 'Subject2Max', 'Subject2Marks', 'Subject3Title', 'Subject3Max', 'Subject3Marks',
+            'Subject4Title', 'Subject4Max', 'Subject4Marks', 'Subject5Title', 'Subject5Max', 'Subject5Marks',
+            'FatherName', 'FatherOccupation', 'MotherName', 'AnnualIncome', 'GuardianName', 'GuardianRelation',
+            'Address', 'Phone', 'Email', 'Photo', 'Marksheet10', 'Marksheet12', 'IDProof'
+        ];
+
+        $csvRow = [
+            date('Y-m-d H:i:s'), $course, $studentName, $dob, $birthPlace, $nationality, $sslcDetails, $lastInstitution, $qualifyingExam,
+            $noOfChances, $religionCommunity, $category, $sub1Title, $maxSub1, $marksSub1,
+            $sub2Title, $maxSub2, $marksSub2, $sub3Title, $maxSub3, $marksSub3,
+            $sub4Title, $maxSub4, $marksSub4, $sub5Title, $maxSub5, $marksSub5,
+            $fatherName, $fatherOccupation, $motherName, $annualIncome, $guardianName, $guardianRelation,
+            $address, $phone, $email, $photo, $marksheet10, $marksheet12, $idproof
+        ];
+
+        $isNewCsv = !file_exists($csvFile);
+        if ($fp = fopen($csvFile, 'a')) {
+            if ($isNewCsv) {
+                fputcsv($fp, $csvHeader);
+            }
+            fputcsv($fp, $csvRow);
+            fclose($fp);
+        }
+
         header("Location: index.php?show=thank-you");
         exit();
     } else {

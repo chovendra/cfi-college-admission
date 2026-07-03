@@ -1,7 +1,13 @@
 <?php
+$sessionDir = __DIR__ . '/tmp_sessions';
+if (!is_dir($sessionDir)) {
+    mkdir($sessionDir, 0777, true);
+}
+ini_set('session.save_path', $sessionDir);
 session_start();
 $passcode = 'law@dmin';
 $submitted = isset($_POST['passcode']);
+$deleteMessage = '';
 
 // If correct password → store in session
 if ($submitted && $_POST['passcode'] === $passcode) {
@@ -13,6 +19,29 @@ $authenticated = isset($_SESSION['authenticated']) && $_SESSION['authenticated']
 
 $dir = __DIR__;
 $files = [];
+
+// Handle delete request before loading the file list
+if ($authenticated && isset($_POST['delete_file'])) {
+    $fileToDelete = basename($_POST['delete_file']); // prevent directory traversal
+    $targetPath = $dir . '/' . $fileToDelete;
+
+    if ($fileToDelete === '' || strpos($fileToDelete, '.') === false) {
+        $_SESSION['delete_message'] = 'Invalid delete request.';
+    } elseif (realpath($targetPath) === false || strpos(realpath($targetPath), realpath($dir)) !== 0) {
+        $_SESSION['delete_message'] = 'Invalid delete request.';
+    } elseif (file_exists($targetPath) && is_writable($targetPath) && unlink($targetPath)) {
+        $_SESSION['delete_message'] = 'Form deleted successfully.';
+    } else {
+        $_SESSION['delete_message'] = 'Unable to delete the form. Check permissions.';
+    }
+    header('Location: ' . $_SERVER['PHP_SELF']);
+    exit;
+}
+
+if (!empty($_SESSION['delete_message'])) {
+    $deleteMessage = $_SESSION['delete_message'];
+    unset($_SESSION['delete_message']);
+}
 
 if ($authenticated) {
     $allFiles = scandir($dir);
@@ -40,16 +69,6 @@ if ($authenticated) {
     usort($files, function ($a, $b) {
         return strtotime($b['date']) - strtotime($a['date']);
     });
-}
-// Handle delete request
-if ($authenticated && isset($_POST['delete_file'])) {
-    $fileToDelete = basename($_POST['delete_file']); // prevent directory traversal
-
-    if (file_exists($dir . '/' . $fileToDelete)) {
-        unlink($dir . '/' . $fileToDelete);
-        header("Location: " . $_SERVER['PHP_SELF']);
-        exit;
-    }
 }
 ?>
 <!DOCTYPE html>
@@ -114,6 +133,10 @@ body {
     <?php else: ?>
         <div class="alert alert-success text-center">Latest Forms:</div>
 
+        <?php if ($deleteMessage): ?>
+            <div class="alert alert-info text-center"><?= htmlspecialchars($deleteMessage) ?></div>
+        <?php endif; ?>
+
         <div class="accordion" id="formsAccordion">
             <?php foreach ($files as $index => $fileInfo): ?>
                 <?php
@@ -144,6 +167,9 @@ body {
 			<a href="enquiries.csv" class="btn btn-warning btn-lg">
 				Download Enquiries
 			</a>
+			<div class="mt-2 text-white-75">
+				CSV contains file paths only. To preview uploaded images, open the saved form record above.
+			</div>
 		</div>
 		
     <?php endif; ?>

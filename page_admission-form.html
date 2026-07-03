@@ -3,8 +3,18 @@
     
 </div>
 
+<?php
+$captchaA = rand(0, 10);
+$captchaB = rand(0, 10);
+$captchaToken = hash_hmac('sha256', "$captchaA|$captchaB", 'cfilaw-secret-key-2026');
+$errorMessage = isset($_GET['captcha']) && $_GET['captcha'] === 'failed' ? 'Invalid security answer. Please try again.' : '';
+?>
 
 <div class="container mt-5">
+  <?php if ($errorMessage): ?>
+    <div class="alert alert-danger text-center"><?= htmlspecialchars($errorMessage) ?></div>
+  <?php endif; ?>
+
   <h2 class="text-center mb-4">CFI COLLEGE OF LAW POYYA, PULIPARAMBU</h2>
   <h1 class="text-center mb-4" style="font-size:18pt">APPLICATION FOR ADMISSION</h1>
 
@@ -296,6 +306,20 @@ input[type="file"]::file-selector-button:hover{
     background:#e0a800;
 }
 </style>
+
+    <div class="row mb-3 align-items-end">
+      <div class="col-md-6">
+        <label class="form-label">Security Question <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" value="What is <?= $captchaA ?> + <?= $captchaB ?>?" disabled>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Your Answer <span class="text-danger">*</span></label>
+        <input type="number" class="form-control" name="captcha_answer" required min="0" max="20" step="1" autocomplete="off" style="max-width: 220px; width: 100%;">
+        <input type="hidden" name="captcha_a" value="<?= $captchaA ?>">
+        <input type="hidden" name="captcha_b" value="<?= $captchaB ?>">
+        <input type="hidden" name="captcha_token" value="<?= $captchaToken ?>">
+      </div>
+    </div>
 
     <div class="text-center mt-4">
       <button type="submit" class="btn btn-primary">Submit Application</button>
