@@ -35,6 +35,7 @@ if ($authenticated) {
         }
     }
 
+
     // Sort by date descending
     usort($files, function ($a, $b) {
         return strtotime($b['date']) - strtotime($a['date']);
